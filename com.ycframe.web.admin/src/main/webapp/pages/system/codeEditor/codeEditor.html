@@ -1,0 +1,76 @@
+<template id="codeEditor">
+	<el-container >
+		<meta charset="UTF-8">
+		<el-header height="120px">
+			<el-row>
+				<el-row>
+					<el-col :span="24">
+						<div class="box-header">
+							<h5></h5>
+							<div>
+								<el-button type="primary" @click="query">查询</el-button>
+								<el-button type="primary" @click="xz">新增</el-button>
+							</div>
+						</div>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-form :model="form" ref="ruleForm"  label-width="120px">
+					  	<el-row style="margin-top:10px">
+						  	<el-col :span="8">
+						    	<el-form-item   label="模块名" >
+						               <el-input v-model="form.model_name" placeholder="" clearable @change="query"></el-input>
+						        </el-form-item>
+					    	</el-col>
+					    	<el-col :span="8">
+						    	<el-form-item   label="模块编码" >
+						               <el-input v-model="form.model_code" placeholder="" clearable @change="query"></el-input>
+						        </el-form-item>
+					    	</el-col>
+					    	<el-col :span="8">
+						    	<el-form-item   label="用途描述" >
+						               <el-input v-model="form.model_describe" placeholder="" clearable @change="query"></el-input>
+						        </el-form-item>
+					    	</el-col>
+					    </el-row>	
+				  	</el-form>
+				</el-row>
+			</el-row>
+		</el-header>
+		<el-main>
+			<el-table height='100%' :data="tableData" border  v-loading="loading" 
+		    		  element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="sortChange"
+		    		  align="center" header-align="center" v-loading="loading" element-loading-text="拼命加载中">
+					<el-table-column type="index" label="序号" width="50px" height="40px" :index="indexMethod" align="center" header-align="center">
+					</el-table-column>
+	          		<el-table-column prop="model_name" label="模块名" sortable="custom" ></el-table-column>
+	          		<el-table-column prop="model_code" label="模块编码" sortable="custom" ></el-table-column>
+	          		<el-table-column prop="model_describe" label="用途描述" sortable="custom" ></el-table-column>
+	          		<el-table-column prop="versioncount" label="版本总数" sortable="custom" ></el-table-column>
+	          		<el-table-column prop="version" label="当前启用版本"  ></el-table-column>
+					
+					<el-table-column label="操作"  align="center" width="120px">
+						<template slot-scope="scope">
+							<el-button type="primary" size="medium"  @click.stop="bj(scope.row)">
+								编辑
+							</el-button>
+							<el-button type="primary" size="medium" @click.stop="del(scope.row)">
+								删除
+							</el-button>
+						</template>	
+					</el-table-column>
+			</el-table>
+		</el-main>
+		<el-footer>
+			<div class="pagination">
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+							   :page-sizes="[10,20,40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total=total>
+				</el-pagination>
+			</div>
+		</el-footer>
+		<el-dialog title="动态代码模块管理" width="80%" :visible.sync="isDialog"
+		 :close-on-click-modal="false" v-if="isDialog">
+			<editor :id="edid" ref="tkchild" @cancel="cancel"  ></editor>
+		</el-dialog>
+	</el-container>
+</template>

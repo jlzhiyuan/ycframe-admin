@@ -1,0 +1,375 @@
+<template id="timePicker">
+  <div class="timePicker" style="height:99%;overflow:auto;" ref="timePicker">
+    <h1>TimePicker 时间选择器</h1>
+    <h5>用于选择或输入时间</h5>
+    <h2>固定时间点</h2>
+    <h5>提供几个固定的时间点供用户选择</h5>
+    <div class="demo-block">
+      <div class="source">
+        <div>
+          <el-time-select
+            v-model="value1"
+            :picker-options="{
+              start: '08:30',
+              step: '00:15',
+              end: '18:30'
+            }"
+            placeholder="选择时间">
+          </el-time-select>
+        </div>
+      </div>
+      <div class="content" v-if="!isShow">
+        <div class="description">
+         	 使用 <code>el-time-select</code> 标签，分别通过<code>star</code>、<code>end</code>和<code>step</code>指定可选的起始时间、结束时间和步长
+        </div>
+        <pre><code>
+&lt;el-time-select
+  v-model="value"
+  :picker-options="{
+    start: '08:30',
+    step: '00:15',
+    end: '18:30'
+  }"
+  placeholder="选择时间"&gt;
+&lt;/el-time-select&gt;
+&lt;script&gt;
+  data(){
+    return {
+      value: ''
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>任意时间点</h2>
+    <h5>可以选择任意时间</h5>
+    <div class="demo-block">
+      <div class="source">
+        <div>
+          <el-time-picker
+            v-model="value2"
+            :picker-options="{
+              selectableRange: '18:30:00 - 20:30:00'
+            }"
+            placeholder="任意时间点">
+          </el-time-picker>
+          <el-time-picker
+            arrow-control
+            v-model="value3"
+            :picker-options="{
+              selectableRange: '18:30:00 - 20:30:00'
+            }"
+            placeholder="任意时间点">
+          </el-time-picker>
+        </div>
+      </div>
+      <div class="content" v-if="!isShow1">
+        <div class="description">
+          使用<code>el-time-picker</code>标签，通过<code>selectableRange</code>限制可选时间范围。提供了两种交互方式：默认情况下通过鼠标滚轮进行选择，打开<code>arrow-control</code>属性则通过界面上的箭头进行选择。
+        </div>
+        <pre><code>
+&lt;el-time-picker
+  v-model="value1"
+  :picker-options="{
+    selectableRange: '18:30:00 - 20:30:00'
+  }"
+  placeholder="任意时间点"&gt;
+&lt;/el-time-picker&gt;
+&lt;el-time-picker
+  arrow-control
+  v-model="value2"
+  :picker-options="{
+    selectableRange: '18:30:00 - 20:30:00'
+  }"
+  placeholder="任意时间点"&gt;
+&lt;/el-time-picker&gt;
+
+&lt;script&gt;
+  data() {
+    return {
+      value1: new Date(2016, 9, 10, 18, 40),
+      value2: new Date(2016, 9, 10, 18, 40)
+    };
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow1">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow1 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>固定时间范围</h2>
+    <h5>若先选择开始时间，则结束时间内备选项的状态会随之改变</h5>
+    <div class="demo-block">
+      <div class="source">
+        <div>
+          <el-time-select
+            placeholder="起始时间"
+            v-model="startTime"
+            :picker-options="{
+              start: '08:30',
+              step: '00:15',
+              end: '18:30'
+            }">
+          </el-time-select>
+          <el-time-select
+            placeholder="结束时间"
+            v-model="endTime"
+            :picker-options="{
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: startTime
+            }">
+          </el-time-select>
+        </div>
+      </div>
+      <div class="content" v-if="!isShow2">
+        <pre><code>
+&lt;el-time-select
+  placeholder="起始时间"
+  v-model="startTime"
+  :picker-options="{
+    start: '08:30',
+    step: '00:15',
+    end: '18:30'
+  }"&gt;
+&lt;/el-time-select&gt;
+&lt;el-time-select
+  placeholder="结束时间"
+  v-model="endTime"
+  :picker-options="{
+    start: '08:30',
+    step: '00:15',
+    end: '18:30',
+    minTime: startTime
+  }"&gt;
+&lt;/el-time-select&gt;
+ 
+ &lt;script&gt;
+   data() {
+     return {
+       startTime: '',
+       endTime: ''
+     };
+   }
+ &lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow2">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow2 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>任意时间范围</h2>
+    <h5>可选择任意的时间范围</h5>
+    <div class="demo-block">
+      <div class="source">
+        <div style="width:460px;">
+          <el-time-picker
+            is-range
+            v-model="value4"
+            range-separator="至"
+            start-placeholder="开始时间"
+            end-placeholder="结束时间"
+            placeholder="选择时间范围">
+          </el-time-picker>
+          <el-time-picker
+            is-range
+            arrow-control
+            v-model="value5"
+            range-separator="至"
+            start-placeholder="开始时间"
+            end-placeholder="结束时间"
+            placeholder="选择时间范围">
+          </el-time-picker>
+        </div>
+      </div>
+      <div class="content" v-if="!isShow3">
+        <div class="description">
+          添加<code>is-range</code>属性即可选择时间范围，同样支持<code>arrow-control</code>属性。
+        </div>
+        <pre><code>
+&lt;el-time-picker
+  is-range
+  v-model="value1"
+  range-separator="至"
+  start-placeholder="开始时间"
+  end-placeholder="结束时间"
+  placeholder="选择时间范围"&gt;
+&lt;/el-time-picker&gt;
+&lt;el-time-picker
+  is-range
+  arrow-control
+  v-model="value2"
+  range-separator="至"
+  start-placeholder="开始时间"
+  end-placeholder="结束时间"
+  placeholder="选择时间范围"&gt;
+&lt;/el-time-picker&gt;
+
+&lt;script&gt;
+  data() {
+    return {
+      value1: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)],
+      value2: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)]
+    };
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow3">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow3 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <div id="table">
+      <h1>Attributes</h1>
+      <el-table
+        :data="attributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>SelectOptions</h1>
+      <el-table
+        :data="attributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Time Picker Options</h1>
+      <el-table
+        :data="PickerOptions"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Events</h1>
+      <el-table
+        :data="events"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="事件名"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="parameter"
+          label="参数"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Methods</h1>
+      <el-table
+        :data="methods"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="方法名"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="parameter"
+          label="参数"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</template>

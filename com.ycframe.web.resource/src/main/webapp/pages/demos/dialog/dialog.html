@@ -1,0 +1,305 @@
+<template id="dialog"> 
+  <div class="dialog" style="height:99%;overflow:auto;" ref="dialog">
+    <h1>Dialog 对话框</h1>
+    <h5>在保留当前页面状态的情况下，告知用户并承载相关操作。</h5>
+    <h2>基本用法</h2>
+    <h5>Dialog 弹出一个对话框，适合需要定制性更大的场景。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
+        <el-dialog
+          class="scrollBox"
+          title="提示"
+          :visible.sync="dialogVisible"
+          :fullscreen="isChange"
+          width="30%"
+          :close-on-click-modal="false"
+          :before-close="handleClose">
+          <span>这是一段信息</span>
+          <div style="height:300px;overflow: scroll;">
+            <icon></icon>
+          </div>
+          <span v-if="isChange" @click="switchBtn"><i class="el-icon-minus" style="font-size:17px;position:absolute;top: 20px; right: 50px;"></i></span>
+          <span v-else @click="switchBtn"><i class="el-icon-plus" style="font-size:17px;position: absolute;top: 20px;right: 50px;"></i></span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+          </span>
+        </el-dialog>
+      </div>
+      <div class="content" v-if="!isShow1">
+        <div class="description">
+          需要设置<code>visible</code>属性，它接收<code>Boolean</code>，当为<code>true</code>时显示 <code>Dialog</code>。<code>Dialog</code> 分为两个部分：<code>body</code>和<code>footer</code>，<code>footer</code>需要具名为<code>footer</code>的<code>slot</code>。<code>title</code>属性用于定义标题，它是可选的，默认值为空。最后，本例还展示了<code>before-close</code>的用法。
+        </div>
+        <pre><code>&lt;el-button type="text" @click="dialogVisible = true"&gt;点击打开 Dialog&lt;/el-button&gt;
+&lt;el-dialog
+  title="提示"
+  :visible.sync="dialogVisible"
+  :close-on-click-modal="false"
+  width="30%"
+  :before-close="handleClose"&gt;
+  &lt;span&gt;这是一段信息&lt;/span&gt;
+  &lt;span slot="footer" class="dialog-footer"&gt;
+    &lt;el-button @click="dialogVisible = false"&gt;取 消&lt;/el-button&gt;
+    &lt;el-button type="primary" @click="dialogVisible = false"&gt;确 定&lt;/el-button&gt;
+  &lt;/span&gt;
+&lt;/el-dialog&gt;
+&lt;script&gt;
+  data() {
+    return {
+      dialogVisible: false
+    };
+  },
+  methods: {
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    }
+  }
+&lt;/script&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow1">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow1 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>自定义内容</h2>
+    <h5>Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下面是应用了 Element Form 组件的样例。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-button type="text" @click="dialogFormVisible = true">打开嵌套表单的 Dialog</el-button>
+        <el-dialog title="收货地址" :visible.sync="dialogFormVisible" :before-close="handleClose">
+          <el-form :model="form">
+            <el-form-item label="活动名称" :label-width="formLabelWidth">
+              <el-input v-model="form.name" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="活动区域" :label-width="formLabelWidth">
+              <el-select v-model="form.region" placeholder="请选择活动区域">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          </div>
+        </el-dialog>
+      </div>
+      <div class="content" v-if="!isShow">
+        <pre><code>&lt;el-button type="text" @click="dialogFormVisible = true"&gt;打开嵌套表单的 Dialog&lt;/el-button&gt;
+&lt;el-dialog title="收货地址" :visible.sync="dialogFormVisible" :before-close="handleClose"&gt;
+  &lt;el-form :model="form"&gt;
+    &lt;el-form-item label="活动名称" :label-width="formLabelWidth"&gt;
+      &lt;el-input v-model="form.name" autocomplete="off"&gt;&lt;/el-input&gt;
+    &lt;/el-form-item&gt;
+    &lt;el-form-item label="活动区域" :label-width="formLabelWidth"&gt;
+      &lt;el-select v-model="form.region" placeholder="请选择活动区域"&gt;
+        &lt;el-option label="区域一" value="shanghai"&gt;&lt;/el-option&gt;
+        &lt;el-option label="区域二" value="beijing"&gt;&lt;/el-option&gt;
+      &lt;/el-select&gt;
+    &lt;/el-form-item&gt;
+  &lt;/el-form&gt;
+  &lt;div slot="footer" class="dialog-footer"&gt;
+    &lt;el-button @click="dialogFormVisible = false"&gt;取 消&lt;/el-button&gt;
+    &lt;el-button type="primary" @click="dialogFormVisible = false"&gt;确 定&lt;/el-button&gt;
+  &lt;/div&gt;
+&lt;/el-dialog&gt;
+&lt;script&gt;
+  data() {
+    return {
+      dialogFormVisible: false,
+      form: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      },
+      formLabelWidth: '120px'
+    }
+  }
+&lt;/script&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>嵌套的Dialog</h2>
+    <h5>如果需要在一个 Dialog 内部嵌套另一个 Dialog，需要使用 append-to-body 属性。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-button type="text" @click="outerVisible = true">点击打开外层 Dialog</el-button>
+  
+        <el-dialog title="外层 Dialog" :visible.sync="outerVisible">
+          <el-dialog
+            width="30%"
+            title="内层 Dialog"
+            :visible.sync="innerVisible"
+            append-to-body>
+          </el-dialog>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="outerVisible = false">取 消</el-button>
+            <el-button type="primary" @click="innerVisible = true">打开内层 Dialog</el-button>
+          </div>
+        </el-dialog>
+      </div>
+      <div class="content" v-if="!isShow2">
+        <div class="description">
+          正常情况下，我们不建议使用嵌套的 Dialog，如果需要在页面上同时显示多个 Dialog，可以将它们平级放置。对于确实需要嵌套 Dialog 的场景，我们提供了<code>append-to-body</code>属性。将内层 Dialog 的该属性设置为 true，它就会插入至 body 元素上，从而保证内外层 Dialog 和遮罩层级关系的正确。
+        </div>
+        <pre><code>&lt;el-button type="text" @click="outerVisible = true"&gt;点击打开外层 Dialog&lt;/el-button&gt;
+&lt;el-dialog title="外层 Dialog" :visible.sync="outerVisible"&gt;
+  &lt;el-dialog
+    width="30%"
+    title="内层 Dialog"
+    :visible.sync="innerVisible"
+    append-to-body&gt;
+  &lt;/el-dialog&gt;
+  &lt;div slot="footer" class="dialog-footer"&gt;
+    &lt;el-button @click="outerVisible = false"&gt;取 消&lt;/el-button&gt;
+    &lt;el-button type="primary" @click="innerVisible = true"&gt;打开内层 Dialog&lt;/el-button&gt;
+  &lt;/div&gt;
+&lt;/el-dialog&gt;
+&lt;script&gt;
+  data() {
+    return {
+      outerVisible: false,
+      innerVisible: false
+    }
+  }
+&lt;/script&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow2">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow2 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>拖拽弹框</h2>
+    <div class="demo-block">
+      <div class="source">
+        <el-button type="primary" @click="dragDialogVisible = true">打开嵌套表单的 Dialog</el-button>
+        <el-dialog
+        	v-drag
+		  title="提示"
+		  :visible.sync="dragDialogVisible"
+		  width="30%"
+		  >
+		  <span>这是一段信息</span>
+		  <span slot="footer" class="dialog-footer">
+		    <el-button @click="dragDialogVisible = false">取 消</el-button>
+		    <el-button type="primary" @click="dragDialogVisible = false">确 定</el-button>
+		  </span>
+		</el-dialog>
+      </div>
+      <div class="content" v-if="!isShow3">
+        <div class="description">
+      		拖拽弹框,只需添加<code>v-drag</code>属性即可.
+        </div>
+        <pre><code>&lt;el-button type="primary" @click="dragDialogVisible = true"&gt;打开拖拽 Dialog&lt;/el-button&gt;
+&lt;el-dialog
+  v-drag
+  title="提示"
+  :visible.sync="dragDialogVisible"
+  width="30%"&gt;
+  &lt;span&gt;这是一段信息&lt;/span&gt;
+  &lt;span slot="footer" class="dialog-footer"&gt;
+    &lt;el-button @click="dragDialogVisible = false"&gt;取 消&lt;/el-button&gt;
+    &lt;el-button type="primary" @click="dragDialogVisible = false"&gt;确 定&lt;/el-button&gt;
+  &lt;/span&gt;
+&lt;/el-dialog&gt;
+&lt;script&gt;
+  data() {
+    return {
+      dragDialogVisible: false
+    }
+  }
+&lt;/script&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow3">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow3 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <div id="table">
+      <h1>Attributes</h1>
+      <el-table
+        :data="attributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Slot</h1>
+      <el-table
+        :data="slot"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="name"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Events</h1>
+      <el-table
+        :data="events"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="事件名称"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="parameter"
+          label="回调参数"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</template>

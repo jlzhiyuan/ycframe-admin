@@ -1,0 +1,122 @@
+<template id="rzgltj">
+	<div class="dynamic" style="width:99%;height:80%" >
+	<div></div>
+		 <div  style="text-align: right">
+			<el-button type="primary" @click="queryms" >查询模式选择</el-button>
+			<el-button type="primary" @click="save" >保存查询模式</el-button>
+			<!-- <el-button type="primary" @click="pp" >测试</el-button> -->
+		</div> 
+		<el-form :model="form" ref="ruleForm"  label-width="130px">
+			<el-row style="margin-top:10px">
+					<el-col :span="8">
+				        <el-form-item label="操作模块" >
+				          	<el-input v-model="form.model" placeholder="操作模块" @change="query1"></el-input>
+				        </el-form-item>
+			        </el-col>
+			        <el-col :span="8">
+				        <el-form-item label="用户名">
+				          	<el-input v-model="form.username" placeholder="用户名" @change="query1"></el-input>
+				        </el-form-item>
+			        </el-col>
+			        <el-col :span="8">
+				        <el-form-item   label="执行时间" >
+							<!-- <el-date-picker v-model="zxsj" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" @change="query1">
+							</el-date-picker> -->
+							<el-date-picker
+							  v-model="zxsj"
+							  type="datetimerange"
+							  range-separator="至"
+							  start-placeholder="开始日期"
+							  end-placeholder="结束日期"
+							  @change="query1">
+							</el-date-picker>
+						</el-form-item>
+			        </el-col>
+			    </el-row>
+			     <el-row style="margin-top:10px">
+					<el-col :span="8">
+				        <el-form-item label="执行动作" >
+				          	<el-input v-model="form.model_handle" placeholder="执行动作" @change="query1"></el-input>
+				        </el-form-item>
+			        </el-col>
+			        <el-col :span="8">
+				        <el-form-item label="执行状态">
+				          	<el-input v-model="form.message" placeholder="执行状态" @change="query1"></el-input>
+				        </el-form-item>
+			        </el-col>
+			        <el-col :span="8">
+				        <el-form-item   label="IP地址" >
+							<el-input v-model="form.ip" placeholder="IP地址" @change="query1"></el-input>
+						</el-form-item>
+			        </el-col>
+			    </el-row>
+	 	</el-form>
+		<div style="height:90%;width:99%;" v-loading="loading" v-show="loading"></div>
+		<div id="wdr-component"></div>
+		<el-dialog title="保存查询模式" width="80%" :visible.sync="isDialog"
+		 :close-on-click-modal="false" v-if="isDialog">
+			<el-form :model="form1" ref="ruleForm"  label-width="130px">
+				<el-row  style="margin-top:10px;">
+				  	<el-col :span="8">
+				    	<el-form-item   label="查询模式名称" >
+				               <el-input v-model="form1.xlmc" placeholder="" clearable></el-input>
+				        </el-form-item>
+			    	</el-col>
+				</el-row>
+	 		</el-form>
+	 		<div slot="footer" class="dialog-footer" style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);">
+           		<el-button type="primary" @click="onSave('ruleForm')">保存</el-button>
+          </div>
+		</el-dialog>
+		
+		<el-dialog title="查询模式" width="80%" :visible.sync="isDialog1"
+		 :close-on-click-modal="false" v-if="isDialog1">
+		 <el-container>
+			<el-header style="height: 60px;margin-top: 10px;">
+			<div class="formBox" >
+           	<el-form :model="form2" ref="ruleForm"  label-width="130px">
+				<el-row  style="margin-top:10px;">
+				  	<el-col :span="8">
+				    	<el-form-item   label="查询模式名称" >
+				               <el-input v-model="form2.xlmc" placeholder="" clearable @change="querymss"></el-input>
+				        </el-form-item>
+			    	</el-col>
+				</el-row>
+	 		</el-form>
+     	</div>
+     	</el-header>
+     	<el-main>
+     		<el-table border ref="multipleTable" :data="cxmsData"  height='100%' @current-change="handleChange"
+     		v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading">
+         		<el-table-column type="index" label="序号" ></el-table-column>
+        		<el-table-column prop="cxmsmc" label="查询模式名称">
+        			<template slot-scope="scope">
+                   		<span :title="scope.row.cxmsmc">{{scope.row.cxmsmc}}</span>
+              		</template>
+        		</el-table-column>
+        		<el-table-column   label="操作" width="140">
+        			<!-- <template slot-scope="scope">
+        			<el-select v-model="scope.row.sfqy" placeholder="请选择" @change="wzxzxz(scope.row)">
+					    <el-option v-for="item in sfqyselect" :key="item.id" :label="item.nr" :value="item.id">
+					    </el-option>
+				  	</el-select>
+				  	</template> -->
+				  	<template slot-scope="scope">
+              			<el-button type="primary" size="mini" @click.stop="wzxzxz(scope.row)">
+                			选择
+              			</el-button>
+            		</template>
+        		</el-table-column>
+        		<el-table-column label="操作" width="80">
+            		<template slot-scope="scope">
+              			<el-button type="primary" size="mini" @click.stop="deletecxms(scope.row)">
+                			删除
+              			</el-button>
+            		</template>
+          		</el-table-column>
+         	</el-table>
+     	</el-main>
+     	</el-container>
+		</el-dialog>
+	</div>
+</template>

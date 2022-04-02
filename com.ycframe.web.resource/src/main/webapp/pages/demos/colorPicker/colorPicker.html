@@ -1,0 +1,207 @@
+<template id="colorPicker">
+	<div class="switch" style="height:99%;overflow:auto;" ref="colorPicker">
+    <h1>ColorPicker 颜色选择器</h1>
+    <h5>用于颜色选择，支持多种格式。</h5>
+    <h2>基础用法</h2>
+    <div class="demo-block">
+      <div class="source">
+          <div class="block">
+		  <span class="demonstration">有默认值</span>
+		  <el-color-picker v-model="color1"></el-color-picker>
+		</div>
+		<div class="block">
+		  <span class="demonstration">无默认值</span>
+		  <el-color-picker v-model="color2"></el-color-picker>
+		</div>
+      </div>
+      <div class="content" v-if="!isShow">
+        <div class="description">
+          使用 v-model 与 Vue 实例中的一个变量进行双向绑定，绑定的变量需要是字符串类型。
+        </div>
+        <pre><code>
+&lt;div class="block"&gt;
+  &lt;span class="demonstration"&gt;有默认值&lt;/span&gt;
+  &lt;el-color-picker v-model="color1"&gt;&lt;/el-color-picker&gt;
+&lt;/div&gt;
+&lt;div class="block"&gt;
+  &lt;span class="demonstration"&gt;无默认值&lt;/span&gt;
+  &lt;el-color-picker v-model="color2"&gt;&lt;/el-color-picker&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  data() {
+    return {
+      color1: '#409EFF',
+      color2: null
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>选择透明度</h2>
+    <div class="demo-block">
+      <div class="source">
+          <el-color-picker v-model="color" show-alpha></el-color-picker>
+      </div>
+      <div class="content" v-if="!isShow1">
+        <div class="description">
+         ColorPicker 支持普通颜色，也支持带 Alpha 通道的颜色，通过show-alpha属性即可控制是否支持透明度的选择。
+        </div>
+        <pre><code>
+&lt;el-color-picker v-model="color" show-alpha&gt;&lt;/el-color-picker&gt;
+
+&lt;script&gt;
+  data() {
+    return {
+      color: 'rgba(19, 206, 102, 0.8)'
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow1">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow1 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>预定义颜色</h2>
+    <div class="demo-block">
+      <div class="source">
+        <el-color-picker
+		  v-model="color3"
+		  show-alpha
+		  :predefine="predefineColors">
+		</el-color-picker>
+      </div>
+      <div class="content" v-if="!isShow2">
+        <div class="description">
+        ColorPicker 支持预定义颜色
+        </div>
+        <pre><code>
+&lt;el-color-picker
+  v-model="color"
+  show-alpha
+  :predefine="predefineColors"&gt;
+&lt;/el-color-picker&gt;
+            
+&lt;script&gt;
+  data() {
+    return {
+      color: 'rgba(255, 69, 0, 0.68)',
+      predefineColors: [
+        '#ff4500',
+        '#ff8c00',
+        '#ffd700',
+        '#90ee90',
+        '#00ced1',
+        '#1e90ff',
+        '#c71585',
+        'rgba(255, 69, 0, 0.68)',
+        'rgb(255, 120, 0)',
+        'hsv(51, 100, 98)',
+        'hsva(120, 40, 94, 0.5)',
+        'hsl(181, 100%, 37%)',
+        'hsla(209, 100%, 56%, 0.73)',
+        '#c7158577'
+      ]
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow2">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow2 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>不同尺寸</h2>
+    <div class="demo-block">
+      <div class="source">
+        <el-color-picker v-model="color4"></el-color-picker>
+		<el-color-picker v-model="color4" size="medium"></el-color-picker>
+		<el-color-picker v-model="color4" size="small"></el-color-picker>
+		<el-color-picker v-model="color4" size="mini"></el-color-picker>
+      </div>
+      <div class="content" v-if="!isShow3">
+        <pre><code>
+&lt;el-color-picker v-model="color"&gt;&lt;/el-color-picker&gt;
+&lt;el-color-picker v-model="color" size="medium"&gt;&lt;/el-color-picker&gt;
+&lt;el-color-picker v-model="color" size="small"&gt;&lt;/el-color-picker&gt;
+&lt;el-color-picker v-model="color" size="mini"&gt;&lt;/el-color-picker&gt;           
+            
+&lt;script&gt;
+  data() {
+    return {
+      color: '#409EFF'
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow3">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow3 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <div id="table">
+      <h1>Attributes</h1>
+      <el-table
+        :data="attributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Events</h1>
+      <el-table
+        :data="events"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="事件名称"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="parameter"
+          label="回调参数"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</template>

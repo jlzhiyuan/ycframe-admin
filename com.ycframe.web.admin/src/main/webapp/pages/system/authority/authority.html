@@ -1,0 +1,178 @@
+<template id="authority">
+	<el-container class="positionLayout">
+		<el-header>
+			<div class="box-header">
+		      <div class="title">
+		        <h5>操作权限管理</h5>
+		              
+		      </div>
+		      <div>
+		        <el-button type="primary" @click="totalKeep">保存</el-button>
+		      </div>
+		    </div>
+		</el-header>
+		<el-main>
+		<el-container class="positionLayout">
+			<el-aside width="200px" style="border: 1px solid #e0e0e0;" class="mr-right">
+				<el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" highlight-current></el-tree>
+			</el-aside>
+			<el-main>
+				<el-container class="positionLayout">
+					<el-main class="mr-right">
+    							<el-table
+    							class="positionLayout"
+    							height="100%"
+						            ref="multipleTable"
+						            :data="TableDate"
+						            style="width:100%"
+						            default-expand-all
+						          	 @row-click="rowClick"
+						            :row-style="rowClass"
+						            @selection-change="handleSelectionChange"
+						            border
+						            row-key="id"
+						            @sort-change="sortChange"
+						          >
+						            <el-table-column
+						            prop="gnmc"
+						              label="功能名称"
+						              sortable="custom"
+						              width="350"
+						            >
+						            </el-table-column>
+						            <el-table-column
+						            	prop="gnlx"
+						              label="资源类型">
+						              <template slot-scope="scope">
+						                 {{ zhuanhuan(scope.row.gnlx) }}
+						              </template>
+						            </el-table-column>
+						    
+						           
+						            <el-table-column
+						              width="60"
+						              label="选择"
+						            >
+						            <template slot-scope="scope">
+						            	<el-checkbox v-model="scope.row.acheckbox"></el-checkbox>
+						            </template>
+						            </el-table-column>
+						          </el-table>
+					</el-main>
+					<el-aside width="300px" style="margin-left:10px;">
+    							<el-table
+    							
+    							height="100%"
+						          ref="multipleTable1"
+						          :data="lists"
+						          @row-click="rowClick1"
+						          :row-style="rowClass1"
+						          @selection-change="handleSelectionChange1"
+						          row-key="id"
+						          border
+						        >
+						          <el-table-column
+						            type="index"
+						            width="40">
+						          </el-table-column>
+						          <el-table-column
+						            label="数据权限名称"
+						             sortable="custom"
+						          >
+						            <template slot-scope="scope">
+						              <span>
+						                {{ scope.row.ROLENAME }}
+						              </span>
+						            </template>
+						          </el-table-column>
+						          <el-table-column
+						            label="状态"
+						            width="75"
+						            sortable
+						          >
+						            <template slot-scope="scope">
+						              {{ scope.row.ISENABLED }}
+						            </template>
+						          </el-table-column>
+						          <el-table-column
+						            type="selection"
+						            width="45"                                    
+						          >
+						          </el-table-column>
+						        </el-table>
+					</el-aside>
+				</el-container>
+			</el-main>
+		</el-container>
+		</el-main>
+		<el-dialog title="操作按钮新增修改页面" :visible.sync="dialogTableVisible" v-drag :close-on-click-modal="false">
+    	<div class="head box-header " style="border: 0;">
+    		<div>操作按钮管理</div>
+    		<div>
+    			<!-- <el-button type="primary" @click="keep">保存</el-button> -->
+    			<el-button type="primary" @click="cancel">返回</el-button>
+    		</div>
+    	</div>
+    	<div style="height:400px;position:relative;">
+    		<div style="height:360px;border:1px solid #e0e0e0;">
+    			<el-table
+		          ref="multipleTable2"
+		          :data="btnData"
+		          :row-style="rowClass2"
+		          max-height="360"
+		          @selection-change="handleSelectionChange2"
+		          row-key="id"
+		          border
+		          @select="selected"
+		        >
+		          <el-table-column
+		            type="index"
+		            label="选择"
+		            width="50">
+		            <template slot="header" slot-scope="scope">
+		            	<span>选择</span>
+		            </template>
+		          </el-table-column>
+		          <el-table-column
+		          	prop="ANNAME"
+		            label="按钮名称"
+		          >
+		          </el-table-column>
+		          <el-table-column
+		          	prop="ANID"
+		            label="控件id"
+		          >
+		          </el-table-column>
+		          <el-table-column
+		          	prop="EFFECT"
+		            label="作用"
+		          >
+		          </el-table-column>
+		          <el-table-column
+		          	prop="ZT"
+		            label="状态"
+		          >
+		          </el-table-column>
+		          <el-table-column
+		            type="selection"
+		            width="50"                                    
+		          >
+		          </el-table-column>
+		        </el-table>
+    		</div>
+	        <div class="pagination">
+	        	<el-pagination
+	                background
+	                @size-change="handleSizeChange"
+	                @current-change="handleCurrentChange"
+	                :current-page="currentPage"
+	                :page-sizes="[10, 20, 30]"
+	                :page-size="pageSize"
+	                layout="total, sizes, prev, pager, next, jumper"
+	                :total="total">
+            	</el-pagination>
+	        </div>
+    	</div>
+	</el-dialog>
+	</el-container>
+</template>

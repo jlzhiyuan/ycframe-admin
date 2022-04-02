@@ -1,0 +1,54 @@
+<template id="rzglmx">
+	<div class="formBox">
+		<el-form :model="form" ref="ruleForm" :rules="rules"  label-width="100px">
+	    	<el-row style="margin-top:10px">
+					<el-col :span="8">
+				        <el-form-item label="操作模块:    " >
+				          	<!-- <el-input v-model="form.model" placeholder="操作模块" @change="onSubmit"></el-input> -->
+				          	<span>{{form.model}}</sapn>
+				        </el-form-item>
+			        </el-col>
+			        <el-col :span="8">
+				        <el-form-item label="用户名:    ">
+				          	<!-- <el-input v-model="form.username" placeholder="用户名" @change="onSubmit"></el-input> -->
+				        	<span>{{form.username}}</sapn>
+				        </el-form-item>
+			        </el-col>
+			        <el-col :span="8">
+				        <el-form-item   label="执行时间:    " >
+							<!-- <el-date-picker style="width:100%;" v-model="form.jlsj1" type="datetime" placeholder="选择日期时间" align="right"></el-date-picker> -->
+							<span>{{form.jlsj1}}</sapn>
+						</el-form-item>
+			        </el-col>
+			    </el-row>
+			    <el-row>
+					<el-col :span="8">
+				        <el-form-item label="执行动作:    " >
+				          	<!-- <el-input v-model="form.model_handle" placeholder="执行动作" @change="onSubmit"></el-input> -->
+				        	<span>{{form.model_handle}}</sapn>
+				        </el-form-item>
+			        </el-col>
+			        <el-col :span="8">
+				        <el-form-item label="执行状态:    ">
+				          	<!-- <el-input v-model="form.message" placeholder="执行状态" @change="onSubmit"></el-input> -->
+				        	<span>{{form.message}}</sapn>
+				        </el-form-item>
+			        </el-col>
+			        <el-col :span="8">
+				        <el-form-item   label="IP地址:    " >
+							<span>{{form.ip}}</sapn>
+							<!-- <el-input v-model="form.ip" placeholder="IP地址" @change="onSubmit"></el-input> -->
+						</el-form-item>
+			        </el-col>
+			    </el-row>
+			    <el-row>
+				    <div>
+				    	<div class="el-form-item" style="align-items:normal;">
+				    	<span style="white-space:nowrap;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日志信息:</span>
+				    	{{form.error_body}}
+				    	</div>
+				    </div>
+					</el-row>
+	    </el-form>
+	</div>
+</template>

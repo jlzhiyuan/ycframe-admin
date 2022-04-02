@@ -1,0 +1,120 @@
+<template id="dragElement">
+	<el-container class="dragElement">
+		<el-aside width="185px" style="border:1px solid #e0e0e0;" class="components-list">
+			<div>
+				<div class="widget-cate">layout</div>
+	              <draggable tag="ul" :list="layoutComponents" 
+	                v-bind="{group:{ name:'people', pull:'clone',put:false},sort:false, ghostClass: 'ghost'}"
+	                @end="handleMoveEnd"
+	                @start="handleMoveStart"
+	                :move="handleMove"
+	              >
+	                
+	                <li class="form-edit-widget-label no-put" v-for="(item, index) in layoutComponents" :key="index">
+	                  <a>
+	                    <i class="icon iconfont" :class="item.icon"></i>
+	                    <span>{{item.name}}</span>
+	                  </a>
+	                </li>
+	            </draggable>
+			</div>
+			<div>
+				<div class="widget-cate">高级字段</div>
+	              <draggable tag="ul" :list="advanceComponents" 
+	                v-bind="{group:{ name:'people', pull:'clone',put:false},sort:false, ghostClass: 'ghost'}"
+	                @end="handleMoveEnd"
+	                @start="handleMoveStart"
+	                :move="handleMove"
+	              >
+	                
+	                <li class="form-edit-widget-label no-put" v-for="(item, index) in advanceComponents" :key="index">
+	                  <a>
+	                    <i class="icon iconfont" :class="item.icon"></i>
+	                    <span>{{item.name}}</span>
+	                  </a>
+	                </li>
+	            </draggable>
+			</div>
+			<div>
+				<div class="widget-cate">基础字段</div>
+				<draggable tag="ul" :list="basicComponents"
+	                v-bind="{group:{ name:'people', pull:'clone',put:false},sort:false, ghostClass: 'ghost'}"
+	                @end="handleMoveEnd"
+	                @start="handleMoveStart"
+	                :move="handleMove"
+	                >
+	                
+	                <li class="form-edit-widget-label" :class="{'no-put': item.type == 'divider'}" v-for="(item, index) in basicComponents" :key="index">
+	                  <a>
+	                    <i class="icon iconfont" :class="item.icon"></i>
+	                    <span>{{item.name}}</span>
+	                  </a>
+	                </li>
+               </draggable>
+			</div>
+		</el-aside>
+		<el-main>
+			<el-container>
+				<el-main style="border:1px solid #e0e0e0;">
+					<el-container v-loading="loading">
+						<el-header style="border:1px solid #e0e0e0;height:35px;line-height:35px;display:flex;justify-content: space-between;">
+							<h3 style="padding-left:10px;margin:0;">{{ pageName }}</h3>
+							<!-- <el-button type="text" size="medium" icon="el-icon-upload2" @click="handleUpload">导入JSON</el-button> -->
+							<div>
+								<el-button type="text" size="medium" icon="el-icon-folder-opened" @click="handleSave">保存</el-button>
+					            <el-button type="text" size="medium" icon="el-icon-delete" @click="handleClear">清空</el-button>
+					            <el-button type="text" size="medium" icon="el-icon-view" @click="handlePreview">预览</el-button>
+					            <!-- <el-button type="text" size="medium" icon="el-icon-tickets" @click="handleGenerateJson">生成JSON</el-button> -->
+					            <el-button type="text" size="medium" icon="el-icon-document" @click="handleGenerateCode">HTML</el-button>
+					            <el-button type="text" size="medium" icon="el-icon-document" @click="handleGeneratejs">脚本</el-button>
+					        </div>
+						</el-header>
+						<el-main style="position:relative;" ref="main">
+							<widget-form v-if="!resetJson"  ref="widgetForm" :data="widgetForm" :select.sync="widgetFormSelect"></widget-form>
+						</el-main>
+					</el-container>
+				</el-main>
+				<el-aside width="185px" style="border:1px solid #e0e0e0;padding:5px;">
+					<el-tabs v-model="activeName">
+					    <el-tab-pane label="属性配置" name="first">
+					    	<attribute :data="widgetFormSelect" v-show="widgetFormSelect != 'null'"></attribute>
+					    </el-tab-pane>
+				    </el-tabs>
+				</el-aside>
+			</el-container>
+		</el-main>
+		<public-dialog
+			:visible="previewVisible"
+	        @on-close="previewVisible = false"
+	        ref="widgetPreview"
+	        width="70%"
+	        :title="title"
+	        form
+		>
+			<generate-element insite="true" @on-change="handleDataChange" v-if="previewVisible" :data="widgetForm" :value="widgetModels" :remote="remoteFuncs" ref="generateForm">
+	       </generate-element>
+		</public-dialog>
+		<public-dialog
+			:visible="codeVisible"
+	        @on-close="codeVisible = false"
+	        ref="codePreview"
+	        width="70%"
+	        form
+	        :title="title"
+	        :action="false"
+		>
+			<div id="codeeditor" style="height: 500px; width: 100%;">{{htmlTemplate}}</div>
+		</public-dialog>
+		<public-dialog
+			:visible="jsVisible"
+	        @on-close="jsVisible = false"
+	        ref="jsPreview"
+	        width="70%"
+	        form
+	        :title="title"
+	        :action="false"
+		>
+			<div id="jseditor" style="height: 500px; width: 100%;">{{jsTemplate}}</div>
+		</public-dialog>
+	</el-container>
+</template>

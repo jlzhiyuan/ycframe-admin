@@ -1,0 +1,1055 @@
+<template id="tree">
+  <div class="tree" style="height:99%;overflow:auto;" ref="trees">
+    <h1>Tree 树形控件</h1>
+    <h5>用清晰的层级结构展示信息，可展开或折叠。</h5>
+    <h2>基础用法</h2>
+    <h5>基础的树形结构展示。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <div style="width:460px;">
+          <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+        </div>
+      </div>
+      <div class="content" v-if="!isShow">
+        <pre><code>
+&lt;el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"&gt;&lt;/el-tree&gt;
+&lt;script&gt;
+  data() {
+    return {
+      data: [{
+        label: '一级 1',
+        children: [{
+          label: '二级 1-1',
+          children: [{
+            label: '三级 1-1-1'
+          }]
+        }]
+      }, {
+        label: '一级 2',
+        children: [{
+          label: '二级 2-1',
+          children: [{
+            label: '三级 2-1-1'
+          }]
+        }, {
+          label: '二级 2-2',
+          children: [{
+            label: '三级 2-2-1'
+          }]
+        }]
+      }, {
+        label: '一级 3',
+        children: [{
+          label: '二级 3-1',
+          children: [{
+            label: '三级 3-1-1'
+          }]
+        }, {
+          label: '二级 3-2',
+          children: [{
+            label: '三级 3-2-1'
+          }]
+        }]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
+    };
+  },
+  methods: {
+    handleNodeClick(data) {
+      console.log(data);
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>节点过滤</h2>
+    <h5>通过关键字过滤树节点</h5>
+    <div class="demo-block">
+      <div class="source">
+        <div style="width:460px;">
+          <el-input
+            placeholder="输入关键字进行过滤"
+            v-model="filterText">
+          </el-input>
+          
+          <el-tree
+            class="filter-tree"
+            :data="data"
+            :props="defaultProps"
+            default-expand-all
+            :filter-node-method="filterNode"
+            ref="tree2">
+          </el-tree>
+        </div>
+      </div>
+      <div class="content" v-if="!isShow5">
+        <div class="description">
+          	在需要对节点进行过滤时，调用 Tree 实例的<code>filter</code>方法，参数为关键字。需要注意的是，此时需要设置<code>filter-node-method</code>，值为过滤函数。
+        </div>
+        <pre><code>
+&lt;el-input
+  placeholder="输入关键字进行过滤"
+  v-model="filterText"&gt;
+&lt;/el-input&gt;
+
+&lt;el-tree
+  class="filter-tree"
+  :data="data"
+  :props="defaultProps"
+  default-expand-all
+  :filter-node-method="filterNode"
+  ref="tree"&gt;
+&lt;/el-tree&gt;
+
+&lt;script&gt;
+  data() {
+    return {
+      filterText: '',
+      data: [{
+        id: 1,
+        label: '一级 1',
+        children: [{
+          id: 4,
+          label: '二级 1-1',
+          children: [{
+            id: 9,
+            label: '三级 1-1-1'
+          }, {
+            id: 10,
+            label: '三级 1-1-2'
+          }]
+        }]
+      }, {
+        id: 2,
+        label: '一级 2',
+        children: [{
+          id: 5,
+          label: '二级 2-1'
+        }, {
+          id: 6,
+          label: '二级 2-2'
+        }]
+      }, {
+        id: 3,
+        label: '一级 3',
+        children: [{
+          id: 7,
+          label: '二级 3-1'
+        }, {
+          id: 8,
+          label: '二级 3-2'
+        }]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
+    };
+  },
+  watch: {
+    filterText(val) {
+      this.$refs.tree.filter(val);
+    }
+  },
+
+  methods: {
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.label.indexOf(value) !== -1;
+    }
+  },
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow5">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow5 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>可选择</h2>
+    <h5>适用于需要选择层级时使用。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-tree
+		  :props="props2"
+		  :load="loadNode"
+		  lazy
+		  show-checkbox
+		  @check-change="handleCheckChange">
+		</el-tree>
+      </div>
+      <div class="content" v-if="!isShow1">
+        <div class="description">
+        	本例还展示了动态加载节点数据的方法。
+        </div>
+        <pre><code>
+&lt;el-tree
+  :props="props"
+  :load="loadNode"
+  lazy
+  show-checkbox
+  @check-change="handleCheckChange"&gt;
+&lt;/el-tree>&gt;
+&lt;script&gt;
+  data() {
+      return {
+        props: {
+          label: 'name',
+          children: 'zones'
+        },
+        count: 1
+      };
+    },
+    methods: {
+      handleCheckChange(data, checked, indeterminate) {
+        console.log(data, checked, indeterminate);
+      },
+      loadNode(node, resolve) {
+        if (node.level === 0) {
+          return resolve([{ name: 'region1' }, { name: 'region2' }]);
+        }
+        if (node.level > 3) return resolve([]);
+
+        var hasChild;
+        if (node.data.name === 'region1') {
+          hasChild = true;
+        } else if (node.data.name === 'region2') {
+          hasChild = false;
+        } else {
+          hasChild = Math.random() > 0.5;
+        }
+
+        setTimeout(() => {
+          var data;
+          if (hasChild) {
+            data = [{
+              name: 'zone' + this.count++
+            }, {
+              name: 'zone' + this.count++
+            }];
+          } else {
+            data = [];
+          }
+
+          resolve(data);
+        }, 500);
+      }
+    }
+&lt;/script&gt;  
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow1">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow1 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>懒加载自定义叶子节点</h2>
+    <div class="demo-block">
+      <div class="source">
+      	<el-tree
+		  :props="props1"
+		  :load="loadNode1"
+		  lazy
+		  show-checkbox>
+		</el-tree>
+      </div>
+      <div class="content" v-if="!isShow2">
+        <div class="description">
+        	由于在点击节点时才进行该层数据的获取，默认情况下 Tree 无法预知某个节点是否为叶子节点，所以会为每个节点添加一个下拉按钮，如果节点没有下层数据，则点击后下拉按钮会消失。同时，你也可以提前告知 Tree 某个节点是否为叶子节点，从而避免在叶子节点前渲染下拉按钮。
+        </div>
+        <pre><code>
+&lt;el-tree
+  :props="props"
+  :load="loadNode"
+  lazy
+  show-checkbox&gt;
+&lt;/el-tree&gt;
+&lt;script&gt;
+  data() {
+    return {
+      props: {
+        label: 'name',
+        children: 'zones',
+        isLeaf: 'leaf'
+      },
+    };
+  },
+  methods: {
+    loadNode(node, resolve) {
+      if (node.level === 0) {
+        return resolve([{ name: 'region' }]);
+      }
+      if (node.level > 1) return resolve([]);
+
+      setTimeout(() => {
+        const data = [{
+          name: 'leaf',
+          leaf: true
+        }, {
+          name: 'zone'
+        }];
+
+        resolve(data);
+      }, 500);
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow2">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow2 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>默认展开和默认选中</h2>
+    <h5>可将 Tree 的某些节点设置为默认展开或默认选中</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-tree
+		  :data="data1"
+		  show-checkbox
+		  node-key="id"
+		  :default-expanded-keys="[2, 3]"
+		  :default-checked-keys="[5]"
+		  :props="defaultProps">
+		</el-tree>
+      </div>
+      <div class="content" v-if="!isShow3">
+        <div class="description">
+        	分别通过<code>default-expanded-keys</code>和<code>default-checked-keys</code>设置默认展开和默认选中的节点。需要注意的是，此时必须设置<code>node-key</code>，其值为节点数据中的一个字段名，该字段在整棵树中是唯一的。
+        </div>
+        <pre><code>
+&lt;el-tree
+  :data="data"
+  show-checkbox
+  node-key="id"
+  :default-expanded-keys="[2, 3]"
+  :default-checked-keys="[5]"
+  :props="defaultProps"&gt;
+&lt;/el-tree&gt;
+&lt;script&gt;
+  data() {
+    return {
+      data: [{
+        id: 1,
+        label: '一级 1',
+        children: [{
+          id: 4,
+          label: '二级 1-1',
+          children: [{
+            id: 9,
+            label: '三级 1-1-1'
+          }, {
+            id: 10,
+            label: '三级 1-1-2'
+          }]
+        }]
+      }, {
+        id: 2,
+        label: '一级 2',
+        children: [{
+          id: 5,
+          label: '二级 2-1'
+        }, {
+          id: 6,
+          label: '二级 2-2'
+        }]
+      }, {
+        id: 3,
+        label: '一级 3',
+        children: [{
+          id: 7,
+          label: '二级 3-1'
+        }, {
+          id: 8,
+          label: '二级 3-2'
+        }]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
+    };
+  }
+&lt;/script&gt;  
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow3">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow3 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>禁用状态</h2>
+    <h5>可将 Tree 的某些节点设置为禁用状态</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-tree
+		  :data="data2"
+		  show-checkbox
+		  node-key="id"
+		  :default-expanded-keys="[2, 3]"
+		  :default-checked-keys="[5]">
+		</el-tree>
+      </div>
+      <div class="content" v-if="!isShow4">
+        <div class="description">
+                  通过<code>disabled</code>设置禁用状态。
+        </div>
+        <pre><code>
+&lt;el-tree
+  :data="data"
+  show-checkbox
+  node-key="id"
+  :default-expanded-keys="[2, 3]"
+  :default-checked-keys="[5]"&gt;
+&lt;/el-tree&gt; 
+&lt;script&gt;
+  data() {
+    return {
+      data: [{
+        id: 1,
+        label: '一级 2',
+        children: [{
+          id: 3,
+          label: '二级 2-1',
+          children: [{
+            id: 4,
+            label: '三级 3-1-1'
+          }, {
+            id: 5,
+            label: '三级 3-1-2',
+            disabled: true
+          }]
+        }, {
+          id: 2,
+          label: '二级 2-2',
+          disabled: true,
+          children: [{
+            id: 6,
+            label: '三级 3-2-1'
+          }, {
+            id: 7,
+            label: '三级 3-2-2',
+            disabled: true
+          }]
+        }]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
+    };
+  }  
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow4">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow4 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>树节点的选择</h2>
+    <div class="demo-block">
+      <div class="source">
+        <el-tree
+		  :data="data1"
+		  show-checkbox
+		  default-expand-all
+		  node-key="id"
+		  ref="tree"
+		  highlight-current
+		  :props="defaultProps">
+		</el-tree>
+		<div class="buttons">
+		  <el-button @click="getCheckedNodes">通过 node 获取</el-button>
+		  <el-button @click="getCheckedKeys">通过 key 获取</el-button>
+		  <el-button @click="setCheckedNodes">通过 node 设置</el-button>
+		  <el-button @click="setCheckedKeys">通过 key 设置</el-button>
+		  <el-button @click="resetChecked">清空</el-button>
+		</div>
+      </div>
+      <div class="content" v-if="!isShow6">
+      	<div class="description">本例展示如何获取和设置选中节点。获取和设置各有两种方式：通过 node 或通过 key。如果需要通过 key 来获取或设置，则必须设置<code>node-key</code>。</div>
+        <pre><code>
+&lt;el-tree
+  :data="data"
+  show-checkbox
+  default-expand-all
+  node-key="id"
+  ref="tree"
+  highlight-current
+  :props="defaultProps"&gt;
+&lt;/el-tree&gt;
+
+&lt;div class="buttons"&gt;
+  &lt;el-button @click="getCheckedNodes"&gt;通过 node 获取&lt;/el-button&gt;
+  &lt;el-button @click="getCheckedKeys"&gt;通过 key 获取&lt;/el-button&gt;
+  &lt;el-button @click="setCheckedNodes"&gt;通过 node 设置&lt;/el-button&gt;
+  &lt;el-button @click="setCheckedKeys"&gt;通过 key 设置&lt;/el-button&gt;
+  &lt;el-button @click="resetChecked"&gt;清空&lt;/el-button&gt;
+&lt;/div&gt;           
+&lt;script&gt;
+  methods: {
+    getCheckedNodes() {
+      console.log(this.$refs.tree.getCheckedNodes());
+    },
+    getCheckedKeys() {
+      console.log(this.$refs.tree.getCheckedKeys());
+    },
+    setCheckedNodes() {
+      this.$refs.tree.setCheckedNodes([{
+        id: 5,
+        label: '二级 2-1'
+      }, {
+        id: 9,
+        label: '三级 1-1-1'
+      }]);
+    },
+    setCheckedKeys() {
+      this.$refs.tree.setCheckedKeys([3]);
+    },
+    resetChecked() {
+      this.$refs.tree.setCheckedKeys([]);
+    }
+  },
+
+  data() {
+    return {
+      data: [{
+        id: 1,
+        label: '一级 1',
+        children: [{
+          id: 4,
+          label: '二级 1-1',
+          children: [{
+            id: 9,
+            label: '三级 1-1-1'
+          }, {
+            id: 10,
+            label: '三级 1-1-2'
+          }]
+        }]
+      }, {
+        id: 2,
+        label: '一级 2',
+        children: [{
+          id: 5,
+          label: '二级 2-1'
+        }, {
+          id: 6,
+          label: '二级 2-2'
+        }]
+      }, {
+        id: 3,
+        label: '一级 3',
+        children: [{
+          id: 7,
+          label: '二级 3-1'
+        }, {
+          id: 8,
+          label: '二级 3-2'
+        }]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
+    };
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow6">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow6 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>自定义节点内容</h2>
+    <h5>节点的内容支持自定义，可以在节点区添加按钮或图标等内容。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <div style="display:flex;">
+		  <!-- <div>
+		    <p class="sub-title">使用 render-content</p>
+		    <el-tree
+		      :data="data"
+		      show-checkbox
+		      node-key="id"
+		      default-expand-all
+		      :expand-on-click-node="false"
+		      :render-content="renderContent">
+		    </el-tree>
+		  </div> -->
+		  <div>
+		    <p class="sub-title">使用 scoped slot</p>
+		    <el-tree
+		      :data="data"
+		      show-checkbox
+		      node-key="id"
+		      default-expand-all
+		      :expand-on-click-node="false">
+		      <span class="custom-tree-node" slot-scope="{ node, data }">
+		        <span>{{ node.label }}</span>
+		        <span>
+		          <el-button
+		            type="text"
+		            size="mini"
+		            @click="() => append(data)">
+		            Append
+		          </el-button>
+		          <el-button
+		            type="text"
+		            size="mini"
+		            @click="() => remove(node, data)">
+		            Delete
+		          </el-button>
+		        </span>
+		      </span>
+		    </el-tree>
+		  </div>
+		</div>
+      </div>
+      <div class="content" v-if="!isShow7">
+      	<div class="description">
+      		可以通过两种方法进行树节点内容的自定义：<code>render-content</code>和 <code>scoped slot</code>。使用render-content指定渲染函数，该函数返回需要的节点区内容即可。渲染函数的用法请参考 Vue 文档。使用 scoped slot 会传入两个参数<code>node</code>和<code>data</code>，分别表示当前节点的 Node 对象和当前节点的数据。注意：由于 jsfiddle 不支持 JSX 语法，所以render-content示例在 jsfiddle 中无法运行。但是在实际的项目中，只要正确地配置了相关依赖，就可以正常运行。
+      	</div>
+        <pre><code>
+&lt;div class="custom-tree-container"&gt;
+  &lt;div class="block"&gt;
+    &lt;p&gt;使用 scoped slot&lt;/p&gt;
+    &lt;el-tree
+      :data="data"
+      show-checkbox
+      node-key="id"
+      default-expand-all
+      :expand-on-click-node="false"&gt;
+      &lt;span class="custom-tree-node" slot-scope="{ node, data }"&gt;
+        &lt;span&gt;<span v-pre>{{ node.label }}</span>&lt;/span&gt;
+        &lt;span&gt;
+          &lt;el-button
+            type="text"
+            size="mini"
+            @click="() => append(data)"&gt;
+            Append
+          &lt;/el-button&gt;
+          &lt;el-button
+            type="text"
+            size="mini"
+            @click="() => remove(node, data)">
+            Delete
+          &lt;/el-button&gt;
+        &lt;/span&gt;
+      &lt;/span&gt;
+    &lt;/el-tree&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  var id = 1000;
+  data() {
+    const data = [{
+      id: 1,
+      label: '一级 1',
+      children: [{
+        id: 4,
+        label: '二级 1-1',
+        children: [{
+          id: 9,
+          label: '三级 1-1-1'
+        }, {
+          id: 10,
+          label: '三级 1-1-2'
+        }]
+      }]
+    }, {
+      id: 2,
+      label: '一级 2',
+      children: [{
+        id: 5,
+        label: '二级 2-1'
+      }, {
+        id: 6,
+        label: '二级 2-2'
+      }]
+    }, {
+      id: 3,
+      label: '一级 3',
+      children: [{
+        id: 7,
+        label: '二级 3-1'
+      }, {
+        id: 8,
+        label: '二级 3-2'
+      }]
+    }];
+    return {
+      data: JSON.parse(JSON.stringify(data)),
+      data: JSON.parse(JSON.stringify(data))
+    }
+  },
+
+  methods: {
+    append(data) {
+      var newChild = { id: id++, label: 'testtest', children: [] };
+      if (!data.children) {
+        this.$set(data, 'children', []);
+      }
+      data.children.push(newChild);
+    },
+
+    remove(node, data) {
+      var parent = node.parent;
+      var children = parent.data.children || parent.data;
+      var index = children.findIndex(d => d.id === data.id);
+      children.splice(index, 1);
+    },
+
+    renderContent(h, { node, data, store }) {
+      return (
+        <span class="custom-tree-node">
+          <span>{node.label}</span>
+          <span>
+            <el-button size="mini" type="text" on-click={ () => this.append(data) }>Append</el-button>
+            <el-button size="mini" type="text" on-click={ () => this.remove(node, data) }>Delete</el-button>
+          </span>
+        </span>);
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow7">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow7 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>手风琴模式</h2>
+    <h5>对于同一级的节点，每次只能展开一个</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-tree
+		  :data="data"
+		  :props="defaultProps"
+		  accordion
+		  @node-click="handleNodeClick">
+		</el-tree>
+      </div>
+      <div class="content" v-if="!isShow8">
+        <pre><code>
+&lt;el-tree
+  :data="data"
+  :props="defaultProps"
+  accordion
+  @node-click="handleNodeClick"&gt;
+&lt;/el-tree&gt;
+&lt;script&gt;
+  data() {
+    return {
+      data: [{
+        label: '一级 1',
+        children: [{
+          label: '二级 1-1',
+          children: [{
+            label: '三级 1-1-1'
+          }]
+        }]
+      }, {
+        label: '一级 2',
+        children: [{
+          label: '二级 2-1',
+          children: [{
+            label: '三级 2-1-1'
+          }]
+        }, {
+          label: '二级 2-2',
+          children: [{
+            label: '三级 2-2-1'
+          }]
+        }]
+      }, {
+        label: '一级 3',
+        children: [{
+          label: '二级 3-1',
+          children: [{
+            label: '三级 3-1-1'
+          }]
+        }, {
+          label: '二级 3-2',
+          children: [{
+            label: '三级 3-2-1'
+          }]
+        }]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
+    };
+  },
+  methods: {
+    handleNodeClick(data) {
+      console.log(data);
+    }
+  } 
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow8">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow8 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>可拖拽节点</h2>
+    <h5>通过 draggable 属性可让节点变为可拖拽。</h5>
+    <div class="demo-block">
+      <div class="source">
+      	<el-tree
+		  :data="data"
+		  node-key="id"
+		  default-expand-all
+		  @node-drag-start="handleDragStart"
+		  @node-drag-enter="handleDragEnter"
+		  @node-drag-leave="handleDragLeave"
+		  @node-drag-over="handleDragOver"
+		  @node-drag-end="handleDragEnd"
+		  @node-drop="handleDrop"
+		  draggable
+		  :allow-drop="allowDrop"
+		  :allow-drag="allowDrag">
+		</el-tree>
+      </div>
+      <div class="content" v-if="!isShow9">
+        <pre><code>
+&lt;el-tree
+  :data="data"
+  node-key="id"
+  default-expand-all
+  @node-drag-start="handleDragStart"
+  @node-drag-enter="handleDragEnter"
+  @node-drag-leave="handleDragLeave"
+  @node-drag-over="handleDragOver"
+  @node-drag-end="handleDragEnd"
+  @node-drop="handleDrop"
+  draggable
+  :allow-drop="allowDrop"
+  :allow-drag="allowDrag"&gt;
+&lt;/el-tree&gt;
+&lt;script&gt;
+  data() {
+    return {
+      data: [{
+        id: 1,
+        label: '一级 1',
+        children: [{
+          id: 4,
+          label: '二级 1-1',
+          children: [{
+            id: 9,
+            label: '三级 1-1-1'
+          }, {
+            id: 10,
+            label: '三级 1-1-2'
+          }]
+        }]
+      }, {
+        id: 2,
+        label: '一级 2',
+        children: [{
+          id: 5,
+          label: '二级 2-1'
+        }, {
+          id: 6,
+          label: '二级 2-2'
+        }]
+      }, {
+        id: 3,
+        label: '一级 3',
+        children: [{
+          id: 7,
+          label: '二级 3-1'
+        }, {
+          id: 8,
+          label: '二级 3-2',
+          children: [{
+           id: 11,
+            label: '三级 3-2-1'
+          }, {
+            id: 12,
+            label: '三级 3-2-2'
+          }, {
+            id: 13,
+            label: '三级 3-2-3'
+          }]
+        }]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
+    };
+  },
+  methods: {
+    handleDragStart(node, ev) {
+      console.log('drag start', node);
+    },
+    handleDragEnter(draggingNode, dropNode, ev) {
+      console.log('tree drag enter: ', dropNode.label);
+    },
+    handleDragLeave(draggingNode, dropNode, ev) {
+      console.log('tree drag leave: ', dropNode.label);
+    },
+    handleDragOver(draggingNode, dropNode, ev) {
+      console.log('tree drag over: ', dropNode.label);
+    },
+    handleDragEnd(draggingNode, dropNode, dropType, ev) {
+      console.log('tree drag end: ', dropNode && dropNode.label, dropType);
+    },
+    handleDrop(draggingNode, dropNode, dropType, ev) {
+      console.log('tree drop: ', dropNode.label, dropType);
+    },
+    allowDrop(draggingNode, dropNode, type) {
+      if (dropNode.data.label === '二级 3-1') {
+        return type !== 'inner';
+      } else {
+        return true;
+      }
+    },
+    allowDrag(draggingNode) {
+      return draggingNode.data.label.indexOf('三级 3-2-2') === -1;
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow9">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow9 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <div id="table">
+      <h1>Attributes</h1>
+      <el-table
+        ref="singleTable"
+        :data="attributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型">
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>props</h1>
+      <el-table
+        ref="singleTable"
+        :data="props"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型">
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>方法</h1>
+      <el-table
+        ref="singleTable"
+        :data="methods"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="方法名">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Events</h1>
+      <el-table
+        ref="singleTable"
+        :data="events"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="事件名称">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="parameter"
+          label="回调参数">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Slot</h1>
+      <el-table
+        ref="singleTable"
+        :data="slot"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="事件名称">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</template>
+

@@ -1,0 +1,227 @@
+<template id="personalManage">
+	<el-container class="positionLayout">
+		<el-header>
+			<div class="box-header">
+		      <h5>人员管理</h5>
+		      <div>
+		        <el-button type="primary" @click="query">查询</el-button>
+		        <el-button type="primary" @click="newAdd">新增</el-button>
+		        <el-button type="primary" @click="able" :disabled="stateAble">启用</el-button>
+		        <el-button type="primary" @click="disable" :disabled="stateDisable">禁用</el-button>
+		        <el-button type="primary" @click="a">导出Excel</el-button>
+		        <el-button type="primary" @click="csh" :disabled="statePwd">初始化密码</el-button>
+	          </div>
+	        </div>
+		</el-header>
+		<el-main style="overflow:hidden;">
+			<el-container class="positionLayout">
+				<el-aside width="200px" class="mr-right" style="border:1px solid #e0e0e0;">
+		    		<el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" :expand-on-click-node="false" highlight-current></el-tree>
+				</el-aside>
+	  		    <el-main>
+	  		    	<el-container class="positionLayout">
+	  		    		<el-header style="height: auto">
+	  		    			<div class="formBox">
+				            <el-form :model="formData" label-width="100px" size="medium">
+				              <el-row :gutter="10">
+				                <el-col :span="8">
+				                  <el-form-item class="nomargin" label="人员姓名">
+				                    <el-input v-model="formData.userName" placeholder=""></el-input>
+				                  </el-form-item>
+				                </el-col>
+				                <el-col :span="8">
+				                  <el-form-item class="nomargin" label="人员编码">
+				                    <el-input v-model="formData.empCode" placeholder=""></el-input>
+				                  </el-form-item>
+				                </el-col>
+				                <el-col :span="8">
+				                  <el-form-item class="nomargin" label="状态">
+				                    <el-select v-model="formData.YHZT" clearable placeholder="请选择">
+						              <el-option
+						                v-for="item in selectZt"
+						                :key="item.id"
+						                :label="item.text"
+						                :value="item.id">
+						              </el-option>
+				                  </el-form-item>
+				                </el-col>
+				              </el-row>
+				              <el-row :gutter="10">
+				                <el-col :span="8">
+				                  <el-form-item class="nomargin" label="角色">
+				                    <el-select v-model="formData.JSMC" clearable placeholder="请选择">
+						              <el-option
+						                v-for="item in selectJs"
+						                :key="item.id"
+						                :label="item.text"
+						                :value="item.id">
+						              </el-option>
+				                  </el-form-item>
+				                </el-col>
+				                <el-col :span="8">
+				                  <el-form-item class="nomargin" label="性别">
+				                     <el-select v-model="formData.sex" clearable placeholder="请选择">
+						              <el-option
+						                v-for="item in select"
+						                :key="item.id"
+						                :label="item.text"
+						                :value="item.id">
+						              </el-option>
+				                  </el-form-item>
+				                </el-col>
+				                <el-col :span="8">
+				                  <el-form-item class="nomargin" label="电话">
+				                    <el-input v-model="formData.jc" placeholder=""></el-input>
+				                  </el-form-item>
+				                </el-col>
+				              </el-row>
+				            </el-form>
+				          </div>
+	  		    		</el-header>
+				        <el-main>
+				        	
+   						<el-table class="positionLayout"
+   							border
+			                ref="multipleTable1"
+			                @row-click="rowClick"
+			                :row-style="rowClass"
+			                :data="tableData"
+			                @sort-change="sortChange"
+			                @selection-change="handleSelectionChange"
+			                height="100%">
+			                <el-table-column
+			                  type="index"
+			                  :index="indexMethod"
+			                    label="序号"
+			                  width="40">
+			                </el-table-column>
+			                <el-table-column
+			                  type="selection"
+			                  width="40">
+			                </el-table-column>
+			                <el-table-column
+			                  prop="JGMC"
+			                  label="部门"
+			                  sortable="custom"
+			                  width="115"
+			                  >
+			                </el-table-column>
+			                <el-table-column
+			                  prop="userName"
+			                  label="人员姓名"
+			                  width="100"
+			                  sortable="custom"
+			                >
+			                </el-table-column>
+			                <el-table-column
+			                  prop="empCode"
+			                  label="人事编码"
+			                  width="100"
+			                  sortable="custom"
+			                >
+			                </el-table-column>
+			                <el-table-column
+			                  prop="sex"
+			                  label="性别"
+			                  width="75"
+			                  sortable="custom"
+			                  >
+			                </el-table-column>
+			                <el-table-column
+			                  prop="js"
+			                  label="角色">
+			             
+			                  <template slot-scope="scope">
+			                  	<span v-for="(item,index) in scope.row.js" :key="index">
+				                  	<span v-if="index!=scope.row.js.length-1">{{ item }} 、 </span>
+				                  	 <span v-if="index==scope.row.js.length-1">{{ item }} </span>
+			                  	 </span>
+			                  </template>
+			                </el-table-column>
+			                <el-table-column
+			                  prop="jc"
+			                  width="83"
+			                  label="电话"
+			                  sortable="custom"
+			                >
+			                </el-table-column>
+			                <el-table-column
+			                  prop="telepone2"
+			                  width="100"
+			                  sortable="custom"
+			                  label="备用电话">
+			                </el-table-column>
+			                <el-table-column
+			                  prop="YHZT"
+			                  label="状态"
+			                  sortable="custom"
+			                  width="75"
+			                  >
+			                </el-table-column>
+			                <el-table-column
+			                  prop="user"
+			                  label="是否在线"
+			                  width="75"
+			                >
+			                </el-table-column>
+			                 <el-table-column 
+					            label="操作"
+					            width="155"
+					            >
+				            <template slot-scope="scope">
+				              <el-button
+				              	type="primary"
+				                size="mini"
+				                @click.stop="xiaxian(scope.$index, scope.row)">
+				              	  强制下线
+				              </el-button>
+				              <el-button
+				              	type="primary"
+				                size="mini"
+				                @click.stop="newUpdate(scope.$index, scope.row)">
+				              	  编辑
+				              </el-button>
+				            </template>
+				          </el-table-column>
+			              </el-table>
+				        </el-main>
+				        <el-footer>
+				        	<div class="pagination">
+				              <el-pagination
+				                @size-change="handleSizeChange"
+				                @current-change="handleCurrentChange"
+				                :current-page="currentPage"
+				                :page-sizes="[10,20,30]"
+				                :page-size="pagesize"
+				                layout="total, sizes, prev, pager, next, jumper"
+				                :total=total>
+				              </el-pagination>
+				            </div>
+				        </el-footer>
+	  		    	</el-container>
+	  		    </el-main>
+			</el-container>
+		</el-main>
+		<el-dialog 
+		  title="人员信息管理" 
+		  :visible.sync="isDialog" 
+		  v-drag 
+		  :close-on-click-modal="false" 
+		  :modal-append-to-body="false" 
+		  ref="dialog" 
+		  :destroy-on-close="true">
+	    <!-- <vxe-modal 
+	      ref="dialog"
+	      title="人员信息管理" 
+	      v-model="isDialog" 
+	      resize 
+	      width="70%" 
+	      height="80%"
+	      :position="{top: '10%',left: '15%'}"
+	      :dblclick-zoom="false"
+	      :destroy-on-close="true"> -->
+	  	  	<dialog-content ref="child" @cancel="cancel11" @update1="updateData11"></dialog-content>
+	  <!-- 	</vxe-modal> -->
+   		</el-dialog>
+	</el-container>
+</template>

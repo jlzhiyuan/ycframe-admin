@@ -1,0 +1,111 @@
+<template id="popconfirm"> 
+  <div class="popconfirm" style="height:99%;overflow:auto;" ref="popconfirm"> 
+    <h1>Popconfirm 气泡确认框</h1>
+    <h5>点击元素，弹出气泡确认框。</h5>
+    <h2></h2基础用法>
+    <h5>Popconfirm 的属性与 Popover 很类似，因此对于重复属性，请参考 Popover 的文档，在此文档中不做详尽解释。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-popconfirm
+		  title="这是一段内容确定删除吗？"
+		>
+		  <el-button slot="reference">删除</el-button>
+		</el-popconfirm>
+      </div>
+      <div class="content" v-if="!isShow">
+        <div class="description">
+            在 Popconfirm 中，只有 <code>title</code> 属性可用，<code>content </code>属性不会被展示。
+        </div>
+        <pre>
+          <code>
+&lt;el-popconfirm
+  title="这是一段内容确定删除吗？"
+&gt;
+  &lt;el-button slot="reference"&gt;删除&lt;/el-button&gt;
+&lt;/el-popconfirm&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>自定义</h2>
+    <h5>可以在 Popconfirm 中自定义内容。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-popconfirm
+		  confirm-button-text='好的'
+		  cancel-button-text='不用了'
+		  icon="el-icon-info"
+		  icon-color="red"
+		  title="这是一段内容确定删除吗？"
+		>
+		  <el-button slot="reference">删除</el-button>
+		</el-popconfirm>
+      </div>
+      <div class="content" v-if="!isShow1">
+        <pre><code>
+&lt;el-popconfirm
+  confirm-button-text='好的'
+  cancel-button-text='不用了'
+  icon="el-icon-info"
+  icon-color="red"
+  title="这是一段内容确定删除吗？"
+&gt;
+  &lt;el-button slot="reference"&gt;删除&lt;/el-button&gt;
+&lt;/el-popconfirm&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow1">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow1 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <div id="table">
+      <h1>Attributes</h1>
+      <el-table
+        ref="singleTable"
+        :data="data.attributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型">
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Slot</h1>
+      <el-table
+        ref="singleTable"
+        :data="data.slot"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</template>
+  

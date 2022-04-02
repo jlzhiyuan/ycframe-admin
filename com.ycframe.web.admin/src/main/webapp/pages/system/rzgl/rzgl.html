@@ -1,0 +1,143 @@
+<template id="rzgl">
+	<el-container class="positionLayout">
+	<el-header style="height:auto">
+	
+		<el-row>
+		<div class="box-header">
+	    	<el-col :span="24" style="text-align:right">
+	    	<el-button type="primary" @click="onSubmit">查询</el-button>
+	        <el-button type="primary" @click="peopleNumber">动态统计</el-button>
+	        <meta charset="UTF-8">
+	      	</el-col>
+	      	</div>
+    	</el-row>
+    	<el-row>
+			<el-form  :model="formInline" label-width="100px"  size="medium">
+				<el-row style="margin-top:10px">
+					<el-col :span="8">
+				        <el-form-item class="nomargin" label="操作模块" >
+				          	<el-input v-model="formInline.model" placeholder="操作模块" @change="onSubmit"></el-input>
+				        </el-form-item>
+			        </el-col>
+			        <el-col :span="8">
+				        <el-form-item class="nomargin" label="用户名">
+				          	<el-input v-model="formInline.username" placeholder="用户名" @change="onSubmit"></el-input>
+				        </el-form-item>
+			        </el-col>
+			        <el-col :span="8">
+				        <el-form-item class="nomargin" label="执行时间" >
+							<!-- <el-date-picker v-model="zxsj" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" @change="onSubmit">
+							</el-date-picker> -->
+							<el-date-picker
+							  v-model="zxsj"
+							  type="datetimerange"
+							  range-separator="至"
+							  start-placeholder="开始日期"
+							  end-placeholder="结束日期"
+							  @change="onSubmit">
+							</el-date-picker>
+						</el-form-item>
+			        </el-col>
+			    </el-row>
+			    <el-row >
+					<el-col :span="8">
+				        <el-form-item class="nomargin" label="执行动作" >
+				          	<el-input v-model="formInline.model_handle" placeholder="执行动作" @change="onSubmit"></el-input>
+				        </el-form-item>
+			        </el-col>
+			        <el-col :span="8">
+				        <el-form-item class="nomargin" label="执行状态">
+				          	<el-input v-model="formInline.message" placeholder="执行状态" @change="onSubmit"></el-input>
+				        </el-form-item>
+			        </el-col>
+			        <el-col :span="8">
+				        <el-form-item class="nomargin" label="IP地址" >
+							<el-input v-model="formInline.ip" placeholder="IP地址" @change="onSubmit"></el-input>
+						</el-form-item>
+			        </el-col>
+			    </el-row>
+	        </el-form>
+		</el-row>
+	</el-header>
+	<el-main >
+		<el-table :data="tableData" height='100%' class="positionLayout"  border row-key="ID"  @sort-change="sortChange"
+		v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading">
+          	<el-table-column type="index" width="50" label="序号" :index="indexMethod">
+          	</el-table-column>
+			<el-table-column prop="model" label="操作模块"  width="170px" sortable="custom">
+          		<template slot-scope="scope">
+	                <span :title="scope.row.model">{{scope.row.model}}</span>
+	            </template>
+          	</el-table-column>
+          	
+        	<el-table-column prop="model_handle" label="执行动作" width="100px" sortable="custom">
+          		<!-- <template slot-scope="scope">
+                    <span :title="scope.row.model_handle">{{scope.row.model_handle}}</span>
+                </template> -->
+         	</el-table-column>
+          	<el-table-column prop="username" label="用户名" width="120px" sortable="custom">
+				<!-- <template slot-scope="scope">
+                    <span :title="scope.row.username">{{scope.row.username}}</span>
+                </template> -->
+			</el-table-column>
+          	<el-table-column prop="jlsj" label="执行时间" width="150px" sortable="custom">
+          		<!-- <template slot-scope="scope">
+	                <span :title="scope.row.jlsj">{{scope.row.jlsj}}</span>
+	            </template> -->
+          	</el-table-column>
+          	<el-table-column prop="message" label="执行状态" width="100px" sortable="custom">
+          		<!-- <template slot-scope="scope">
+	                <span :title="scope.row.message">{{scope.row.message}}</span>
+	            </template> -->
+          	</el-table-column>
+          	<el-table-column prop="ip" label="IP地址" width="150px" sortable="custom">
+          		<!-- <template slot-scope="scope">
+	                <span :title="scope.row.ip">{{scope.row.ip}}</span>
+	            </template> -->
+          	</el-table-column>
+          	<el-table-column prop="error_body" label="日志信息" sortable="custom" > 
+          		<!-- <template slot-scope="scope">
+	                <span :title="scope.row.error_body">{{scope.row.error_body}}</span>
+	            </template> -->
+	            <template slot-scope="scope">
+	                <div style="width:100%;height:20px">{{scope.row.error_body}}</div>
+	            </template>
+          	</el-table-column>
+          	
+          	<el-table-column  label="操作" width="100px">
+            <template slot-scope="scope" >
+              <el-button type="primary" size="mini"
+                @click.stop="handleEdit(scope.row)">
+               		 详细
+              </el-button>
+              </template>
+          </el-table-column>
+        </el-table>
+    </el-main>
+   	<el-footer>
+       	<div class="pagination">
+             <el-pagination
+               	@size-change="handleSizeChange"
+               	@current-change="handleCurrentChange"
+               	:current-page="currentPage"
+               	:page-sizes="[10,20,30]"
+               	:page-size="pagesize"
+               	layout="total, sizes, prev, pager, next, jumper"
+               	:total=total>
+             </el-pagination>
+        </div>
+    </el-footer>
+    <el-dialog title="日志管理详细" :visible.sync="isDialog"  v-drag :close-on-click-modal="false" width="80%" :fullscreen="isChange">
+      <div class="formBox">
+        <div style="width: 100%;height:450px;">
+               <rzglmx ref="child" :option="option1"> </rzglmx>
+               <span v-if="isChange" @click="switchBtn"><i class="el-icon-minus" style="font-size:17px;position:absolute;top: 20px; right: 50px"></i></span>
+			<span v-else @click="switchBtn"><i class="el-icon-plus" style="font-size:17px;position: absolute;top: 20px;right: 50px"></i></span>
+        </div>
+      </div>
+      <div slot="footer" class="dialog-footer" style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);"> 
+         <el-button type="primary" size="mini" @click="isDialog = false">返回</el-button>
+       </div>  
+    </el-dialog>
+	</el-container>
+</template>

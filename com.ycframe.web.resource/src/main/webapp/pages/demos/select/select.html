@@ -1,0 +1,919 @@
+<template id="select">
+  <div class="select" style="height:99%;overflow:auto;" ref="select">
+    <h1>Select 选择器</h1>
+    <h5>当选项过多时，使用下拉菜单展示并选择内容。</h5>
+    <h2>基础用法</h2>
+    <h5>适用广泛的基础单选</h5>
+    <div class="demo-block">
+      <div class="source">
+      	  <el-select v-model="value7" placeholder="请选择">
+		    <el-option
+		      v-for="item in options"
+		      :key="item.value"
+		      :label="item.label"
+		      :value="item.value">
+		    </el-option>
+		  </el-select>
+      </div>
+      <div class="content" v-if="!isShow7">
+        <div class="description">
+          <code>v-model</code>的值为当前被选中的<code>el-option</code>的 <code>value</code>属性值
+        </div>
+        <pre><code>
+&lt;el-select v-model="value" placeholder="请选择"&gt;
+  &lt;el-option
+    v-for="item in options"
+    :key="item.value"
+    :label="item.label"
+    :value="item.value"&gt;
+  &lt;/el-option&gt;
+&lt;/el-select&gt;          
+&lt;script&gt;
+  data() {
+    return {
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value: ''
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow7">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow7 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>有禁用选项</h2>
+    <div class="demo-block">
+      <div class="source">
+          <el-select v-model="value2" placeholder="请选择">
+            <el-option
+              v-for="item in options1"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              :disabled="item.disabled">
+            </el-option>
+          </el-select>
+      </div>
+      <div class="content" v-if="!isShow5">
+        <div class="description">
+         	 在<code>el-option</code>中，设定<code>disabled</code>值为 <code>true</code>，即可禁用该选项
+        </div>
+        <pre><code>
+&lt;el-select v-model="value" placeholder="请选择"&gt;
+  &lt;el-option
+    v-for="item in options"
+    :key="item.value"
+    :label="item.label"
+    :value="item.value"
+    :disabled="item.disabled"&gt;
+  &lt;/el-option&gt;
+&lt;/el-select&gt;
+
+&lt;script&gt;
+  data () {
+    return {
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶',
+        disabled: true
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value: ''
+    };
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow5">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow5 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>禁用状态</h2>
+    <h5>选择器不可用状态</h5>
+    <div class="demo-block">
+      <div class="source">
+          <el-select v-model="value8" disabled placeholder="请选择">
+		    <el-option
+		      v-for="item in options"
+		      :key="item.value"
+		      :label="item.label"
+		      :value="item.value">
+		    </el-option>
+		  </el-select>
+      </div>
+      <div class="content" v-if="!isShow8">
+        <div class="description">
+          	为<code>el-select</code>设置<code>disabled</code>属性，则整个选择器不可用
+        </div>
+        <pre><code>
+&lt;el-select v-model="value" disabled placeholder="请选择"&gt;
+  &lt;el-option
+    v-for="item in options"
+    :key="item.value"
+    :label="item.label"
+    :value="item.value"&gt;
+  &lt;/el-option&gt;
+&lt;/el-select&gt;            
+&lt;script&gt;
+  data() {
+    return {
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value: ''
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow8">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow8 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>可清空单选</h2>
+    <h5>包含清空按钮，可将选择器清空为初始状态</h5>
+    <div class="demo-block">
+      <div class="source">
+        <div>
+          <el-select v-model="value" clearable placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="content" v-if="!isShow">
+        <div class="description">
+          	为<code>el-select</code>设置<code>clearable</code>属性，则可将选择器清空。需要注意的是，<code>clearable</code>属性仅适用于单选。
+        </div>
+        <pre><code>
+&lt;el-select v-model="value" clearable placeholder="请选择"&gt;
+  &lt;el-option
+    v-for="item in options"
+    :key="item.value"
+    :label="item.label"
+    :value="item.value"&gt;
+  &lt;/el-option&gt;
+&lt;/el-select&gt;
+&lt;script&gt;
+  data() {
+    return {
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value: ''
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>基础多选</h2>
+    <h5>适用性较广的基础多选，用 Tag 展示已选项</h5>
+    <div class="demo-block">
+      <div class="source">
+          <el-select
+            v-model="value6"
+            multiple
+            placeholder="请选择">
+            <el-option
+              v-for="item in options1"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        
+          <el-select
+            v-model="value3"
+            multiple
+            collapse-tags
+            style="margin-left: 20px;"
+            placeholder="请选择">
+            <el-option
+              v-for="item in options1"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+      </div>
+      <div class="content" v-if="!isShow1">
+        <div class="description">
+          	为<code>el-select</code>设置<code>multiple</code>属性即可启用多选，此时<code>v-model</code>的值为当前选中值所组成的数组。默认情况下选中值会以 Tag 的形式展现，你也可以设置<code>collapse-tags</code>属性将它们合并为一段文字。
+        </div>
+        <pre><code>
+&lt;el-select v-model="value1" multiple placeholder="请选择"&gt;
+  &lt;el-option
+    v-for="item in options"
+    :key="item.value"
+    :label="item.label"
+    :value="item.value"&gt;
+  &lt;/el-option&gt;
+&lt;/el-select&gt;
+
+&lt;el-select
+  v-model="value2"
+  multiple
+  collapse-tags
+  style="margin-left: 20px;"
+  placeholder="请选择"&gt;
+  &lt;el-option
+    v-for="item in options"
+    :key="item.value"
+    :label="item.label"
+    :value="item.value"&gt;
+  &lt;/el-option&gt;
+&lt;/el-select&gt;
+
+&lt;script&gt;
+  data() {
+    return {
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶',
+        disabled: true
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value1: [],
+      value2: []
+    };
+  }
+&lt;script&gt;  
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow1">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow1 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>自定义模板</h2>
+    <h5>可以自定义备选项</h5>
+    <div class="demo-block">
+      <div class="source">
+      	  <el-select v-model="value9" placeholder="请选择">
+		    <el-option
+		      v-for="item in cities"
+		      :key="item.value"
+		      :label="item.label"
+		      :value="item.value">
+		      <span style="float: left">{{ item.label }}</span>
+		      <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+		    </el-option>
+		  </el-select>
+      </div>
+      <div class="content" v-if="!isShow9">
+        <div class="description">
+          	将自定义的 HTML 模板插入<code>el-option</code>的 slot 中即可。
+        </div>
+        <pre><code>
+&lt;el-select v-model="value" placeholder="请选择"&gt;
+  &lt;el-option
+    v-for="item in cities"
+    :key="item.value"
+    :label="item.label"
+    :value="item.value"&gt;
+    &lt;span style="float: left"&gt;<span v-pre>{{ item.label }}</span>&lt;/span&gt;
+    &lt;span style="float: right; color: #8492a6; font-size: 13px"&gt;{{ item.value }}&lt;/span&gt;
+  &lt;/el-option&gt;
+&lt;/el-select&gt;          
+&lt;script&gt;
+  data() {
+    return {
+      cities: [{
+        value: 'Beijing',
+        label: '北京'
+      }, {
+        value: 'Shanghai',
+        label: '上海'
+      }, {
+        value: 'Nanjing',
+        label: '南京'
+      }, {
+        value: 'Chengdu',
+        label: '成都'
+      }, {
+        value: 'Shenzhen',
+        label: '深圳'
+      }, {
+        value: 'Guangzhou',
+        label: '广州'
+      }],
+      value: ''
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow9">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow9 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>分组</h2>
+    <h5>备选项进行分组展示</h5>
+    <div class="demo-block">
+      <div class="source">
+      	  <el-select v-model="value10" placeholder="请选择">
+		    <el-option-group
+		      v-for="group in options7"
+		      :key="group.label"
+		      :label="group.label">
+		      <el-option
+		        v-for="item in group.options"
+		        :key="item.value"
+		        :label="item.label"
+		        :value="item.value">
+		      </el-option>
+		    </el-option-group>
+		  </el-select>
+      </div>
+      <div class="content" v-if="!isShow10">
+        <div class="description">
+          	使用<code>el-option-group</code>对备选项进行分组，它的<code>label</code>属性为分组名
+        </div>
+        <pre><code>
+&lt;el-select v-model="value" placeholder="请选择"&gt;
+  &lt;el-option-group
+    v-for="group in options"
+    :key="group.label"
+    :label="group.label"&gt;
+    &lt;el-option
+      v-for="item in group.options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"&gt;
+    &lt;/el-option&gt;
+  &lt;/el-option-group&gt;
+&lt;/el-select&gt;          
+&lt;script&gt;
+  data() {
+    return {
+      options: [{
+        label: '热门城市',
+        options: [{
+          value: 'Shanghai',
+          label: '上海'
+        }, {
+          value: 'Beijing',
+          label: '北京'
+        }]
+      }, {
+        label: '城市名',
+        options: [{
+          value: 'Chengdu',
+          label: '成都'
+        }, {
+          value: 'Shenzhen',
+          label: '深圳'
+        }, {
+          value: 'Guangzhou',
+          label: '广州'
+        }, {
+          value: 'Dalian',
+          label: '大连'
+        }]
+      }],
+      value: ''
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow10">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow10 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>可搜索</h2>
+    <h5>可以利用搜索功能快速查找选项</h5>
+    <div class="demo-block">
+      <div class="source">
+          <el-select v-model="value4" filterable placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+      </div>
+      <div class="content" v-if="!isShow2">
+        <div class="description">
+          	为el-select添加<code>filterable</code>属性即可启用搜索功能。默认情况下，<code>Select </code>会找出所有<code>label</code>属性包含输入值的选项。如果希望使用其他的搜索逻辑，可以通过传入一个<code>filter-method</code>来实现。<code>filter-method</code>为一个<code>Function</code>，它会在输入值发生变化时调用，参数为当前输入值。
+        </div>
+        <pre><code>
+&lt;el-select v-model="value" filterable placeholder="请选择"&gt;
+  &lt;el-option
+    v-for="item in options"
+    :key="item.value"
+    :label="item.label"
+    :value="item.value"&gt;
+  &lt;/el-option&gt;
+&lt;/el-select&gt;
+
+&lt;script&gt;
+  data() {
+    return {
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value: ''
+    };
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow2">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow2 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>远程搜索</h2>
+    <h5>从服务器搜索数据，输入关键字进行查找</h5>
+    <div class="demo-block">
+      <div class="source">
+      	  <el-select
+		    v-model="value11"
+		    multiple
+		    filterable
+		    remote
+		    reserve-keyword
+		    placeholder="请输入关键词"
+		    :remote-method="remoteMethod"
+		    :loading="loading">
+		    <el-option
+		      v-for="item in options8"
+		      :key="item.value"
+		      :label="item.label"
+		      :value="item.value">
+		    </el-option>
+		  </el-select>
+      </div>
+      <div class="content" v-if="!isShow11">
+        <div class="description">
+          	为了启用远程搜索，需要将<code>filterable</code>和<code>remote</code>设置为<code>true</code>，同时传入一个<code>remote-method</code>。<code>remote-method</code>为一个<code>Function</code>，它会在输入值发生变化时调用，参数为当前输入值。需要注意的是，如果<code>el-option</code>是通过<code>v-for</code>指令渲染出来的，此时需要为<code>el-option</code>添加<code>key</code>属性，且其值需具有唯一性，比如此例中的<code>item.value</code>。
+        </div>
+        <pre><code>
+&lt;el-select
+  v-model="value"
+  multiple
+  filterable
+  remote
+  reserve-keyword
+  placeholder="请输入关键词"
+  :remote-method="remoteMethod"
+  :loading="loading"&gt;
+  &lt;el-option
+    v-for="item in options"
+    :key="item.value"
+    :label="item.label"
+    :value="item.value"&gt;
+  &lt;/el-option&gt;
+&lt;/el-select&gt;       
+&lt;script&gt;
+  data() {
+    return {
+      options: [],
+      value: [],
+      list: [],
+      loading: false,
+      states: ["Alabama", "Alaska", "Arizona",
+      "Arkansas", "California", "Colorado",
+      "Connecticut", "Delaware", "Florida",
+      "Georgia", "Hawaii", "Idaho", "Illinois",
+      "Indiana", "Iowa", "Kansas", "Kentucky",
+      "Louisiana", "Maine", "Maryland",
+      "Massachusetts", "Michigan", "Minnesota",
+      "Mississippi", "Missouri", "Montana",
+      "Nebraska", "Nevada", "New Hampshire",
+      "New Jersey", "New Mexico", "New York",
+      "North Carolina", "North Dakota", "Ohio",
+      "Oklahoma", "Oregon", "Pennsylvania",
+      "Rhode Island", "South Carolina",
+      "South Dakota", "Tennessee", "Texas",
+      "Utah", "Vermont", "Virginia",
+      "Washington", "West Virginia", "Wisconsin",
+      "Wyoming"]
+    }
+  },
+  mounted() {
+    this.list = this.states.map(item => {
+      return { value: item, label: item };
+    });
+  },
+  methods: {
+    remoteMethod(query) {
+      if (query !== '') {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+          this.options = this.list.filter(item => {
+            return item.label.toLowerCase()
+              .indexOf(query.toLowerCase()) > -1;
+          });
+        }, 200);
+      } else {
+        this.options = [];
+      }
+    }
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow11">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow11 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>创建条目</h2>
+    <h5>可以创建并选中选项中不存在的条目</h5>
+    <div class="demo-block">
+      <div class="source">
+        <div>
+          <el-select
+            v-model="value5"
+            multiple
+            filterable
+            allow-create
+            default-first-option
+            placeholder="请选择文章标签">
+            <el-option
+              v-for="item in options2"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="content" v-if="!isShow3">
+        <div class="description">
+          	使用<code>allow-create</code>属性即可通过在输入框中输入文字来创建新的条目。注意此时<code>filterable</code>必须为真。本例还使用了<code>default-first-option</code>属性，在该属性打开的情况下，按下回车就可以选中当前选项列表中的第一个选项，无需使用鼠标或键盘方向键进行定位。
+        </div>
+        <pre><code>
+&lt;el-select
+  v-model="value"
+  multiple
+  filterable
+  allow-create
+  default-first-option
+  placeholder="请选择文章标签"&gt;
+  &lt;el-option
+    v-for="item in options"
+    :key="item.value"
+    :label="item.label"
+    :value="item.value"&gt;
+  &lt;/el-option&gt;
+&lt;/el-select&gt;
+
+&lt;script&gt;
+  data() {
+    return {
+      options: [{
+        value: 'HTML',
+        label: 'HTML'
+      }, {
+        value: 'CSS',
+        label: 'CSS'
+      }, {
+        value: 'JavaScript',
+        label: 'JavaScript'
+      }],
+      value: []
+    }
+  }
+&lt;/script&gt;  
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow3">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow3 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>树型选择器</h2>
+    <div class="demo-block">
+      <div class="source">
+        <el-form inline>
+          <el-form-item label="">
+          	<treeselect :options="options6" :value="valueId" :props="defaultProps" @getvalue="getvalue" placeholder="无上级"></treeselect>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="content" v-if="!isShow6">
+        <div class="description">
+        	使用<code>placeholder</code>属性即可修改输入框占位文本，默认值为请选择
+        </div>
+        <pre>
+          <code>
+&lt;treeselect :options="options" :value="valueId" :props="defaultProps" @getvalue="getvalue" placeholder="无上级"&gt;&lt;/treeselect&gt;
+&lt;script&gt;
+   data() {
+     return {
+       valueId: '3',
+       defaultProps: {
+	  	 value: 'id',
+	     label: 'label',
+	     children: 'children'
+       },
+       options: [
+         {
+           id: 1,
+           label: '一级 1',
+           children: [
+             {
+               id: 4,
+               label: '二级 1-1',
+               children: [
+                 {
+                   id: 9,
+                   label: '三级 1-1-1'
+                 }, 
+                 {
+                   id: 10,
+                   label: '三级 1-1-2'
+                 }
+               ]
+              }
+            ]
+          }, 
+           {
+	         id: 2,
+	         label: '一级 2',
+	         children: [
+	           {
+	             id: 5,
+	             label: '二级 2-1'
+	           }, 
+	           {
+	             id: 6,
+	             label: '二级 2-2'
+	           }
+	         ]
+           }, 
+           {
+             id: 3,
+             label: '一级 3',
+             children: [
+               {
+                 id: 7,
+                 label: '二级 3-1'
+               }, 
+               {
+                 id: 8,
+                 label: '二级 3-2'
+               }
+             ]
+           }
+        ]
+     }
+   },
+   methods: {
+     getvalue(value,label){
+       this.valueId = value;
+     }
+   },
+ &lt;/script&gt;  
+          </code>
+        </pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow6">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow6 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <div id="table">
+      <h1>Select Attributes</h1>
+      <el-table
+        ref="singleTable"
+        :data="attributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型">
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Select Events</h1>
+      <el-table
+        ref="singleTable"
+        :data="events"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="事件名称">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="parameter"
+          label="回调参数">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Select Slots</h1>
+      <el-table
+        ref="singleTable"
+        :data="slot"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="name">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Option Group Attributes</h1>
+      <el-table
+        ref="singleTable"
+        :data="GroupAttributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型">
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Option Attributes</h1>
+      <el-table
+        ref="singleTable"
+        :data="OptionAttributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型">
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Methods</h1>
+      <el-table
+        ref="singleTable"
+        :data="methods"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="事件名称">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="parameter"
+          label="回调参数">
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</template>

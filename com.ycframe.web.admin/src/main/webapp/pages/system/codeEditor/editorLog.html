@@ -1,0 +1,93 @@
+<template id="editorLog">
+	<div class="data">
+		<meta charset="UTF-8">
+		<div class="head box-header ">
+          <div>
+          </div>
+         <div>
+         	 <el-button type="primary" @click="query" style="text-align:right">查询</el-button>
+         </div>
+    </div>
+		<el-form :model="form" ref="ruleForm" :rules="rules"  label-width="100px">
+	    	<!-- <el-row style="margin-top:10px;">
+				  	<el-col :span="8">
+				    	<el-form-item   label="模块名" >
+				               <el-input v-model="form.model_name" placeholder="" clearable ></el-input>
+				        </el-form-item>
+			    	</el-col>
+			    	<el-col :span="8">
+				    	<el-form-item   label="模块编码" >
+				               <el-input v-model="form.model_code" placeholder="" clearable ></el-input>
+				        </el-form-item>
+			    	</el-col>
+			    	<el-col :span="8">
+				    	<el-form-item   label="用途描述" >
+				               <el-input v-model="form.model_describe" placeholder="" clearable ></el-input>
+				        </el-form-item>
+			    	</el-col>
+			    </el-row> -->	
+			    <el-row>
+			    	<el-col :span="8">
+				    	<el-form-item   label="执行人" >
+				               <el-input v-model="form.zxr" placeholder="" clearable @change="query"></el-input>
+				        </el-form-item>
+			    	</el-col>
+			    	<el-col :span="8">
+				        <el-form-item   label="执行时间" >
+							<el-date-picker v-model="zxsj" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" @change="query">
+							</el-date-picker>
+						</el-form-item>
+			    	</el-col>
+			    	
+			    </el-row>	
+	    </el-form>
+		<div class="list" style="height:400px;">
+        	<el-table height='100%' :data="tableData" border  v-loading="loading" 
+		    		  element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading"  @sort-change="sortChange"
+		    		  align="center" header-align="center" v-loading="loading" element-loading-text="拼命加载中">
+					<el-table-column type="index" label="序号" width="50px" height="40px" :index="indexMethod" align="center" header-align="center">
+					</el-table-column>
+	          		<el-table-column prop="model_name" label="模块名" sortable="custom"></el-table-column>
+	          		<el-table-column prop="model_code" label="模块编码" sortable="custom"></el-table-column>
+	          		<el-table-column prop="version" label="执行版本" sortable="custom"></el-table-column>
+	          		<el-table-column prop="xm" label="执行人" sortable="custom"></el-table-column>
+	          		<el-table-column prop="use_time" label="执行时间" sortable="custom"></el-table-column>
+					
+					<el-table-column label="操作"  align="center" width="220px">
+						<template slot-scope="scope">
+							<el-button type="primary" size="medium"  @click.stop="srscsj( scope.row)">
+								输入输出数据
+							</el-button>
+							<el-button type="primary" size="medium" @click.stop="del(scope.row)">
+								删除
+							</el-button>
+						</template>	
+					</el-table-column>
+			</el-table>
+        	<!-- <div class="pagination">
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+							   :page-sizes="[10,20,40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total=total>
+				</el-pagination>
+			</div> -->
+      	</div>
+      	<el-dialog title="输入输出数据" width="80%" :visible.sync="isDialog" append-to-body
+		 :close-on-click-modal="false" v-if="isDialog">
+			<el-form :model="form1" ref="ruleForm" :rules="rules"  label-width="100px">
+			     <el-row style="margin-top:10px">
+                  	<el-col :span="24">
+				        <el-form-item label="输入">
+				        	<el-input v-model="form1.input" type="textarea" :rows="3" :rows="3"splaceholder="输入数据" ></el-input>
+				        </el-form-item>
+			        </el-col>
+			    </el-row>	
+			    <el-row style="margin-top:10px">
+                  	<el-col :span="24">
+				        <el-form-item label="输出">
+				        	<el-input v-model="form1.output" type="textarea" :rows="3" :rows="3"splaceholder="输出数据" ></el-input>
+				        </el-form-item>
+			        </el-col>
+			    </el-row>	
+	    	</el-form>
+		</el-dialog>
+	</div>
+</template>

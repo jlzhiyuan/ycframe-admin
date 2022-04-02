@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="./">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" media="screen" href="ui/css/components.css" />
+  <title>ycframe-admin系统</title>
+  <script src="ui/js/vue.js"></script>
+  <script src="ui/js/vuex.js"></script>
+  <script src="ui/js/components.js" type="text/javascript" charset="utf-8"></script>
+  <script src="ui/js/store.js" type="text/javascript" charset="utf-8"></script>
+  <script src="ui/js/jquery.js"></script> 
+  <script src="common/js/ycframe.loader.js"></script> 
+  <script type="text/javascript" src="ui/frame/rsa2.min.js"></script>
+  <script type="text/javascript" src="ui/frame/RsaCrypt.js"></script> 
+  <script src="ui/js/three.min.js"></script> 
+  <script src="./ui/loginui.js"></script>
+ <script src="./app.js"></script>
+  
+  <style>
+    body, html {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    #login { 
+      width: 100%;
+      height: 100%;
+	  display: table;
+    }
+    .container {
+		width: 100%;
+		height: 100%; 
+		background-size: 100% 100%;
+		vertical-align: middle;
+		display: table-cell;
+    }
+    .login-form {
+      
+     
+   
+      z-index: 10000;
+     
+      width: 400px;
+      height: 354px;
+      background-color: rgb(255 255 255 / 15%);
+      border-radius: 8px;
+      border: 1px solid #bcc6cf;
+	  margin-left: auto;
+      margin-right: auto;
+    }
+    .login-form .el-form {
+      width: 90%;
+    }
+    .login-form .el-checkbox {
+     margin-left: 30px;
+    }
+    h3 {
+      text-align: center;
+      margin: 30px 0 40px 0;
+    }
+    .login-form .el-button {
+      display: block;
+      width: 80%;
+      margin: 20px 10%;
+      background-color: #409eff;
+      border: 1px solid #409eff;
+    }
+    .footer {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: #fff;
+      color: #000;
+      text-align: center;
+    }
+    a {
+      text-decoration: none;
+      display: block;
+    }
+    
+    .logo {
+	    line-height: 50px;
+	    text-align: center;
+	    
+	    width: 188px;
+		height:100px;
+		margin: 0 auto;
+	}
+	
+	.logo img {
+		position: relative;
+	  	width: 100%;
+	  	height: 100%;
+	}
+	.whitelabel .el-form-item__label{
+		color:#FFFFFF;
+	}
+  </style>
+</head>
+<body>
+  <div id="login" ref="login">
+    <div id="container" class="container">
+      <div class="login-form" v-loading="loading">
+         <div class="logo">
+                <!-- <img src="./ui/img/cat.png" /> -->
+                <h2 class="title">ycframe-admin</h2>
+              </div>
+              
+        <el-form ref="loginForm"  :rules="rules" label-position="right" label-width="80px" :model="loginForm">
+          <el-form-item label="用户名" prop="username" class="whitelabel">
+            <el-input v-model="loginForm.username" prop="username" ref="username" @keyup.enter.native="enter()"></el-input>
+          </el-form-item>
+          <el-form-item label="密码"  prop="password" class="whitelabel">
+            <el-input type="password"  v-model="loginForm.password" prop="password" ref="password" @keyup.enter.native="handleLogin()"></el-input>
+          </el-form-item>
+          <el-input v-show="false" v-model="loginForm.passwordcode"></el-input>
+        </el-form>
+        <el-checkbox v-model="loginForm.rememberMe">记住密码</el-checkbox>
+        <el-button type="primary" @click="handleLogin">登录</el-button>
+        <span style="text-align: center;display:block;font-color:red">{{messageTip}}</span>
+      </div>
+    </div>
+  </div> 
+  <script> 
+	
+
+showlogin3d();
+    var vm = new Vue({
+      el: '#login',
+      store:store,
+      data() {
+        return {
+        	/* isFocus1: false,
+        	isFocus: true, */
+        	 rules: {
+        		 username: [
+                 	{ required: true,message:'用户名不能为空', trigger: 'blur' }
+                   ],
+                   password: [
+                     { required: true,message:'密码不能为空', trigger: 'blur' }
+                   ]
+                 },
+        	messageTip:"",
+        	loading:false, 
+          loginForm: {
+            /* username: 'admin',
+            password: '1111111' */
+        	  username: '',
+        	  passwordcode: '',
+        	  passwordecc:'',
+        	  rememberMe:false
+        	  
+          },
+          url: '',
+          checked: false,
+          routers: [
+            
+          ]
+        }
+      },
+      mounted() {
+ 
+    	  
+    	  
+    	  this.$refs.username.focus();
+      },
+      computed:{ 
+      },
+      methods: {
+    	enter() {
+    		this.$refs.password.focus();
+    	},
+        handleLogin() {
+          var that = this;
+		  
+          this.$refs.loginForm.validate(valid => {
+            if (valid) {
+              that.loading=true;
+              var m  = getModulus();
+      		  var e = getPE();
+      		  var key = RSAUtils.getKeyPair(e, '', m);
+      		  var rtext = that.loginForm.password.split("").reverse().join("");
+      		  var enpassword = values = RSAUtils.encryptedString(key, rtext);
+      	      that.loginForm.passwordcode = enpassword; 
+      	      that.loginForm.password = "";
+      	      
+      	    $$.login.login({data:this.loginForm,success:function(data){
+            		 if(data.code==0){
+            			 window.location.href = 'main.html';
+            		 }else{
+            			 that.$message({
+                             showClose: true,
+                             message:  data.message,
+                             type: 'error'
+                           });
+            			 that.loading=false;
+            		 }
+            	}}); 
+            	
+            }  else {
+            	if (this.loginForm.username == '') {
+            		 this.$refs.username.focus();
+            	} else if (this.loginForm.password != ''){
+            		 this.$refs.password.focus();
+            	}
+            } 
+          })
+        }
+      }
+    })
+  </script>
+
+</body>
+</html>

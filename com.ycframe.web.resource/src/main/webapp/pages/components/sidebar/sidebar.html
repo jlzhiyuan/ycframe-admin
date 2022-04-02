@@ -1,0 +1,26 @@
+<template id="sidebar">
+     
+      <!-- 最后一级菜单 -->
+       <el-menu-item
+        v-if="menu.children.length==0"
+        :data="menu"
+        :index="menu.path"
+        :route="menu.path"
+      >
+        <i :class="menu.meta.icon"></i>
+        <span slot="title" clss="item_title">{{ menu.meta.title }}</span>
+      </el-menu-item> 
+
+      <!-- 此菜单下还有子菜单 -->
+        <el-submenu
+        v-else
+        :data="menu"
+        :index="menu.meta.title"
+      >
+        <template slot="title">
+          <i :class="menu.meta.icon"></i>
+          <span clss="item_title"> {{ menu.meta.title }}</span>
+        </template> 
+        <sidebar :menu="childItem" v-for="(childItem,index) in menu.children" :key="childItem.id"></sidebar>
+      </el-submenu>  
+</template>

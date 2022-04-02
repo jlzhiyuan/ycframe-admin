@@ -1,0 +1,70 @@
+<template id="personalPage">
+  <div style="width: 100%;height: 100%;padding: 10px;" class="personalPage">
+    <el-tabs :tab-position="tabPosition" v-model="activeName" style="height: 100%;" @tab-click="handleClick">
+	  <el-tab-pane label="个人资料" name="first">
+	     <div class="formBox">
+	        <el-form :model="form2" ref="ruleForm2" :rules="rules2" label-width="100px">
+	        <el-row>
+	         <el-row>
+	            <el-col :span="12">
+	              <el-form-item label="部门名称" prop="bmmc">
+	                 <el-input :disabled="true" v-model="form2.bmmc" placeholder=""></el-input>
+	              </el-form-item>
+	            </el-col>
+	            <el-col :span="12">
+	              <el-form-item label="性别" prop="sex">
+	               <el-input :disabled="true" v-model.number="form2.sex" placeholder=""></el-input>
+	              </el-form-item>
+	            </el-col>
+	           
+	          </el-row>
+	        	<el-col :span="12">
+	              <el-form-item label="电话" prop="Telephone1">
+	                <el-input v-model.number="form2.Telephone1" placeholder=""></el-input>
+	              </el-form-item>
+	            </el-col>
+	            <el-col :span="12">
+	              <el-form-item label="备用电话" prop="Telephone2">
+	                <el-input v-model.number="form2.Telephone2" placeholder=""></el-input>
+	              </el-form-item>
+	            </el-col>
+	          </el-row>
+	          <el-row>
+	             <el-col :span="12">
+	              <el-form-item label="人员名称" prop="realName">
+	                <el-input v-model="form2.realName" placeholder=""></el-input>
+	              </el-form-item>
+	            </el-col>
+	          </el-row>
+	        </el-form>
+	      </div>
+	      <div style="position: absolute;bottom: 0;width: 100%;text-align: center;">
+	       <!--  <el-button type="primary" @click="cancel2">返回</el-button> -->
+            <el-button type="primary" @click="updateData2('ruleForm2')">保存</el-button>
+	      </div>
+	  </el-tab-pane>
+	  <el-tab-pane label="修改密码" name="second">
+	    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="left" label-width="auto">
+           
+            <el-form-item  label="部门名称" prop="bmmc">
+              <el-input :disabled="true" v-model="form.bmmc"></el-input>
+            </el-form-item>
+            <el-form-item label="登录名" prop="loginName">
+              <el-input :disabled="true" v-model="form.loginName"></el-input>
+            </el-form-item>
+             <el-form-item label="新密码" prop="newPwd">
+              <el-input type="password" v-model="form.newPwd"></el-input>
+            </el-form-item>
+            <el-form-item label="确认密码" prop="confirmPwd">
+              <el-input type="password" v-model="form.confirmPwd"></el-input>
+            </el-form-item>
+           
+        </el-form>
+        <div style="position: absolute;bottom: 0;width: 100%;text-align: center;">
+        	<!-- <el-button type="primary" @click="cancel">取 消</el-button> -->
+            <el-button type="primary" @click="updateData('ruleForm')">确 定</el-button>
+        </div>
+	  </el-tab-pane>
+	</el-tabs>
+  </div>
+</template>

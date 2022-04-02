@@ -1,0 +1,15 @@
+<template id="statistic">
+  <div class="statistic">
+    <div class="statistic-title">{{ title }}</div>
+    <div class="statistic-content" :style="{color: color}">
+      <span class="statistic-content-prefix" style="margin-left:-5px;">
+        <i :class="prefix" style="font-size:26px;"></i>
+      </span>
+      <span class="statistic-content-value">
+        <span class="value-int">{{ number }}</span>
+        <span class="value-decimal" style="font-size:16px;">{{decimal}}</span>
+      </span>
+      <span class="statistic-content-suffix">{{ suffix }}</span>
+    </div>
+  </div>
+</template>

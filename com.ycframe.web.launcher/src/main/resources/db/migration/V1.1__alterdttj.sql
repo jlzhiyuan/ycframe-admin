@@ -1,0 +1,1 @@
+alter table dttj rename to system_log_dttj;

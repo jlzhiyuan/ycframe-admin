@@ -1,0 +1,254 @@
+<template id="WidgetForm">
+	<div class="widget-form-container">
+    <div v-if="data.list.length == 0" class="form-empty" style="z-index: 10;">从左侧拖拽来添加字段</div>
+    <el-form style="width:100%;height:100%;">
+      
+      <draggable class="" 
+      	style="width:100%;height:100%;"
+        v-model="data.list" 
+        v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"
+        @end="handleMoveEnd"
+        @add="handleWidgetAdd"
+      >
+
+        <transition-group name="fade" tag="div" class="widget-form-list" style="min-height: calc(100% - 10px);position:relative;">
+          <template v-for="(element, index) in data.list">
+            <template v-if="element.type == 'grid'">
+                <el-row class="widget-col widget-view" v-if="element && element.key" :key="element.key" 
+                  type="flex"
+                  :class="{active: selectWidget.key == element.key}"
+                  :gutter="element.options.gutter ? element.options.gutter : 0"
+                  :justify="element.options.justify"
+                  :align="element.options.align"
+                  @click.native="handleSelectWidget(index)">
+                  <el-col  v-for="(col, colIndex) in element.columns" :key="colIndex" :span="col.span ? col.span : 0">
+                    
+                      <draggable
+                        v-model="col.list"
+                        :no-transition-on-drag="true"
+                        v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"
+                        @end="handleMoveEnd"
+                        @add="handleWidgetColAdd($event, element, colIndex)"
+                      >
+                        <transition-group name="fade" tag="div" class="widget-col-list">
+                          <widget-form-item 
+                            v-for="(el, i) in col.list"
+                            :key="el.key"
+                            v-if="el.key"
+                            :element="el"
+                            :select.sync="selectWidget"
+                            :index="i" 
+                            :data="col">
+                          </widget-form-item>
+                        </transition-group>
+                        
+                      </draggable>
+                  </el-col>
+                  <div class="widget-view-action widget-col-action" v-if="selectWidget.key == element.key">
+        
+                    <i class="iconfont icon-shanchu" @click.stop="handleWidgetDelete(index)"></i>
+                  </div>
+
+                  <div class="widget-view-drag widget-col-drag" v-if="selectWidget.key == element.key">
+                    <i class="iconfont icon-drag drag-widget"></i>
+                  </div>
+                </el-row>
+            </template>
+            <template v-else-if="element.type == 'form'">
+            	<el-form class="widget-col widget-view nnn"  v-if="element && element.key" :key="element.key" style="width:100%;height:200px;" :class="{active: selectWidget.key == element.key}" @click.native="handleSelectWidget(index)">
+                      <div style="height:100%;" v-for="(col, colIndex) in element.columns" :key="colIndex" :style="{width:col.width}">
+	                      <common-components ref="widgetForm" :data="col" :select.sync="selectWidget"></common-components>
+                      </div>
+                      <div class="widget-view-action widget-col-action" v-if="selectWidget.key == element.key">
+        
+	                    <i class="iconfont icon-shanchu" @click.stop="handleWidgetDelete(index)"></i>
+	                  </div>
+	
+	                  <div class="widget-view-drag widget-col-drag" v-if="selectWidget.key == element.key">
+	                    <i class="iconfont icon-drag drag-widget"></i>
+	                  </div>
+            	</el-form>
+            </template>
+            <template v-else-if="element.type == 'formitem'">
+                <el-row class="widget-col widget-view" v-if="element && element.key" :key="element.key" 
+                  type="flex"
+                  :class="{active: selectWidget.key == element.key}"
+                  :gutter="element.options.gutter ? element.options.gutter : 0"
+                  :justify="element.options.justify"
+                  :align="element.options.align"
+                  @click.native="handleSelectWidget(index)">
+                  <el-col  v-for="(col, colIndex) in element.columns" :key="colIndex" :span="col.span ? col.span : 0">
+                    
+                      <draggable
+                        v-model="col.list"
+                        :no-transition-on-drag="true"
+                        v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"
+                        @end="handleMoveEnd"
+                        @add="handleWidgetColAdd($event, element, colIndex)"
+                      >
+                        <transition-group name="fade" tag="div" class="widget-col-list">
+                          <widget-form-item 
+                            v-for="(el, i) in col.list"
+                            :key="el.key"
+                            v-if="el.key"
+                            :element="el"
+                            :select.sync="selectWidget"
+                            :index="i" 
+                            :data="col">
+                          </widget-form-item>
+                        </transition-group>
+                        
+                      </draggable>
+                  </el-col>
+                  <div class="widget-view-action widget-col-action" v-if="selectWidget.key == element.key">
+        
+                    <i class="iconfont icon-shanchu" @click.stop="handleWidgetDelete(index)"></i>
+                  </div>
+
+                  <div class="widget-view-drag widget-col-drag" v-if="selectWidget.key == element.key">
+                    <i class="iconfont icon-drag drag-widget"></i>
+                  </div>
+                </el-row>
+            </template>
+            <template v-else-if="element.type == 'container-row'">
+            	<el-container class="widget-col widget-view"  v-if="element && element.key" :key="element.key" style="position: absolute;top:0;left:0;width:100%;height:100%;" :class="{active: selectWidget.key == element.key}" @click.native="handleSelectWidget(index)">
+                      <!-- <common-components ref="widgetForm" :data="element.columns[0]" :select.sync="selectWidget"></common-components> -->
+                      <div style="height:100%;" v-for="(col, colIndex) in element.columns" :key="colIndex" :style="{width:col.width}">
+	                      <common-components ref="widgetForm" :data="col" :select.sync="selectWidget"></common-components>
+                      </div>
+                      <div class="widget-view-action widget-col-action" v-if="selectWidget.key == element.key">
+        
+	                    <i class="iconfont icon-shanchu" @click.stop="handleWidgetDelete(index)"></i>
+	                  </div>
+	
+	                  <div class="widget-view-drag widget-col-drag" v-if="selectWidget.key == element.key">
+	                    <i class="iconfont icon-drag drag-widget"></i>
+	                  </div>
+            	</el-container>
+            </template>
+            <template v-else-if="element.type == 'container'">
+            	<el-container class="widget-col widget-view"  v-if="element && element.key" :key="element.key" style="position: absolute;top:0;left:0;width:100%;height:100%;" :class="{active: selectWidget.key == element.key}" @click.native="handleSelectWidget(index)">
+                      <!-- <common-components ref="widgetForm" :data="element.columns[0]" :select.sync="selectWidget"></common-components> -->
+                      <div style="height:100%;" v-for="(col, colIndex) in element.columns" :key="colIndex" :style="{width:col.width}">
+	                      <common-components ref="widgetForm" :data="col" :select.sync="selectWidget" :containerflex="element.options.disabled"></common-components>
+                      </div>
+                      <div class="widget-view-action widget-col-action" v-if="selectWidget.key == element.key">
+        
+	                    <i class="iconfont icon-shanchu" @click.stop="handleWidgetDelete(index)"></i>
+	                  </div>
+	
+	                  <div class="widget-view-drag widget-col-drag" v-if="selectWidget.key == element.key">
+	                    <i class="iconfont icon-drag drag-widget"></i>
+	                  </div>
+            	</el-container>
+            </template>
+            <template v-else-if="element.type == 'header'">
+            	<el-header class="widget-col widget-view" v-if="element && element.key" :key="element.key" :class="{active: selectWidget.key == element.key}" @click.native="handleSelectWidget(index)">
+            		<div style="width:100%;height:100%;" v-for="(col, colIndex) in element.columns" :key="colIndex">
+                      	<common-components ref="widgetForm" :data="col" :select.sync="selectWidget"></common-components>
+                    </div>
+            		<!-- <div style="width:100%;height:100%;" v-for="(col, colIndex) in element.columns" :key="colIndex">
+                      	<draggable
+	                        v-model="col.list"
+	                        :no-transition-on-drag="true"
+	                        v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"
+	                        @end="handleMoveEnd"
+	                        @add="handleWidgetColAdd($event, element, colIndex)"
+	                      >
+	                        <transition-group name="fade" tag="div" class="widget-col-list">
+	                          <widget-form-item 
+	                            v-for="(el, i) in col.list"
+	                            :key="el.key"
+	                            v-if="el.key"
+	                            :element="el"
+	                            :select.sync="selectWidget"
+	                            :index="i" 
+	                            :data="col">
+	                          </widget-form-item>
+	                        </transition-group>
+	                        
+	                      </draggable>
+                      </div> -->
+            		<div class="widget-view-action widget-col-action" v-if="selectWidget.key == element.key">
+        
+	                    <i class="iconfont icon-shanchu" @click.stop="handleWidgetDelete(index)"></i>
+	                </div>
+	
+	                <div class="widget-view-drag widget-col-drag" v-if="selectWidget.key == element.key">
+	                    <i class="iconfont icon-drag drag-widget"></i>
+	                </div>
+            	</el-header>
+            </template>
+            <template v-else-if="element.type == 'main'">
+            	<el-main class="widget-col widget-view" v-if="element && element.key" :key="element.key" :class="{active: selectWidget.key == element.key}" @click.native="handleSelectWidget(index)">
+            		<div style="width:100%;height:100%;" v-for="(col, colIndex) in element.columns" :key="colIndex">
+                      	<common-components ref="widgetForm" :data="col" :select.sync="selectWidget"></common-components>
+                    </div>
+            		<div class="widget-view-action widget-col-action" v-if="selectWidget.key == element.key">
+        
+	                    <i class="iconfont icon-shanchu" @click.stop="handleWidgetDelete(index)"></i>
+	                </div>
+	
+	                <div class="widget-view-drag widget-col-drag" v-if="selectWidget.key == element.key">
+	                    <i class="iconfont icon-drag drag-widget"></i>
+	                </div>
+            	</el-main>
+            </template>
+            <template v-else-if="element.type == 'aside'">
+            	<el-aside class="widget-col widget-view" v-if="element && element.key" :key="element.key" :class="{active: selectWidget.key == element.key}" @click.native="handleSelectWidget(index)" style="width:250px;height:100%;">
+            		<div style="width:100%;height:100%;" v-for="(col, colIndex) in element.columns" :key="colIndex">
+                      	<common-components ref="widgetForm" :data="col" :select.sync="selectWidget"></common-components>
+                    </div>
+            		<div class="widget-view-action widget-col-action" v-if="selectWidget.key == element.key">
+        
+	                    <i class="iconfont icon-shanchu" @click.stop="handleWidgetDelete(index)"></i>
+	                </div>
+	
+	                <div class="widget-view-drag widget-col-drag" v-if="selectWidget.key == element.key">
+	                    <i class="iconfont icon-drag drag-widget"></i>
+	                </div>
+            	</el-aside>
+            </template>
+            <template v-else-if="element.type == 'footer'">
+            	<el-footer class="widget-col widget-view" v-if="element && element.key" :key="element.key" :class="{active: selectWidget.key == element.key}" @click.native="handleSelectWidget(index)">
+            		<div style="width:100%;height:100%;" v-for="(col, colIndex) in element.columns" :key="colIndex">
+            			<draggable
+	                        v-model="col.list"
+	                        :no-transition-on-drag="true"
+	                        v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"
+	                        @end="handleMoveEnd"
+	                        @add="handleWidgetColAdd($event, element, colIndex)"
+	                      >
+	                        <transition-group name="fade" tag="div" class="widget-col-list">
+	                          <widget-form-item 
+	                            v-for="(el, i) in col.list"
+	                            :key="el.key"
+	                            v-if="el.key"
+	                            :element="el" 
+	                            :select.sync="selectWidget" 
+	                            :index="i" 
+	                            :data="col">
+	                          </widget-form-item>
+	                        </transition-group>
+	                        
+	                    </draggable>
+                    </div>
+            		<div class="widget-view-action widget-col-action" v-if="selectWidget.key == element.key">
+        
+	                    <i class="iconfont icon-shanchu" @click.stop="handleWidgetDelete(index)"></i>
+	                </div>
+	
+	                <div class="widget-view-drag widget-col-drag" v-if="selectWidget.key == element.key">
+	                    <i class="iconfont icon-drag drag-widget"></i>
+	                </div>
+            	</el-footer>
+            </template>
+            <template v-else>
+              <widget-form-item v-if="element && element.key"  :key="element.key" :element="element" :select.sync="selectWidget" :index="index" :data="data"></widget-form-item>
+            </template>
+          </template>
+        </transition-group>
+      </draggable>
+    </el-form>
+  </div>
+</template>

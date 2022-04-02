@@ -1,0 +1,383 @@
+<template id="radio"> 
+  <div class="radio" style="height:99%;overflow:auto;" ref="radio"> 
+    <h1>Radio单选框</h1>
+    <h5>在一组备选项中进行单选。</h5>
+    <h2>基础布局</h2>
+    <h5>由于选项默认可见，不宜过多，若选项过多，建议使用 Select 选择器。</h5>
+    <div class="demo-block">
+      <div class="source">
+         <el-radio v-model="radio" label="1">备选项</el-radio>
+         <el-radio v-model="radio" label="2">备选项</el-radio>
+      </div>
+      <div class="content" v-if="!isShow">
+        <div class="description">
+            要使用 Radio 组件，只需要设置<code>v-model</code>绑定变量，选中意味着变量的值为相应 Radio <code>label</code>属性的值，<code>label</code>可以是<code>String</code>、<code>Number</code>或<code>Boolean</code>。
+        </div>
+        <pre><code>
+&lt;el-radio v-model="radio" label="1"&gt;备选项&lt;/el-radio&gt;
+&lt;el-radio v-model="radio" label="2"&gt;备选项&lt;/el-radio&gt;
+&lt;script&gt;
+  data () {
+    return {
+      radio: '1'
+    };
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>禁用状态</h2>
+    <h5>单选框不可用的状态。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-radio disabled v-model="radio1" label="禁用">备选项</el-radio>
+        <el-radio disabled v-model="radio1" label="选中且禁用">备选项</el-radio>
+      </div>
+      <div class="content" v-if="!isShow2">
+        <div class="description">
+          只要在el-radio元素中设置<code>disabled</code>属性即可，它接受一个<code>Boolean</code>，<code>true</code>为禁用。
+        </div>
+        <pre><code>
+&lt;el-radio disabled v-model="radio" label="禁用"&gt;备选项&lt;/el-radio&gt;
+&lt;el-radio disabled v-model="radio" label="选中且禁用"&gt;备选项&lt;/el-radio&gt;
+&lt;script&gt;
+  data () {
+    return {
+      radio: '选中且禁用'
+    };
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow2">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow2 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>单选框组</h2>
+    <h5>适用于在多个互斥的选项中选择的场景</h5>
+    <div class="demo-block">
+      <div class="source">
+      	<el-radio-group v-model="radio">
+		  <el-radio :label="3">备选项</el-radio>
+		  <el-radio :label="6">备选项</el-radio>
+		  <el-radio :label="9">备选项</el-radio>
+		</el-radio-group>
+      </div>
+      <div class="content" v-if="!isShow3">
+        <div class="description">
+          	结合<code>el-radio-group</code>元素和子元素<code>el-radio</code>可以实现单选组，在<code>el-radio-group</code>中绑定<code>v-model</code>，在<code>el-radio</code>中设置好<code>label</code>即可，无需再给每一个<code>el-radio</code>绑定变量，另外，还提供了<code>change</code>事件来响应变化，它会传入一个参数<code>value</code>。
+        </div>
+        <pre><code>
+&lt;el-radio-group v-model="radio2"&gt;
+  &lt;el-radio :label="3"&gt;备选项&lt;/el-radio&gt;
+  &lt;el-radio :label="6"&gt;备选项&lt;/el-radio&gt;
+  &lt;el-radio :label="9"&gt;备选项&lt;/el-radio&gt;
+&lt;/el-radio-group&gt;           
+&lt;script&gt;
+  data () {
+    return {
+      radio: 3
+    };
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow3">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow3 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>按钮样式</h2>
+    <h5>按钮样式的单选组合。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <div>
+		    <el-radio-group v-model="radio4">
+		      <el-radio-button label="上海"></el-radio-button>
+		      <el-radio-button label="北京"></el-radio-button>
+		      <el-radio-button label="广州"></el-radio-button>
+		      <el-radio-button label="深圳"></el-radio-button>
+		    </el-radio-group>
+		</div>
+		<div style="margin-top: 20px">
+		    <el-radio-group v-model="radio5" size="medium">
+		      <el-radio-button label="上海" ></el-radio-button>
+		      <el-radio-button label="北京"></el-radio-button>
+		      <el-radio-button label="广州"></el-radio-button>
+		      <el-radio-button label="深圳"></el-radio-button>
+		    </el-radio-group>
+		</div>
+		<div style="margin-top: 20px">
+		    <el-radio-group v-model="radio6" size="small">
+		      <el-radio-button label="上海"></el-radio-button>
+		      <el-radio-button label="北京" disabled ></el-radio-button>
+		      <el-radio-button label="广州"></el-radio-button>
+		      <el-radio-button label="深圳"></el-radio-button>
+		    </el-radio-group>
+		</div>
+		<div style="margin-top: 20px">
+		    <el-radio-group v-model="radio7" disabled size="mini">
+		      <el-radio-button label="上海"></el-radio-button>
+		      <el-radio-button label="北京"></el-radio-button>
+		      <el-radio-button label="广州"></el-radio-button>
+		      <el-radio-button label="深圳"></el-radio-button>
+		    </el-radio-group>
+		</div>
+      </div>
+      <div class="content" v-if="!isShow1">
+        <div class="description">
+          	只需要把<code>el-radio</code>元素换成<code>el-radio-button</code>元素即可，此外，Element 还提供了<code>size</code>属性。
+        </div>
+        <pre><code>
+&lt;div>
+  &lt;el-radio-group v-model="radio1"&gt;
+    &lt;el-radio-button label="上海"&gt;&lt;/el-radio-button&gt;
+    &lt;el-radio-button label="北京"&gt;&lt;/el-radio-button&gt;
+    &lt;el-radio-button label="广州"&gt;&lt;/el-radio-button&gt;
+    &lt;el-radio-button label="深圳"&gt;&lt;/el-radio-button&gt;
+  &lt;/el-radio-group&gt;
+&lt;/div&gt;
+&lt;div style="margin-top: 20px"&gt;
+  &lt;el-radio-group v-model="radio2" size="medium"&gt;
+    &lt;el-radio-button label="上海" &gt;&lt;/el-radio-button&gt;
+    &lt;el-radio-button label="北京"&gt;&lt;/el-radio-button&gt;
+    &lt;el-radio-button label="广州"&gt;&lt;/el-radio-button&gt;
+    &lt;el-radio-button label="深圳"&gt;&lt;/el-radio-button&gt;
+  &lt;/el-radio-group&gt;
+&lt;/div&gt;
+&lt;div style="margin-top: 20px"&gt;
+  &lt;el-radio-group v-model="radio3" size="small"&gt;
+    &lt;el-radio-button label="上海"&gt;&lt;/el-radio-button&gt;
+    &lt;el-radio-button label="北京" disabled &gt;&lt;/el-radio-button&gt;
+    &lt;el-radio-button label="广州"&gt;&lt;/el-radio-button&gt;
+    &lt;el-radio-button label="深圳"&gt;&lt;/el-radio-button&gt;
+  &lt;/el-radio-group&gt;
+&lt;/div&gt;
+&lt;div style="margin-top: 20px"&gt;
+  &lt;el-radio-group v-model="radio4" disabled size="mini"&gt;
+    &lt;el-radio-button label="上海"&gt;&lt;/el-radio-button&gt;
+    &lt;el-radio-button label="北京"&gt;&lt;/el-radio-button&gt;
+    &lt;el-radio-button label="广州"&gt;&lt;/el-radio-button&gt;
+    &lt;el-radio-button label="深圳"&gt;&lt;/el-radio-button&gt;
+  &lt;/el-radio-group&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  data () {
+    return {
+      radio1: '上海',
+      radio2: '上海',
+      radio3: '上海',
+      radio4: '上海'
+    };
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow1">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow1 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>带有边框</h2>
+    <div class="demo-block">
+      <div class="source">
+        <div>
+		    <el-radio v-model="radio8" label="1" border>备选项1</el-radio>
+		    <el-radio v-model="radio8" label="2" border>备选项2</el-radio>
+		  </div>
+		  <div style="margin-top: 20px">
+		    <el-radio v-model="radio9" label="1" border size="medium">备选项1</el-radio>
+		    <el-radio v-model="radio9" label="2" border size="medium">备选项2</el-radio>
+		  </div>
+		  <div style="margin-top: 20px">
+		    <el-radio-group v-model="radio10" size="small">
+		      <el-radio label="1" border>备选项1</el-radio>
+		      <el-radio label="2" border disabled>备选项2</el-radio>
+		    </el-radio-group>
+		  </div>
+		  <div style="margin-top: 20px">
+		    <el-radio-group v-model="radio11" size="mini" disabled>
+		      <el-radio label="1" border>备选项1</el-radio>
+		      <el-radio label="2" border>备选项2</el-radio>
+		    </el-radio-group>
+		  </div>
+      </div>
+      <div class="content" v-if="!isShow4">
+        <div class="description">
+          	设置<code>border</code>属性可以渲染为带有边框的单选框。
+        </div>
+        <pre><code>
+&lt;div&gt;
+  &lt;el-radio v-model="radio1" label="1" border&gt;备选项1&lt;/el-radio&gt;
+  &lt;el-radio v-model="radio1" label="2" border&gt;备选项2&lt;/el-radio&gt;
+&lt;/div&gt;
+&lt;div style="margin-top: 20px"&gt;
+  &lt;el-radio v-model="radio2" label="1" border size="medium"&gt;备选项1&lt;/el-radio&gt;
+  &lt;el-radio v-model="radio2" label="2" border size="medium"&gt;备选项2&lt;/el-radio&gt;
+&lt;/div&gt;
+&lt;div style="margin-top: 20px"&gt;
+  &lt;el-radio-group v-model="radio3" size="small"&gt;
+    &lt;el-radio label="1" border&gt;备选项1&lt;/el-radio&gt;
+    &lt;el-radio label="2" border disabled&gt;备选项2&lt;/el-radio&gt;
+  &lt;/el-radio-group&gt;
+&lt;/div&gt;
+&lt;div style="margin-top: 20px"&gt;
+  &lt;el-radio-group v-model="radio4" size="mini" disabled&gt;
+    &lt;el-radio label="1" border&gt;备选项1&lt;/el-radio&gt;
+    &lt;el-radio label="2" border&gt;备选项2&lt;/el-radio&gt;
+  &lt;/el-radio-group&gt;
+&lt;/div&gt;            
+&lt;script&gt;
+  data () {
+    return {
+      radio1: '1',
+      radio2: '1',
+      radio3: '1',
+      radio4: '1'
+    };
+  }
+&lt;/script&gt;
+          </code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow4">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow4 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <div id="table">
+      <h1>Radio Attributes</h1>
+      <el-table
+        ref="singleTable"
+        :data="attributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型">
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+        <h1>Radio Events</h1>
+        <el-table
+          ref="singleTable"
+          :data="events"
+          highlight-current-row
+          style="width: 100%">
+          <el-table-column
+            prop="name"
+            label="事件名称">
+          </el-table-column>
+          <el-table-column
+            prop="explain"
+            label="说明">
+          </el-table-column>
+          <el-table-column
+            prop="parameter"
+            label="回调参数">
+          </el-table-column>
+        </el-table>
+    </div>
+    <div id="table">
+      <h1>Radio-group Attributes</h1>
+      <el-table
+        ref="singleTable"
+        :data="groupAttributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型">
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Radio-group Events</h1>
+      <el-table
+        ref="singleTable"
+        :data="groupEvents"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="事件名称">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="parameter"
+          label="回调参数">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Radio-button Attributes</h1>
+      <el-table
+        ref="singleTable"
+        :data="buttonAttributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型">
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值">
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</template>
+  

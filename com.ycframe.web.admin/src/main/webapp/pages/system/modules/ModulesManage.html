@@ -1,0 +1,233 @@
+<template id="ModulesManage">
+	<el-container class="positionLayout">
+		<el-header>
+			<div class="box-header">
+	          <h5>模块管理</h5>
+	          <div>
+	            <el-button type="primary" @click="add">新增</el-button>
+	            <el-button type="primary" @click="update" :disabled="stateUpdate">修改</el-button>
+	            <el-button type="primary" @click="del" :disabled="stateDel">删除</el-button>
+	            <el-button type="primary" @click="able" :disabled="stateAble">启用</el-button>
+	            <el-button type="primary" @click="disable" :disabled="stateDisable">禁用</el-button>
+	          </div>
+	        </div>
+		</el-header>
+		<el-main>
+ 		  <el-table
+ 			class="positionLayout"
+ 			height="100%"
+        	ref="singleTable"
+            :data="treeTableData"
+            default-expand-all
+	          highlight-current-row
+	          @current-change="handleCurrentChange"
+	          @sort-change="sortChange"
+	          border
+	          row-key="id">
+	          <el-table-column
+	            prop="GNMC"
+	            label="功能名称"
+	             sortable="custom"
+	            width="300">
+	          </el-table-column>
+	           <el-table-column
+				 	prop="gnlx"
+				 	align="center"
+					label="资源类型">
+					<template slot-scope="scope">
+					   {{ zhuanhuan(scope.row.gnlx) }}
+					</template>
+				</el-table-column>
+	          
+	         <el-table-column
+	            prop="GNDZ"
+	            label="资源地址"
+	            sortable="custom"
+	            width="200">
+	          </el-table-column>
+	          <el-table-column
+	            prop="JDMS"
+	            label="节点描述"
+	            align="center"
+	            sortable="custom"
+	            width="300"
+	            >
+	          </el-table-column>
+	      
+	          <el-table-column
+	            prop="SFXS"
+	            label="状态"
+	            align="center"
+	            sortable="custom"
+	            width="95"
+	            >
+	          </el-table-column>
+         </el-table>
+		</el-main>
+		<el-dialog 
+	          title="新增/修改模块信息管理"
+	          :visible.sync="dialogVisible"
+	          :close-on-click-modal="false"
+	          :modal-append-to-body="false" 
+	          :fullscreen="isChange"
+	          :before-close="handleClose"
+	          @close="dialogClose"
+	          width="70%"
+	          v-drag
+	          :modal-append-to-body="false"
+	        >
+	        <!-- <vxe-modal 
+	          v-model="dialogVisible" 
+	          :lock-scroll="false"
+	          resize 
+	          width="70%" 
+	          height="80%"
+	          :position="{top: '10%',left: '15%'}"
+	          :dblclick-zoom="false"
+	          :destroy-on-close="true"
+	          show-footer> -->
+	          <div>
+	          
+	    
+	          
+	          
+	            <el-form :model="ruleForm" ref="ruleForm" label-width="100px">
+	            
+	            
+	              <el-row>
+	            	<el-col :span="8">
+	                  <el-form-item label="资源类型" prop="gnlx"  :rules="rules.gnlx">
+	                    <el-select v-model="ruleForm.gnlx" @change="ismenu" placeholder="请选择">
+			              <el-option
+			                v-for="item in gnlxList"
+			                :key="item.id"
+			                :label="item.text"
+			                :value="item.id">
+			              </el-option>
+			            </el-select>
+	                  </el-form-item>
+	                </el-col>
+	          </el-row>
+	            
+	            	<el-row>
+	            		<el-col :span="12">
+	            			<el-form-item  label="类型选择" prop="isComponent">
+	            				<el-switch
+	            					:disabled="isDisabled"
+					              v-model="ruleForm.isComponent"
+					              active-text="功能页面"
+					              inactive-text="外部链接">
+				            	</el-switch>
+	            			</el-form-item>
+	              		</el-col>
+	            	</el-row>
+	              <el-row justify="space-around">
+	                <el-col :span="8">
+	                  <el-form-item label="上级功能" prop="parent"  :rules="rules.parent">
+	                    <treeselect :options="treeData" :value="ruleForm.parent" :props="defaultProps" @getvalue="getvalue"></treeselect>
+	                  </el-form-item>
+	                </el-col>
+	               
+	              </el-row>
+	              <el-row>
+	               <el-col :span="8">
+	                  <el-form-item  :label="pageGnmc" prop="GNMC"  :rules="rules.GNMC">
+	                    <el-input  v-model="ruleForm.GNMC" placeholder=""></el-input>
+	                  </el-form-item>
+	                </el-col>
+	                <el-col :span="8">
+	                
+	                  <el-form-item label="是否启用" prop="SFXS"  :rules="rules.parent">
+	                    <el-select v-model="ruleForm.SFXS" placeholder="请选择">
+			              <el-option
+			                v-for="item in stateOptions"
+			                :key="item.id"
+			                :label="item.text"
+			                :value="item.id">
+			              </el-option>
+			            </el-select>
+	                  </el-form-item>
+	                </el-col>
+	                <el-col :span="8">
+	                  <el-form-item label="顺序编号" prop="SXBH"  :rules="rules.SXBH">
+	                    <el-input v-model.number="ruleForm.SXBH" placeholder=""></el-input>
+	                  </el-form-item>
+	                </el-col>
+	              </el-row>
+	              <el-row>
+	                <el-col :span="8">
+	                  <el-form-item v-if="anState" :label="ljdz" prop="GNDZ"  :rules="ruleForm.gnlx!=0?rules.GNDZ:''">
+	                    <el-input  v-model="ruleForm.GNDZ"></el-input>
+	                  </el-form-item>
+	                </el-col>
+	                <el-col :span="8">
+	                  <el-form-item :label="paegJdms" prop="JDMS"  :rules="ruleForm.JDMS==0?rules.JDMS:''">
+	                    <el-input  v-model="ruleForm.JDMS"></el-input>
+	                  </el-form-item>
+	                </el-col>
+	                <el-col :span="8">
+	                  <el-form-item label="图标" prop="ICON" v-if="nomodelState">
+	                  	<el-input  v-model="ruleForm.ICON"></el-input>
+	                  </el-form-item>
+	                </el-col>
+	              </el-row>
+	              <el-row>
+	              	<el-col :span="8">
+	                  <el-form-item label="组件名称" prop="COMPONENT" v-if="nomodelState">
+	                    <el-input  v-model="ruleForm.COMPONENT" :readonly="isReadonly"></el-input>
+	                  </el-form-item>
+	                </el-col>
+	                <el-col :span="8">
+	                  <el-form-item label="组件地址" prop="JSPATH" v-if="nomodelState">
+	                    <el-input  v-model="ruleForm.JSPATH" :readonly="isReadonly"></el-input>
+	                  </el-form-item>
+	                </el-col>
+	                <el-col :span="8"  v-if="!ruleForm.isComponent">
+	                  <el-form-item label="外部链接" prop="linkUrl">
+	                    <el-input  v-model="ruleForm.linkUrl"></el-input>
+	                  </el-form-item>
+	                </el-col>
+	              </el-row>
+	            </el-form>
+	          </div>
+	        <!-- <span v-if="isChange" @click="switchBtn"><i class="el-icon-minus" style="font-size:17px;position:absolute;top: 20px; right: 50px;"></i></span>
+	        <span v-else @click="switchBtn"><i class="el-icon-plus" style="font-size:17px;position: absolute;top: 20px;right: 50px;"></i></span> -->
+	        <span slot="footer" class="dialog-footer">
+	          <el-button type="primary" @click="returnBtn">返回</el-button>
+	          <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+	        </span>
+	  <!--   </vxe-modal> -->
+        </el-dialog>
+        <el-dialog 
+          title="分配按钮页面" 
+          :visible.sync=assignmentDialog 
+          :close-on-click-modal='false' 
+          :modal-append-to-body="false" 
+          v-drag 
+          @close="closeBtn">
+        <!-- <vxe-modal 
+          v-model="assignmentDialog" 
+          :lock-scroll="false"
+          resize 
+          width="70%" 
+          height="80%"
+          :position="{top: '10%',left: '15%'}"
+          :dblclick-zoom="false"
+          :destroy-on-close="true"
+          show-footer> -->
+	      <el-transfer
+	        v-model="value1"
+	        :data="btnTable" 
+	        :titles="['未分配按钮', '已分配按钮']"
+	        @change="change"
+	        @left-check-change="leftC"
+	        @right-check-change="rightC"
+	        >
+	      </el-transfer>
+	      <div slot="footer" class="dialog-footer">
+	        <el-button type="primary" @click="defineBtn">返回</el-button>
+	      </div>
+	   <!-- </vxe-modal> -->
+        </el-dialog>    
+	</el-container>
+</template>

@@ -1,0 +1,13 @@
+﻿document.write("<script src='Frame/js/jquery.min.js?v=2.1.4'></script>");
+document.write("<script src='Frame/js/ycframe/ycframe.min.js'></script> ");
+document.write("<script src='Frame/js/bootstrap.min.js?v=3.3.6'></script>");
+document.write("<script src='Frame/js/plugins/metisMenu/jquery.metisMenu.js'></script>");
+document.write("<script src='Frame/js/plugins/slimscroll/jquery.slimscroll.min.js'></script>");
+document.write("<script src='Frame/js/plugins/layer/layer.min.js'></script>");
+document.write("<script src='Frame/js/ycframe/ycframe.javarun.min.js'></script>");  
+document.write("<script src='Frame/js/mainform.min.js?v=4.1.0'></script>");
+document.write("<script type='text/javascript' src='Frame/js/contabs.js'></script>");
+document.write(" <script src='Frame/js/plugins/dateweather/jquery.dateweather.min.js'></script>");
+document.write("<script src='Frame/js/plugins/pace/pace.min.js'></script>");
+document.write("<script src='Frame/js/ycframe/ycframe.app.min.js?v=0.0.1'></script>");
+document.write("<script src='Frame/js/app.js?v=0.0.1'></script>");

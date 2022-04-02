@@ -1,0 +1,216 @@
+ <template id="editor">
+	      
+<el-container>
+  <el-header style="height:150PX;">
+		<el-row>
+			<el-col :span="24">
+				<div class="box-header">
+					<h5></h5>
+					<div>
+						<el-button type="primary" @click="save('ruleForm')">保存</el-button>
+						<el-button type="primary" @click="addVersion">新增版本</el-button>
+					</div>
+				</div>
+			</el-col>
+		</el-row>
+  	<el-form :model="form" ref="ruleForm"  label-width="70px" :rules="rules"  style="width:80%;margin-left:10%">
+	  	<el-row >
+		  	<el-col :span="12">
+		    	<el-form-item   label="模块名" prop="model_name">
+		               <el-input v-model="form.model_name" placeholder=""  clearable ></el-input>
+		        </el-form-item>
+	    	</el-col>
+	    	<el-col :span="12">
+		    	<el-form-item   label="模块编码" prop="model_code">
+		               <el-input v-model="form.model_code" placeholder="" clearable :disabled="xs"></el-input>
+		        </el-form-item>
+	    	</el-col>
+	    </el-row>	
+	    <el-row >
+	    	<el-col :span="24">
+		    	<el-form-item   label="用途描述" >
+		               <el-input v-model="form.model_describe" placeholder="" clearable ></el-input>
+		        </el-form-item>
+	    	</el-col>
+	    </el-row>	
+  	</el-form>
+  	
+  </el-header>
+  <div class="head box-header " ></div>
+  <el-container>
+  
+   	<el-aside   style="border:1px solid #e0e0e0;height:100%;width:10%;text-align:center;">
+		<div  style="font-size:18px;text-align:center" >
+			<span style="cursor:pointer;text-align:center"  @click="selectInt()" >版本</span>
+		</div>
+		<div>
+		<el-tree :data="data1"  :props="defaultProps"  @node-click="handleNodeClick" 
+			node-key="id" ref="tree"  :default-expanded-keys="expandedkeys"
+			:expand-on-click-node="true" :highlight-current="true"  style="text-align:center;width:100%"
+		>
+		</el-tree>
+		</div>
+	</el-aside>
+    <el-main>
+     
+    <el-container>
+   	 
+    <el-main >
+    		<el-form style="width:100%;margin-top:0%">
+    			<el-row >
+				  	<el-col :span="12">
+				    	<el-form-item   label="创建人" label-width="70px">
+				               <el-input v-model="form.cjrxm" placeholder="" clearable disabled></el-input>
+				        </el-form-item>
+			    	</el-col>
+			    	<el-col :span="12">
+				    	<el-form-item   label="创建时间" label-width="70px">
+				    		<el-date-picker type="date" value-format="yyyy-MM-dd" style="width:100%" v-model="form.cjsj" placeholder="" disabled></el-date-picker>
+				        </el-form-item>
+			    	</el-col>
+			    </el-row>	
+		    	<el-form-item   label="版本说明" label-width="70px">
+		               <el-input v-model="form.versiondescribe" placeholder="" label="模块编码" style="windth:10%;text-align:center" >版本声明</el-input>
+		        </el-form-item>
+    		</el-form>
+    		<span style="font-size:16px;">当前版本：{{version}}</span>
+    	  <div style="height:100%;width:100%">
+	            <div style="width:100%;height:100%;border: 1px solid #e0e0e0;font-size:15px;" id="editor">
+	            </div>
+          </div> 
+    		</el-main>
+    		<el-footer>
+<!--     		<div width:80%;text-align:right;border:1px solid #e0e0e0;font-size:14px;" class="toollBox">
+	              <span><i class="iconfont" @click="switchEditor" style="cursor: pointer;">&#xe626;</i></span>
+	            </div> -->
+	            <div style="width:100%;text-align:right;border:1px solid #e0e0e0;font-size:14px;" class="pagination">
+	              <span><i class="iconfont" @click="switchEditor" style="cursor: pointer;">&#xe626;</i></span>
+	            </div>
+    		</el-footer>
+          </el-container>
+    </el-main>
+    <el-aside   style="border:1px solid #e0e0e0;height:100%;width:10%;text-align: center;">
+    <el-container>
+    <el-header height="20px">
+		<div style="font-size:18px;text-align:center">
+			<span style="cursor:pointer"  >版本操作</span>
+		</div>
+		</el-header>
+		<el-main>
+		<div class="formBox" style="text-align: center;margin-top:30%;">
+			<el-button type="primary"  size="mini" style="margin-top:20px;height:33px"  @click="saveBtn">保存</el-button>
+		</div>
+		<div  style="text-align: center;">
+			<el-button type="primary"   style="margin-top:20px;height:33px"  @click="del">删除</el-button>
+		</div>
+		 <div  style="text-align: center;">
+			<el-button type="primary"  size="small" style="text-align:center;margin-top:20px;height:33px" @click="codeDebug">调试</el-button>
+		</div>
+		<div  style="text-align: center;">
+			<el-button type="primary"  size="mini" style="text-align:center;margin-top:20px;height:33px" @click="querylog">日志</el-button>
+		</div>
+		<div  style="text-align: center;">
+			<el-checkbox style="margin-top:20px" v-model="form.sfqy">启用</el-checkbox>
+		</div>
+		</el-main>
+		<el-footer></el-footer>
+		</el-container>
+	</el-aside>
+  </el-container>
+  <el-dialog append-to-body title="代码编辑" @close="close" :visible.sync="dialog" :fullscreen="true" :destroy-on-close="true" :close-on-click-modal="false" :close-on-press-escape="false" style="left:0;">
+        	 <div style="width:100%;height:100%;border:1px solid #e0e0e0;font-size:16px;" id="editor1"> 
+        	</div> 
+   </el-dialog>
+ 	<el-dialog title="动态代码模块日志查看" width="80%"  :visible.sync="editorLog" append-to-body :close-on-click-modal="false" :destroy-on-close="true">
+	<editorlog ref="child"  @cancel="cancel" ></editorlog>
+  </el-dialog>
+  <el-dialog title="动态代码模块调试" width="80%"  :visible.sync="editorDebug" append-to-body :close-on-click-modal="false" :destroy-on-close="true">
+	<editordebug ref="childDebug"  @cancel="cancel" ></editordebug>
+  </el-dialog>
+</el-container>
+</template>  
+
+<!-- <template id="editor">
+  <div>
+  <div>
+      <el-form :model="form" ref="ruleForm"  label-width="120px" >
+			  	<el-row style="margin-bottom: 0px;">
+				  	<el-col :span="8">
+				    	<el-form-item   label="模块名" >
+				               <el-input v-model="form.model_name" placeholder="" clearable ></el-input>
+				        </el-form-item>
+			    	</el-col>
+			    	<el-col :span="8">
+				    	<el-form-item   label="模块编码" >
+				               <el-input v-model="form.model_code" placeholder="" clearable ></el-input>
+				        </el-form-item>
+			    	</el-col>
+			    </el-row>	
+			    <el-row style="margin-bottom: 0px;">
+			    	<el-col :span="24">
+				    	<el-form-item   label="用途描述" >
+				               <el-input v-model="form.model_describe" placeholder="" clearable ></el-input>
+				        </el-form-item>
+			    	</el-col>
+			    </el-row>	
+			    <el-row style="margin-bottom: 0px;">
+				  	<el-col :span="8">
+				    	<el-form-item   label="创建人" >
+				               <el-input v-model="form.model_name" placeholder="" clearable ></el-input>
+				        </el-form-item>
+			    	</el-col>
+			    	<el-col :span="8">
+				    	<el-form-item   label="创建时间" >
+				               <el-input v-model="form.model_code" placeholder="" clearable ></el-input>
+				        </el-form-item>
+			    	</el-col>
+			    </el-row>	
+		  	</el-form>
+</div>
+<div style="height:500px;width:100%">
+			<div style="height:100%;width:100%">
+				<el-aside   style="border:1px solid #e0e0e0;height:70%;width:10%">
+					<div style="font-size:18px">
+						<span style="cursor:pointer"  @click="selectInt()" >专业分类</span>
+					</div>
+					<el-tree :data="data1"  :props="defaultProps"  @node-click="handleNodeClick" 
+						:node-key="id"
+						:expand-on-click-node="true" highlight-current 
+					>
+					</el-tree>
+		 		</el-aside>
+			</div>
+  			
+	 		
+	 		<div style="margin-top:-60%;margin-left:10%;height:100%;width:100%">
+	            <div style="width:80%;height:68%;border: 1px solid #e0e0e0;font-size:15px;" id="editor">
+	            </div>
+	            <div style="width:80%;text-align:right;border:1px solid #e0e0e0;font-size:14px;" class="toollBox">
+	              <span><i class="iconfont" @click="switchEditor" style="cursor: pointer;">&#xe626;</i></span>
+	            </div>
+          	</div>
+          
+          	<div style="margin-left:90%;margin-top:-16%;height:100%;width:100%">
+	          	<el-aside   style="border:1px solid #e0e0e0;height:70%;width:10%;">
+					<div style="font-size:18px">
+						<span style="cursor:pointer"  @click="selectInt()" >专业分类</span>
+					</div>
+					<el-tree :data="data1"  :props="defaultProps"  @node-click="handleNodeClick" 
+						:node-key="id"
+						:expand-on-click-node="true" highlight-current 
+					>
+					</el-tree>
+		 		</el-aside>
+          	</div>
+	 		
+	 		</div>
+   		 <el-dialog append-to-body title="texttitle" @close="close" :visible.sync="dialog" :fullscreen="true" :destroy-on-close="true" :close-on-click-modal="false" :close-on-press-escape="false" style="left:0;">
+        	 <div style="width:100%;height:100%;border:1px solid #e0e0e0;font-size:16px;" id="editor1"> 
+        	</div> 
+   		 </el-dialog>
+          
+   </div>		
+  
+</template> -->
+
+

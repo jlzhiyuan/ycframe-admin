@@ -1,0 +1,98 @@
+<template id="emptyStatus"> 
+  <div class="empty-status" style="height:99%;overflow:auto;" ref="emptyStatus">
+    <h1>Empty 空状态</h1>
+    <h5>空状态时的展示占位图。</h5>
+    <h2>基本用法</h2>
+    <div class="demo-block">
+      <div class="source">
+        <empty></empty>
+      </div>
+      <div class="content" v-if="!isShow">
+        <div style="background:#fff;padding:20px 10px;border:1px solid #e0e0e0;">
+        </div>
+        <pre>
+          <code>
+            &lt;empty&gt;&lt;/empty&gt;
+            &lt;script&gt;
+              document.write("&lt;script language=javascript src='./components/empty/empty.js'&gt;&lt;script&gt;");
+              data () {
+                return {
+                };
+              },
+              components: {
+                empty: Empty
+              }
+            &lt;/script&gt;
+          </code>
+        </pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>自定义</h2>
+    <h5>自定义图片,图片大小,描述。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <empty :image="image" :content="content" height="100px"></empty>
+      </div>
+      <div class="content" v-if="!isShow1">
+        <div style="background:#fff;padding:20px 10px;border:1px solid #e0e0e0;">
+          可以通过设置image选择另一张图片,设置content填入描述信息,设置height定义图片大小。
+        </div>
+        <pre>
+          <code>
+            &lt;empty :image="image" :content="content" height="100px"&gt;&lt;/empty&gt;
+            &lt;script&gt;
+              document.write("&lt;script language=javascript src='./components/empty/empty.js'&gt;&lt;script&gt;");
+              data () {
+                return {
+                  image: 'ui/img/empty.png',
+                  content: 'Empty 空状态'
+                };
+              },
+              components: {
+                empty: Empty
+              }
+            &lt;/script&gt;
+          </code>
+        </pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow1">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow1 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <div id="table">
+      <h1>Radio Attributes</h1>
+      <el-table
+        ref="singleTable"
+        :data="attributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型">
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值">
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</template>
+  

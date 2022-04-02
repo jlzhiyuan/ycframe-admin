@@ -1,0 +1,426 @@
+<template id="alertwarn">
+	<div class="badge" style="height:99%;overflow:auto;" ref="alertwarn">
+    <h1>Alert 警告</h1>
+    <h5>用于页面中展示重要的提示信息。</h5>
+    <h2>基本用法</h2>
+    <h5>页面中的非浮层元素，不会自动消失。</h5>
+    <div class="demo-block">
+      <div class="source">
+      	  <el-alert
+		    title="成功提示的文案"
+		    type="success">
+		  </el-alert>
+		  <el-alert
+		    title="消息提示的文案"
+		    type="info">
+		  </el-alert>
+		  <el-alert
+		    title="警告提示的文案"
+		    type="warning">
+		  </el-alert>
+		  <el-alert
+		    title="错误提示的文案"
+		    type="error">
+		  </el-alert>
+      </div>
+      <div class="content" v-if="!isShow">
+        <div class="description">
+          Alert 组件提供四种主题，由type属性指定，默认值为info。
+        </div>
+        <pre><code>
+&lt;el-alert
+  title="成功提示的文案"
+  type="success"&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="消息提示的文案"
+  type="info"&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="警告提示的文案"
+  type="warning"&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="错误提示的文案"
+  type="error"&gt;
+&lt;/el-alert&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>主题</h2>
+    <h5>Alert 组件提供了两个不同的主题：light和dark。</h5>
+    <div class="demo-block">
+      <div class="source">
+      	  <el-alert
+		    title="成功提示的文案"
+		    type="success"
+		    effect="dark">
+		  </el-alert>
+		  <el-alert
+		    title="消息提示的文案"
+		    type="info"
+		    effect="dark">
+		  </el-alert>
+		  <el-alert
+		    title="警告提示的文案"
+		    type="warning"
+		    effect="dark">
+		  </el-alert>
+		  <el-alert
+		    title="错误提示的文案"
+		    type="error"
+		    effect="dark">
+		  </el-alert>
+      </div>
+      <div class="content" v-if="!isShow5">
+        <div class="description">
+         通过设置effect属性来改变主题，默认为light。
+        </div>
+        <pre><code>
+&lt;el-alert
+  title="成功提示的文案"
+  type="success"
+  effect="dark"&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="消息提示的文案"
+  type="info"
+  effect="dark"&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="警告提示的文案"
+  type="warning"
+  effect="dark"&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="错误提示的文案"
+  type="error"
+  effect="dark"&gt;
+&lt;/el-alert&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow5">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow5 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>自定义关闭按钮</h2>
+    <h5>自定义关闭按钮为文字或其他符号。</h5>
+    <div class="demo-block">
+      <div class="source">
+          <el-alert
+		    title="不可关闭的 alert"
+		    type="success"
+		    :closable="false">
+		  </el-alert>
+		  <el-alert
+		    title="自定义 close-text"
+		    type="info"
+		    close-text="知道了">
+		  </el-alert>
+		  <el-alert
+		    title="设置了回调的 alert"
+		    type="warning"
+		    @close="hello">
+		  </el-alert>
+      </div>
+      <div class="content" v-if="!isShow1">
+        <div class="description">
+        在 Alert 组件中，你可以设置是否可关闭，关闭按钮的文本以及关闭时的回调函数。<code>closable</code>属性决定是否可关闭，接受<code>boolean</code>，默认为<code>true</code>。你可以设置<code>close-text</code>属性来代替右侧的关闭图标，注意：<code>close-text</code>必须为文本。设置<code>close</code>事件来设置关闭时的回调。
+        </div>
+        <pre><code>
+&lt;el-alert
+  title="不可关闭的 alert"
+  type="success"
+  :closable="false"&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="自定义 close-text"
+  type="info"
+  close-text="知道了"&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="设置了回调的 alert"
+  type="warning"
+  @close="hello"&gt;
+&lt;/el-alert&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow1">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow1 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>带有icon</h2>
+    <h5>表示某种状态时提升可读性。</h5>
+    <div class="demo-block">
+      <div class="source">
+          <el-alert
+		    title="成功提示的文案"
+		    type="success"
+		    show-icon>
+		  </el-alert>
+		  <el-alert
+		    title="消息提示的文案"
+		    type="info"
+		    show-icon>
+		  </el-alert>
+		  <el-alert
+		    title="警告提示的文案"
+		    type="warning"
+		    show-icon>
+		  </el-alert>
+		  <el-alert
+		    title="错误提示的文案"
+		    type="error"
+		    show-icon>
+		  </el-alert>
+      </div>
+      <div class="content" v-if="!isShow2">
+        <div class="description">
+        通过设置<code>show-icon</code>属性来显示<code>Alert</code>的 <code>icon</code>，这能更有效地向用户展示你的显示意图。
+        </div>
+        <pre><code>
+&lt;el-alert
+  title="成功提示的文案"
+  type="success"
+  show-icon&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="消息提示的文案"
+  type="info"
+  show-icon&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="警告提示的文案"
+  type="warning"
+  show-icon>
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="错误提示的文案"
+  type="error"
+  show-icon&gt;
+&lt;/el-alert&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow2">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow2 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>文字居中</h2>
+    <h5>使用 center 属性让文字水平居中。</h5>
+    <div class="demo-block">
+      <div class="source">
+          <el-alert
+		    title="成功提示的文案"
+		    type="success"
+		    center
+		    show-icon>
+		  </el-alert>
+		  <el-alert
+		    title="消息提示的文案"
+		    type="info"
+		    center
+		    show-icon>
+		  </el-alert>
+		  <el-alert
+		    title="警告提示的文案"
+		    type="warning"
+		    center
+		    show-icon>
+		  </el-alert>
+		  <el-alert
+		    title="错误提示的文案"
+		    type="error"
+		    center
+		    show-icon>
+		  </el-alert>
+      </div>
+      <div class="content" v-if="!isShow3">
+        <pre><code>
+&lt;el-alert
+  title="成功提示的文案"
+  type="success"
+  center
+  show-icon&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="消息提示的文案"
+  type="info"
+  center
+  show-icon&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="警告提示的文案"
+  type="warning"
+  center
+  show-icon&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="错误提示的文案"
+  type="error"
+  center
+  show-icon&gt;
+&lt;/el-alert&gt;
+</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow3">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow3 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>带有辅助性文字介绍</h2>
+    <h5>包含标题和内容，解释更详细的警告。</h5>
+    <div class="demo-block">
+      <div class="source">
+          <el-alert
+		    title="带辅助性文字介绍"
+		    type="success"
+		    description="这是一句绕口令：黑灰化肥会挥发发灰黑化肥挥发；灰黑化肥会挥发发黑灰化肥发挥。 黑灰化肥会挥发发灰黑化肥黑灰挥发化为灰……">
+		  </el-alert>
+      </div>
+      <div class="content" v-if="!isShow6">
+      	<div class="description">除了必填的<code>title</code>属性外，你可以设置<code>description</code>属性来帮助你更好地介绍，我们称之为辅助性文字。辅助性文字只能存放单行文本，会自动换行显示。</div>
+        <pre><code>
+&lt;el-alert
+  title="带辅助性文字介绍"
+  type="success"
+  description="这是一句绕口令：黑灰化肥会挥发发灰黑化肥挥发；灰黑化肥会挥发发黑灰化肥发挥。 黑灰化肥会挥发发灰黑化肥黑灰挥发化为灰……">
+&lt;/el-alert&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow6">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow6 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>带有 icon 和辅助性文字介绍</h2>
+    <div class="demo-block">
+      <div class="source">
+          <el-alert
+		    title="成功提示的文案"
+		    type="success"
+		    description="文字说明文字说明文字说明文字说明文字说明文字说明"
+		    show-icon>
+		  </el-alert>
+		  <el-alert
+		    title="消息提示的文案"
+		    type="info"
+		    description="文字说明文字说明文字说明文字说明文字说明文字说明"
+		    show-icon>
+		  </el-alert>
+		  <el-alert
+		    title="警告提示的文案"
+		    type="warning"
+		    description="文字说明文字说明文字说明文字说明文字说明文字说明"
+		    show-icon>
+		  </el-alert>
+		  <el-alert
+		    title="错误提示的文案"
+		    type="error"
+		    description="文字说明文字说明文字说明文字说明文字说明文字说明"
+		    show-icon>
+		  </el-alert>
+      </div>
+      <div class="content" v-if="!isShow7">
+      	<div class="description">最后，这是一个同时具有 icon 和辅助性文字的样例。</div>
+        <pre><code>
+&lt;el-alert
+  title="成功提示的文案"
+  type="success"
+  description="文字说明文字说明文字说明文字说明文字说明文字说明"
+  show-icon&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="消息提示的文案"
+  type="info"
+  description="文字说明文字说明文字说明文字说明文字说明文字说明"
+  show-icon&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="警告提示的文案"
+  type="warning"
+  description="文字说明文字说明文字说明文字说明文字说明文字说明"
+  show-icon&gt;
+&lt;/el-alert&gt;
+&lt;el-alert
+  title="错误提示的文案"
+  type="error"
+  description="文字说明文字说明文字说明文字说明文字说明文字说明"
+  show-icon&gt;
+&lt;/el-alert&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow7">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow7 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <div id="table">
+      <h1>Attributes</h1>
+      <el-table
+        ref="singleTable"
+        :data="attributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型">
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Slot</h1>
+      <el-table
+        ref="singleTable"
+        :data="slot"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="Name">
+        </el-table-column>
+        <el-table-column
+          prop="description"
+          label="description">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div id="table">
+      <h1>Events</h1>
+      <el-table
+        ref="singleTable"
+        :data="events"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="事件名称">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</template>

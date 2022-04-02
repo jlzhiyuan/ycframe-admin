@@ -1,0 +1,194 @@
+<template id="card">
+  <div class="card" style="height:99%;overflow:auto;" ref="card">
+    <h1>Card 卡片</h1>
+    <h5>将信息聚合在卡片容器中展示。</h5>
+    <h2>基本用法</h2>
+    <h5>包含标题，内容和操作。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>卡片名称</span>
+            <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+          </div>
+          <div v-for="o in 4" :key="o" class="text item">
+            {{'列表内容 ' + o }}
+          </div>
+        </el-card>
+      </div>
+      <div class="content" v-if="!isShow">
+        <div class="description">
+          Card 组件包括header和body部分，header部分需要有显式具名 slot 分发，同时也是可选的。
+        </div>
+        <pre><code>
+&lt;el-card class="box-card"&gt;
+  &lt;div slot="header" class="clearfix"&gt;
+    &lt;span&gt;卡片名称&lt;/span&gt;
+    &lt;el-button style="float: right; padding: 3px 0" type="text"&gt;操作按钮&lt;/el-button&gt;
+  &lt;/div&gt;
+  &lt;div v-for="o in 4" :key="o" class="text item"&gt;
+    <span v-pre>{{'列表内容 ' + o }}</span>
+  &lt;/div&gt;
+&lt;/el-card&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>简单卡片</h2>
+    <h5>卡片可以只有内容区域。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-card class="box-card">
+          <div v-for="o in 4" :key="o" class="text item">
+            {{'列表内容 ' + o }}
+          </div>
+        </el-card>
+      </div>
+      <div class="content" v-if="!isShow5">
+        <pre><code>
+&lt;el-card class="box-card"&gt;
+  &lt;div v-for="o in 4" :key="o" class="text item"&gt;
+    <span v-pre>{{'列表内容 ' + o }}</span>
+  &lt;/div&gt;
+&lt;/el-card&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow5">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow5 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>带图片</h2>
+    <h5>可配置定义更丰富的内容展示。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-row>
+          <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
+            <el-card :body-style="{ padding: '0px' }">
+              <img src="ui/img/cat.png" class="image">
+              <div style="padding: 14px;">
+                <span>好吃的汉堡</span>
+                <div class="bottom clearfix">
+                  <time class="time">{{ currentDate }}</time>
+                  <el-button type="text" class="button">操作按钮</el-button>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>        
+      </div>
+      <div class="content" v-if="!isShow1">
+        <div class="description">
+          配置body-style属性来自定义body部分的style，我们还使用了布局组件。
+        </div>
+        <pre><code>
+&lt;el-row&gt;
+  &lt;el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0"&gt;
+    &lt;el-card :body-style="{ padding: '0px' }"&gt;
+      &lt;img src="././img/cat.png" class="image" /&gt;
+      &lt;div style="padding: 14px;"&gt;
+        &lt;span&gt;好吃的汉堡&lt;/span&gt;
+        &lt;div class="bottom clearfix"&gt;
+          &lt;time class="time"&gt;<span v-pre>{{ currentDate }}</span>&lt;/time&gt;
+          &lt;el-button type="text" class="button"&gt;操作按钮&lt;/el-button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/el-card&gt;
+  &lt;/el-col&gt;
+&lt;/el-row&gt;
+&lt;script&gt;
+  data() {
+    return {
+      currentDate: new Date()
+    };
+  }
+&lt;/script&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow1">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow1 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <h2>卡片阴影</h2>
+    <h5>可对阴影的显示进行配置。</h5>
+    <div class="demo-block">
+      <div class="source">
+        <el-row :gutter="12">
+          <el-col :span="8">
+            <el-card shadow="always">
+              总是显示
+            </el-card>
+          </el-col>
+          <el-col :span="8">
+            <el-card shadow="hover">
+              鼠标悬浮时显示
+            </el-card>
+          </el-col>
+          <el-col :span="8">
+            <el-card shadow="never">
+              从不显示
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+      <div class="content" v-if="!isShow2">
+        <div class="description">
+          通过shadow属性设置卡片阴影出现的时机：always、hover或never。
+        </div>
+        <pre><code>
+&lt;el-row :gutter="12"&gt;
+  &lt;el-col :span="8"&gt;
+    &lt;el-card shadow="always"&gt;
+      总是显示
+    &lt;/el-card&gt;
+  &lt;/el-col&gt;
+  &lt;el-col :span="8"&gt;
+    &lt;el-card shadow="hover"&gt;
+      鼠标悬浮时显示
+    &lt;/el-card&gt;
+  &lt;/el-col&gt;
+  &lt;el-col :span="8"&gt;
+    &lt;el-card shadow="never"&gt;
+      从不显示
+    &lt;/el-card&gt;
+  &lt;/el-col&gt;
+&lt;/el-row&gt;</code></pre>
+      </div>
+      <div class="demo-block-control is-fixed" @click="clickShow2">
+        <i class="el-icon-caret-bottom"></i>
+        <span>{{ isShow2 ? '显示代码' : '隐藏代码' }}</span>
+      </div>
+    </div>
+    <div id="table">
+      <h1>Attributes</h1>
+      <el-table
+        ref="singleTable"
+        :data="attributes"
+        highlight-current-row
+        style="width: 100%">
+        <el-table-column
+          prop="parameter"
+          label="参数">
+        </el-table-column>
+        <el-table-column
+          prop="explain"
+          label="说明">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型">
+        </el-table-column>
+        <el-table-column
+          prop="optional"
+          label="可选值">
+        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值">
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</template>
+  

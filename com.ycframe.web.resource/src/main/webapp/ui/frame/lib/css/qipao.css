@@ -1,0 +1,39 @@
+/*气泡样式*/
+    p{color: #fff;}  
+    .test{  
+        width: 100px;  
+        padding: 5px 5px;  
+        margin: 1px;  
+        background: #ce5010;  
+        position: relative;  
+        border-radius: 10px;  
+    }  
+    .test span{  
+        width: 0;  
+        height: 0;  
+        font-size: 0;  
+        overflow: hidden;  
+        position: absolute;  
+    }   
+    .test.newBG span.bot2{  
+        border-width: 20px;  
+        border-style: solid dashed dashed; /*这里用dashed是为了解决防止IE6下的bug， 如果是solid，无法显示透明，具体原因不明*/  
+        border-color: #ce5010 transparent transparent;  
+        bottom: -40px;  
+    }  
+    .test.newBG span.top2{  
+        border-width: 20px;  
+        border-style: solid dashed dashed;  
+        border-color: #fff transparent transparent;  
+        bottom: -33px;  
+    }  
+    .newBG{  
+        background-color: #fff;  
+        border: #ce5010 5px solid;  
+        color: #ce5010;  
+    }  
+    .orangeColor{  
+        color: #ce5010;
+        margin: 1px;  
+        word-wrap:break-word;/* div中自动换行 */
+    }
