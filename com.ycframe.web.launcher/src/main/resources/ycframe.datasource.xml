@@ -5,7 +5,7 @@
 	<bean id="datasource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
 		<!-- <property name="url" value="jdbc:mysql://localhost:3306/approval" /> -->
-		<property name="url" value="jdbc:mysql://0.0.0.0:3306/database?autoReconnect=true" />
+		<property name="url" value="jdbc:mysql://0.0.0.0:3306/database?useUnicode=true&amp;characterEncoding=utf-8&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
 		<property name="username" value="root" />
 		<property name="password" value="xxxxxxxx" />
 		<property name="initialSize" value="5" />
