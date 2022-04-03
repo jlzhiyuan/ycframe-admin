@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.ycframe.utils.StringUtils;
+import com.ycframe.validator.MapValidator;
 import com.ycframe.web.App;
 import com.ycframe.web.admin.role.service.RoleService;
 import com.ycframe.web.annotation.Param;
@@ -77,13 +78,23 @@ public class Role  extends WebDo{
 	
 	
 	public Result saveData(@Param(name="id")String id,@Param(name="JSMC")String jsmc,
-			@Param(name="LX")String lx,@Param(name="MS")String ms){
+			@Param(name="LX")String lx,@Param(name="MS")String ms) throws Exception{
 		Map<String, Object> inputData = new HashMap();
 		inputData.put("id", id);
 		inputData.put("jsmc", jsmc);
 		inputData.put("lx", lx);
 		inputData.put("ms", ms);
 		inputData.put("ZT", 0);
+		
+		 
+		MapValidator validator = com.ycframe.validator.ValidatorFactory.getMapValidator();
+		validator.NotBlank("jsmc").NotBlank("id");
+		Map a = validator.valid(inputData);
+		if(a.size()>0){
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！",App.getApp().getIp(getRequest()));	
+			return JsonResult.Result(a).setCode(1);
+		}
+
 		try {
 			RoleService service = new RoleService();
 			String yjlidpd = id;
@@ -131,7 +142,7 @@ public class Role  extends WebDo{
 			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "禁用",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 禁用失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
 
 			e.printStackTrace();
-			return JsonResult.Result(null).setMessage(e.getMessage());
+			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}
 	} 
 	
@@ -144,13 +155,11 @@ public class Role  extends WebDo{
 			if(id!=null && !"".equals(id)){
 				boolean success = service.deleteJueses(id);
 				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 删除成功！",App.getApp().getIp(getRequest()));	
-				
 				return JsonResult.Result(null).setCode(0);
 			}else
 			return JsonResult.Result(null).setCode(1);
 		} catch (Exception e) {
 			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 删除错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
-
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		} 
 	} 

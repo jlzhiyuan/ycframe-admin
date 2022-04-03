@@ -2,13 +2,13 @@
 	<el-container class="positionLayout">
 		<el-header>
 			<div class="box-header">
-	          <h5>模块管理</h5>
+	          <h5>资源管理</h5>
 	          <div>
-	            <el-button type="primary" @click="add">新增</el-button>
-	            <el-button type="primary" @click="update" :disabled="stateUpdate">修改</el-button>
-	            <el-button type="primary" @click="del" :disabled="stateDel">删除</el-button>
-	            <el-button type="primary" @click="able" :disabled="stateAble">启用</el-button>
-	            <el-button type="primary" @click="disable" :disabled="stateDisable">禁用</el-button>
+	            <el-button  type="primary" @click="add" icon="el-icon-plus" plain>新增</el-button>
+	            <el-button type="primary" @click="update" icon="el-icon-edit" :disabled="stateUpdate" plain>修改</el-button>
+	            <el-button type="primary" @click="del" :disabled="stateDel" icon="el-icon-delete" plain>删除</el-button>
+	            <el-button type="primary" @click="able" :disabled="stateAble" plain>启用</el-button>
+	            <el-button type="primary" @click="disable" :disabled="stateDisable" plain>禁用</el-button>
 	          </div>
 	        </div>
 		</el-header>
@@ -17,6 +17,7 @@
  			class="positionLayout"
  			height="100%"
         	ref="singleTable"
+        	:row-style="{height: '60px'}"
             :data="treeTableData"
             default-expand-all
 	          highlight-current-row
@@ -26,28 +27,50 @@
 	          row-key="id">
 	          <el-table-column
 	            prop="GNMC"
-	            label="功能名称"
-	             sortable="custom"
-	            width="300">
+	            label="资源名称"
+	             sortable="custom">
 	          </el-table-column>
 	           <el-table-column
 				 	prop="gnlx"
-				 	align="center"
+				 	align="center" width="100"
 					label="资源类型">
-					<template slot-scope="scope">
-					   {{ zhuanhuan(scope.row.gnlx) }}
-					</template>
+					  <template slot-scope="scope">
+				       <el-tag v-if="scope.row.gnlx === 0" :color="'#73c0de'" effect="dark"
+						 disable-transitions>{{ zhuanhuan(scope.row.gnlx) }}
+						</el-tag>
+						<el-tag v-else-if="scope.row.gnlx === 1" :color="'#91cc75'" effect="dark"
+						 disable-transitions>{{ zhuanhuan(scope.row.gnlx) }}
+						</el-tag>
+						<el-tag v-else-if="scope.row.gnlx === 2" :color="'#ee6666'" effect="dark"
+						 disable-transitions>{{ zhuanhuan(scope.row.gnlx) }}
+						</el-tag> 
+						<el-tag v-else-if="scope.row.gnlx === 3" :color="'#ea7ccc'" effect="dark"
+						 disable-transitions>{{ zhuanhuan(scope.row.gnlx) }}
+						</el-tag> 
+						<el-tag v-else-if="scope.row.gnlx === 9" :color="'#5470c6'" effect="dark"
+						 disable-transitions>{{ zhuanhuan(scope.row.gnlx) }}
+						</el-tag> 
+				      </template> 
 				</el-table-column>
-	          
+	        <el-table-column
+	            prop="ICON"
+	            align="center"
+	            label="图标"
+	            sortable="custom"
+	            width="80">
+	            <template slot-scope="scope">
+	            	<i :class="scope.row.ICON" style="font-size:26px"></i>
+	            </template> 
+	         </el-table-column>
 	         <el-table-column
 	            prop="GNDZ"
 	            label="资源地址"
 	            sortable="custom"
-	            width="200">
+	            width="300">
 	          </el-table-column>
 	          <el-table-column
 	            prop="JDMS"
-	            label="节点描述"
+	            label="资源描述"
 	            align="center"
 	            sortable="custom"
 	            width="300"
@@ -59,8 +82,16 @@
 	            label="状态"
 	            align="center"
 	            sortable="custom"
-	            width="95"
+	            width="100"
 	            >
+	            <template slot-scope="scope">
+				       <el-tag v-if="scope.row.SFXS === 'T'" type="success" effect="dark"
+						 disable-transitions>启用
+						</el-tag>
+						<el-tag v-else-if="scope.row.SFXS === 'F'" type="danger" effect="dark"
+						 disable-transitions>禁用
+						</el-tag> 
+				      </template> 
 	          </el-table-column>
          </el-table>
 		</el-main>
@@ -109,21 +140,21 @@
 	                </el-col>
 	          </el-row>
 	            
-	            	<el-row>
-	            		<el-col :span="12">
-	            			<el-form-item  label="类型选择" prop="isComponent">
-	            				<el-switch
-	            					:disabled="isDisabled"
+            	<el-row>
+            		<el-col :span="12">
+            			<el-form-item  :label="currentfieldInfo.iscomponent.text"  v-if="currentfieldInfo.iscomponent.show" prop="isComponent" >
+            				<el-switch
+            					:disabled="isDisabled"
 					              v-model="ruleForm.isComponent"
 					              active-text="功能页面"
 					              inactive-text="外部链接">
-				            	</el-switch>
-	            			</el-form-item>
-	              		</el-col>
-	            	</el-row>
+			            	</el-switch>
+            			</el-form-item>
+              		</el-col>
+            	</el-row>
 	              <el-row justify="space-around">
 	                <el-col :span="8">
-	                  <el-form-item label="上级功能" prop="parent"  :rules="rules.parent">
+	                  <el-form-item  :label="currentfieldInfo.parent.text"  v-if="currentfieldInfo.parent.show" prop="parent"  :rules="rules.parent">
 	                    <treeselect :options="treeData" :value="ruleForm.parent" :props="defaultProps" @getvalue="getvalue"></treeselect>
 	                  </el-form-item>
 	                </el-col>
@@ -131,13 +162,13 @@
 	              </el-row>
 	              <el-row>
 	               <el-col :span="8">
-	                  <el-form-item  :label="pageGnmc" prop="GNMC"  :rules="rules.GNMC">
+	                  <el-form-item :label="currentfieldInfo.name.text"  v-if="currentfieldInfo.name.show" prop="GNMC"  :rules="rules.GNMC">
 	                    <el-input  v-model="ruleForm.GNMC" placeholder=""></el-input>
 	                  </el-form-item>
 	                </el-col>
 	                <el-col :span="8">
 	                
-	                  <el-form-item label="是否启用" prop="SFXS"  :rules="rules.parent">
+	                  <el-form-item :label="currentfieldInfo.state.text"  v-if="currentfieldInfo.state.show" prop="SFXS"  :rules="rules.parent">
 	                    <el-select v-model="ruleForm.SFXS" placeholder="请选择">
 			              <el-option
 			                v-for="item in stateOptions"
@@ -149,36 +180,33 @@
 	                  </el-form-item>
 	                </el-col>
 	                <el-col :span="8">
-	                  <el-form-item label="顺序编号" prop="SXBH"  :rules="rules.SXBH">
+	                  <el-form-item :label="currentfieldInfo.order.text"  v-if="currentfieldInfo.order.show" prop="SXBH"  :rules="rules.SXBH">
 	                    <el-input v-model.number="ruleForm.SXBH" placeholder=""></el-input>
 	                  </el-form-item>
 	                </el-col>
-	              </el-row>
-	              <el-row>
 	                <el-col :span="8">
-	                  <el-form-item v-if="anState" :label="ljdz" prop="GNDZ"  :rules="ruleForm.gnlx!=0?rules.GNDZ:''">
+	                  <el-form-item :label="currentfieldInfo.path.text"  v-if="currentfieldInfo.path.show" prop="GNDZ"  :rules="ruleForm.gnlx!=0?rules.GNDZ:''" >
 	                    <el-input  v-model="ruleForm.GNDZ"></el-input>
 	                  </el-form-item>
 	                </el-col>
 	                <el-col :span="8">
-	                  <el-form-item :label="paegJdms" prop="JDMS"  :rules="ruleForm.JDMS==0?rules.JDMS:''">
+	                  <el-form-item :label="currentfieldInfo.memo.text"  v-if="currentfieldInfo.memo.show" prop="JDMS"  :rules="ruleForm.JDMS==0?rules.JDMS:''"  >
 	                    <el-input  v-model="ruleForm.JDMS"></el-input>
 	                  </el-form-item>
 	                </el-col>
 	                <el-col :span="8">
-	                  <el-form-item label="图标" prop="ICON" v-if="nomodelState">
+	                  <el-form-item :label="currentfieldInfo.icon.text"  v-if="currentfieldInfo.icon.show" prop="ICON" >
 	                  	<el-input  v-model="ruleForm.ICON"></el-input>
 	                  </el-form-item>
 	                </el-col>
-	              </el-row>
-	              <el-row>
+	      
 	              	<el-col :span="8">
-	                  <el-form-item label="组件名称" prop="COMPONENT" v-if="nomodelState">
+	                  <el-form-item :label="currentfieldInfo.componentname.text"  v-if="currentfieldInfo.componentname.show" prop="COMPONENT" >
 	                    <el-input  v-model="ruleForm.COMPONENT" :readonly="isReadonly"></el-input>
 	                  </el-form-item>
 	                </el-col>
 	                <el-col :span="8">
-	                  <el-form-item label="组件地址" prop="JSPATH" v-if="nomodelState">
+	                  <el-form-item :label="currentfieldInfo.resource.text"  v-if="currentfieldInfo.resource.show"  prop="JSPATH" >
 	                    <el-input  v-model="ruleForm.JSPATH" :readonly="isReadonly"></el-input>
 	                  </el-form-item>
 	                </el-col>

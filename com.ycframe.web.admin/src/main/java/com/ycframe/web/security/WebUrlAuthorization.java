@@ -2,6 +2,7 @@ package com.ycframe.web.security;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.ycframe.cache.Cache;
 import com.ycframe.cache.CacheManager.Type;
@@ -56,9 +57,7 @@ public class WebUrlAuthorization implements UrlAuthorization {
 		
 		urls.put("/favicon.ico", new UrlAuthConfig("anon","")); 
 		urls.put("/login/*", new UrlAuthConfig("anon",""));
-		urls.put("/**", new UrlAuthConfig("roles","ROOT"));
-		
-		System.out.println("reload urlfilter ...............");
+		urls.put("/**", new UrlAuthConfig("roles","0"));
 		return urls;
 	}
 	
@@ -77,8 +76,8 @@ public class WebUrlAuthorization implements UrlAuthorization {
 //		urls.put("/Login*", new UrlAuthConfig("anon",""));
 //      urls.put("/organization/getOranizations", new UrlAuthConfig("anyroles","系统管理员,ROOT"));
 		
-		final Cache staticcache = com.ycframe.Context.getContext().getCacheManager().getCache("static");
-		final Cache cache = com.ycframe.Context.getContext().getCacheManager().getCache("urlfilter", 60, Type.Live);
+		final Cache staticcache = com.ycframe.Context.getContext().getCacheManager().getCache("static", 12000, Type.Live);
+		final Cache cache = com.ycframe.Context.getContext().getCacheManager().getCache("urlfilter", 120, Type.Live);
 		if(!cache.containsKey("urls")){
 			synchronized(WebUrlAuthorization.class){
 				if(!cache.containsKey("urls")){ 
@@ -100,6 +99,18 @@ public class WebUrlAuthorization implements UrlAuthorization {
 			}
 		}
 		Object uuurls = staticcache.get("urls");
+		
+		Map<String, UrlAuthConfig> olurls = (Map<String, UrlAuthConfig>)uuurls;
+		
+//		for( Entry<String, UrlAuthConfig> en: olurls.entrySet()){
+//			String k = en.getKey();
+//			UrlAuthConfig vvvl = en.getValue();
+//			System.out.print(k);
+//			System.out.print("--");
+//			System.out.print(vvvl.getFilterName());
+//			System.out.print("--");
+//			System.out.println(vvvl.getConfig());
+//		}
 		return (Map<String, UrlAuthConfig>)uuurls;
 		
 //		urls.put("/*", new UrlAuthConfig("authc",""));
@@ -110,11 +121,7 @@ public class WebUrlAuthorization implements UrlAuthorization {
 		//authenticated=authc  
 		//roles[admin]  
 		//perms["user:create"]    
-		
-//		for( Entry<String, UrlAuthConfig> en: urls.entrySet()){
-//			String k = en.getKey();
-//			System.out.println(k);
-//		}
+
 		//return urls; 
 	}
  

@@ -168,6 +168,14 @@ public class Login extends AbstractWebDo {
 		return JsonResult.Result(authenticated).setCode(0).setMessage("");
 	}
 	
+	public Result isPermitted(@Param(name = "permission") String permission) throws Exception{
+		com.ycframe.security.auth.SecurityManager sm = this.getContext()
+				.getWebContext().getSecurityManager();
+		Passport passport = sm.getAuth().getPassport();
+		boolean authenticated = sm.getAuth().isPermitted(passport, permission);
+		return JsonResult.Result(authenticated).setCode(0).setMessage("");
+	} 
+	
 	public Result urlallowAccess(@Param(name = "url") String url) throws Exception{
 		com.ycframe.security.auth.SecurityManager sm = this.getContext()
 				.getWebContext().getSecurityManager();

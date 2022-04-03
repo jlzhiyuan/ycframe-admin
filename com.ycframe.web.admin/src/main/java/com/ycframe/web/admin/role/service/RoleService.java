@@ -13,8 +13,11 @@ import com.ycframe.database.query.inter.UpdateInterface;
 import com.ycframe.database.util.DBMap;
 import com.ycframe.utils.IDUtils;
 import com.ycframe.utils.StringUtils;
+import com.ycframe.web.App;
 import com.ycframe.web.admin.common.exception.ServiceException;
-import com.ycframe.web.admin.role.dao.RoleDao; 
+import com.ycframe.web.admin.role.dao.RoleDao;
+import com.ycframe.web.context.result.JsonResult;
+import com.ycframe.web.utils.SystemInfoLog; 
 
 public class RoleService {
 	public HashMap init(int row, int page) throws ServiceException {
@@ -94,7 +97,13 @@ public class RoleService {
 			throw new ServiceException("数据操作异常！");
 		} 
 	}
-	public boolean close(String[] ids) throws ServiceException{ 
+	public boolean close(String[] ids) throws ServiceException{
+		
+		List<String> idlist = Arrays.asList(ids);
+		if(idlist.contains("1")  || idlist.contains("0") ){ 
+			throw new ServiceException("系统保留用户不允许操作。"); 
+		}
+		 
 		Manager manager = new Manager();
 		RoleDao dao = null;
 		try {
@@ -166,13 +175,18 @@ public class RoleService {
 
 	public boolean savedata(String yjlidpd, String id, String JSMC, String LX,
 			String MS, String ZT) throws ServiceException {
+		
+		if("1".equals(id) || "0".equals(id)){ 
+			throw new ServiceException("系统保留用户不允许操作。"); 
+		}
+		
 		HashMap map = new HashMap();
 		try {
 			String success = null; 
 			Manager manager = new Manager();
 			RoleDao dao = null;
 			manager.load();
-			dao = manager.getDao(RoleDao.class);
+			dao = manager.getDao(RoleDao.class); 
 			if (JSMC == null || LX == null || LX == null || ZT == null) {
 				throw new ServiceException("必须数据不完整!"); 
 			} else {
@@ -208,6 +222,11 @@ public class RoleService {
 	}
 
 	public boolean deleteJueses(String[] jsid) throws ServiceException {
+		List<String> idlist = Arrays.asList(jsid);
+		if(idlist.contains("1")  || idlist.contains("0") ){ 
+			throw new ServiceException("系统保留用户不允许操作。"); 
+		}
+		
 		HashMap map = new HashMap(); 
 		try {
 			Manager manager = new Manager();

@@ -22,42 +22,29 @@ public interface AuthorityDao extends IDao{
 	@Arguments({"tj","orderindex","ordertype"})
 	@UseCache(false)
 	public DaoPage getJsxx(String tj,String orderindex,String ordertype);
-	
-	/*@Sql("SELECT DISTINCT gn.id,gn.gnmc ,GROUP_CONCAT(DISTINCT aut.rolename) sjqx ,GROUP_CONCAT(DISTINCT but.ANNAME ) czan " +
-			"from systemgn gn " +
-			"LEFT JOIN (SELECT * from systemjsgn where 1=1 ${tj} ) as jsgn ON jsgn.GNID = gn.id " +
-			"LEFT JOIN (SELECT DISTINCT jsid, gnid ,sjqxid  from systemoperationauthority where jlzt='未删除' ${tj1}  ) as opera ON opera.gnid = gn.ID " +
-			"LEFT JOIN (select * from systemdataauthority where jlzt='未删除' ) as aut ON aut.id = opera.sjqxid  " +
-			"LEFT JOIN (SELECT DISTINCT jsid, gnid ,czanid  from systemoperationbutton where jlzt='未删除' ${tj1}) as operabut ON operabut.gnid = gn.ID  " +
-			"LEFT JOIN (SELECT * from systembutton where jlzt='未删除' ) as but ON but.id = operabut.czanid  " +
-			"where gn.sfxs = 'T' and gn.fgnid = '327' ${tj2}  GROUP BY gn.id ")
-	@Arguments({"tj","tj1","tj2"}) 
-	public DaoPage getCzqxxx(String tj,String tj1 ,String tj2);*/	
-	
-	@Sql("SELECT gn.id,gn.FGNID parent,gn.gnmc ,GROUP_CONCAT(but.anname) name,gn.gnlx,"+
+ 
+	@Sql("SELECT gn.id,gn.FGNID parent,gn.gnmc ,gn.gnlx,"+
 			" CASE WHEN gn.id=ssjsgn.gnid THEN true else false END acheckbox"+   
 			" from systemgn gn"+   
-			" LEFT JOIN (SELECT DISTINCT jsid, gnid ,czanid  from systemoperationbutton where jlzt='未删除' and jsid = '${jsid}' )  operabut ON operabut.gnid = gn.ID"+   
-			" LEFT JOIN (SELECT * from systembutton where jlzt='未删除' )  but ON but.id = operabut.czanid"+   
+			" "+   
+			" "+   
 			" LEFT JOIN (SELECT * from systemjsgn where jszid = '${jsid}' ) ssjsgn ON ssjsgn.gnid = gn.id"+   
-				"  where gn.sfxs in('T','S') and gn.sfxs = 'T'"+  
+				"  where gn.sfxs = 'T' "+  
 			 " GROUP BY gn.id ,gn.FGNID ,gn.gnmc ,ssjsgn.gnid,gn.SXBH"+ 
 			" ${order} ")  
 	@Arguments({"jsid","order"}) 
 	@UseCache(false)
 	public DaoPage getCzqxxx(String jsid,String order);	
 	
-	
-	
-	
+	 
 	
 	@Sql("select count(*) from " +
 			"( SELECT DISTINCT gn.id  " +
 			"from systemgn gn " +
 			"LEFT JOIN (SELECT * from systemjsgn where 1=1 )   jsgn ON jsgn.GNID = gn.id " +
-			"LEFT JOIN (SELECT DISTINCT jsid, gnid ,czanid  from systemoperationbutton where jlzt='未删除' )   operabut ON operabut.gnid = gn.ID  " +
-			"LEFT JOIN (SELECT * from systembutton where jlzt='未删除' )   but ON but.id = operabut.czanid  " +
-			"where gn.sfxs in('T','S') and gn.fgnid = '327' and gn.sfxs = 'T'  GROUP BY gn.id ) old")
+			"  " +
+			"  " +
+			"where gn.sfxs = 'T'  GROUP BY gn.id ) old")
 	@UseCache(false)
 	public int getCzqxxxCount();	
 /*	@Sql("SELECT DISTINCT gn.id,gn.FGNID parent,gn.gnmc ,GROUP_CONCAT(DISTINCT but.ANNAME) czan,zgn.gnzjd,gn.gnbh, "+

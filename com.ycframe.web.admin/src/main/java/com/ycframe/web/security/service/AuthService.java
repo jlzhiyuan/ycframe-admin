@@ -291,32 +291,49 @@ public class AuthService {
 		}
 
 		Executor executor = manager.getExecutor();
-		String sql = "select jsz.jsmc jsmc from systemjsz jsz inner JOIN systemryjs ryjs on jsz.ID = ryjs.JSZID inner JOIN systemry ry on ryjs.RYID = ry.id and ry.yhm=?";
+		String sql = "select jsz.jsmc jsmc,jsz.id jsid from systemjsz jsz inner JOIN systemryjs ryjs on jsz.ID = ryjs.JSZID inner JOIN systemry ry on ryjs.RYID = ry.id and ry.yhm=?";
 		List<DBMap> maps = executor.query(sql,username);
 		List<String> roles = new ArrayList<String>();
 		for(DBMap map : maps){
-			String jsid = map.getString("jsmc");
+			String jsid = map.getString("jsid");
 			roles.add(jsid);
 		}
 		//QueryInterface query = new com.ycframe.database.query.Query().createQueryFromScript(sql);
 		return roles;		
 	}
 
-	public List<String> getPermissions(String username)  throws SQLException{
-		// TODO Auto-generated method stub
-		return new ArrayList<String>();
+	//获取用户操作权限
+	public List<String> getPermissions(String username)  throws Exception{
+		List<String> resultpermissions =  new ArrayList<String>();
+		ModulesService modulesService = new ModulesService();
+		List<DBMap> permissions = modulesService.getPermissions(username);
+		for(DBMap amap:permissions){
+			String permission = amap.getString("permission"); 
+			resultpermissions.add(permission);
+		}
+		return resultpermissions; 
 	}
 	
 	
 	public Map<String, UrlAuthConfig>  getResources()  throws Exception{
 		ModulesService modulesService = new ModulesService();
 		Map<String,UrlAuthConfig> urls = new HashMap<String,UrlAuthConfig>();
-		//
+		
+		List<DBMap> guestresources = modulesService.getResourcesOfGuest();
+		for(DBMap amap:guestresources){
+			String gndz = amap.getString("gndz"); 
+			UrlAuthConfig config = new UrlAuthConfig("anon",""); 
+			urls.put(gndz, config);
+		}
+		
 		List<DBMap> resources = modulesService.getResourcesRoles();
 		for(DBMap amap:resources){
 			String gndz = amap.getString("gndz");
 			String roles = amap.getString("roles");
-			UrlAuthConfig config = new UrlAuthConfig("anyroles",roles+",ROOT"); 
+			if(urls.containsKey(gndz)){
+				continue;
+			}
+			UrlAuthConfig config = new UrlAuthConfig("anyroles",roles+",0"); 
 			urls.put(gndz, config);
 		}
 		return urls;

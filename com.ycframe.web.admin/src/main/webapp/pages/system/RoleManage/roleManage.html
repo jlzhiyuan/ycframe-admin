@@ -75,13 +75,17 @@
             <template slot-scope="scope">
               <el-button
               	type="primary"
-                size="mini"
+				size="mini"
+				round
+				plain
                 @click.stop="handleEdit(scope.$index, scope.row)">
                 编辑
               </el-button>
               <el-button
               	type="primary"
-                size="mini"
+				size="mini"
+				round
+				plain
                 @click.stop="jsfp(scope.$index, scope.row)">
                 分配角色
               </el-button>

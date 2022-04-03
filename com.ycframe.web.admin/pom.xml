@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>com.ycframe</groupId>
 			<artifactId>ycframe-web</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
@@ -74,12 +74,7 @@
 		 <groupId>com.ycframe</groupId>
 		  <artifactId>ycframe-web-plugins-httputils</artifactId>
 		  <version>0.0.1-SNAPSHOT</version>
-		 </dependency>    
-		<dependency>
-		  <groupId>com.ycframe</groupId>
-		  <artifactId>ycframe-web-plugins-security</artifactId> 
-		  <version>0.0.2-SNAPSHOT</version>
-		</dependency>
+		 </dependency>     
 		<dependency>
   			<groupId>com.ycframe</groupId>
 			<artifactId>ycframe-web-common</artifactId>

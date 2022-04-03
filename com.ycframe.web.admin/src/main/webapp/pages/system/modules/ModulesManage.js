@@ -57,14 +57,11 @@ var ModulesManage = moduleinit({
 	                isChange: false,
 	                stateAble:true,
 	                stateDisable:true,
-	                stateDel:true,
-	                pageGnmc:'节点名称',
-	                paegJdms:'节点描述',
+	                stateDel:true,  
 	                stateUpdate:true,
 	                xsyc:true,
-	                stateButton:true,
-	                nomodelState:true,
-	                isDisabled: false,
+	                stateButton:true, 
+	                isDisabled: false, 
 	                ruleForm: {
 	                	parent: '',
 	                	GNMC: '',
@@ -118,10 +115,93 @@ var ModulesManage = moduleinit({
 	                btnTable: [],
 	                currentPage: 0,
 	                gnlxList:[
-	                {id:'0',text:'菜单'},
-	                {id:'1',text:'接口'},
-	                {id:'3',text:'按钮'}
+		                {id:'9',text:'目录'},
+		                {id:'0',text:'功能'},
+		                {id:'1',text:'接口'},
+		                {id:'2',text:'模块'},
+		                {id:'3',text:'按钮'}
 	                ],
+	                currentfieldInfo:{
+                		iscomponent:{text:"功能类型",show:true},
+	            		parent:     {text:"上级资源",show:true},
+	            		name:       {text:"功能名称",show:true},
+	            		state:      {text:"是否启用",show:true},
+	            		order:      {text:"顺序编号",show:true},
+	            		path:       {text:"功能地址",show:true},
+	            		memo:       {text:"功能描述",show:true},
+	            		icon:       {text:"图标",show:true},
+	            		componentname:{text:"组件名称",show:true},
+	            		resource:    {text:"资源地址",show:true},
+	            		linkurl:     {text:"外部链接",show:true}
+	                },
+	                fieldInfo:{
+	                	catalogue:{
+	                		iscomponent:{text:"",show:false},
+	                		parent:   {text:"上级目录",show:true},
+	                		name:     {text:"目录名称",show:true},
+	                		state:     {text:"是否启用",show:true},
+	                		order:     {text:"顺序编号",show:true},
+	                		path:     {text:"",show:false},
+	                		memo:     {text:"目录描述",show:true},
+	                		icon:     {text:"图标",show:true},
+	                		componentname:{text:"",show:false},
+	                		resource:   {text:"",show:false},
+	                		linkurl:  {text:"",show:false}
+	                	},
+	                	application:{
+	                		iscomponent:{text:"功能类型",show:true},
+	                		parent:   {text:"上级资源",show:true},
+	                		name:     {text:"功能名称",show:true},
+	                		state:     {text:"是否启用",show:true},
+	                		order:     {text:"顺序编号",show:true},
+	                		path:     {text:"功能地址",show:true},
+	                		memo:     {text:"功能描述",show:true},
+	                		icon:     {text:"图标",show:true},
+	                		componentname:{text:"组件名称",show:true},
+	                		resource:   {text:"资源地址",show:true},
+	                		linkurl:  {text:"外部链接",show:true}
+	                	},
+	                	api:{
+	                		iscomponent:{text:"",show:false},
+	                		parent:   {text:"上级资源",show:true},
+	                		name:     {text:"接口名称",show:true},
+	                		state:     {text:"是否启用",show:true},
+	                		order:     {text:"顺序编号",show:true},
+	                		path:     {text:"接口地址",show:true},
+	                		memo:     {text:"接口描述",show:true},
+	                		icon:     {text:"",show:false},
+	                		componentname:{text:"",show:false},
+	                		resource:   {text:"",show:false},
+	                		linkurl:  {text:"",show:false}
+	                	},
+	                	module:{
+	                		iscomponent:{text:"",show:false},
+	                		parent:   {text:"上级资源",show:true},
+	                		name:     {text:"模块名称",show:true},
+	                		state:     {text:"是否启用",show:true},
+	                		order:     {text:"顺序编号",show:true},
+	                		path:     {text:"",show:false},
+	                		memo:     {text:"功能描述",show:true},
+	                		icon:     {text:"",show:false},
+	                		componentname:{text:"组件名称",show:true},
+	                		resource:   {text:"资源地址",show:true},
+	                		linkurl:  {text:"",show:false}
+	                	},
+	                	button:{
+	                		iscomponent:{text:"",show:false},
+	                		parent:   {text:"上级资源",show:true},
+	                		name:     {text:"按钮名称",show:true},
+	                		state:     {text:"是否启用",show:true},
+	                		order:     {text:"顺序件编号",show:true},
+	                		path:     {text:"按钮ID",show:true},
+	                		memo:     {text:"功能描述",show:true},
+	                		icon:     {text:"",show:false},
+	                		componentname:{text:"权限字符",show:true},
+	                		resource:   {text:"",show:false},
+	                		linkurl:  {text:"",show:false}
+	                	}
+	                }
+	                ,
 	                currentPage1: 0,
 	                selected: [],
 	                iconShow:false,
@@ -218,18 +298,7 @@ var ModulesManage = moduleinit({
 	                	}
 	          		}});
 	          		
-	          		   $$.modules.getAllAN({data:{},success:function(data){
-	                	if (data.code == 0) {
-	                		that.anList = data.data;
-	                	} else {
-		                	 that.$message({
-	                            showClose: true,
-	                            message:  data.message,
-	                            type: 'error'
-	                          });
-	                	}
-	          		}});
-	                $$.modules.getTreeSelect({success:function(data){
+	               $$.modules.getTreeSelect({success:function(data){
 	                	if (data.code == 0) {
 	                		that.treeData = data.data;
 	                	} else {
@@ -339,84 +408,57 @@ var ModulesManage = moduleinit({
 	              ismenu(val)
 	              {
 	              var that=this;
-	              	if(val=='1')
-	              	{
-	              		that.pageGnmc='接口名称';
-	              		that.paegJdms='接口描述',
-	              		that.isDisabled=true;
-	              		that.nomodelState=false;
-	              		that.ljdz="资源地址";
-	              		that.xsyc=false;
-	              		that.anState=true;
-	              		that.ruleForm.isComponent=true;
-	              	}else if(val=='0')
-	              	{
-	              		that.pageGnmc='菜单名称';
-	              		that.paegJdms='菜单描述',
-	             		that.isDisabled=false;
-	             		that.ljdz="资源地址";
-	             		that.anState=true;
-	    			    that.xsyc=true;
-	              		that.nomodelState=true;
-	              	}else if(val=='2')
-	              	{
-	              	
-	              		that.pageGnmc='功能名称';
-	              		that.paegJdms='功能描述',
-	              		that.isDisabled=true;
-	              		that.nomodelState=false;
-	              		that.ljdz="资源地址";
-	              		
-	              		that.xsyc=false;
-	              		that.anState=true;
-	              		that.ruleForm.isComponent=true;
-	              	}
-	              	
-	              	
-	              	else if(val=='3')
-	              	{
-	              		that.pageGnmc='按钮名称';
-	              		that.paegJdms='按钮描述',
-	              		that.xsyc=false;
-	              		that.isDisabled=true;
-	              		that.nomodelState=false;
-	              		that.anState=true;
-	              		that.ljdz="按钮id";
-	              		that.ruleForm.isComponent=true;
-	              	
-	              	}
-	              
-	              },
-	              handleCurrentChange(val) {
-	                this.currentRow = val;
-	                if(!val){
-	                	this.stateUpdate = true;
-	                	this.stateDel = true;
-	                	this.stateButton = true;
-	                	this.stateAble = true;
-	                	this.stateDisable = true;
-	                	return;
-	                }
-	                if(val.id == '1'){
-	                	this.stateUpdate = true;
-	                	this.stateDel = true;
-	                	this.stateButton = true;
-	                	this.stateAble = true;
-	                	this.stateDisable = true;
-	                }else{
-	                	 if(val.SFXS == 'Web端启用' || val.SFXS == '手机端启用'){
-	                     	this.stateDisable = false;
-	                     	this.stateAble = true;
-	                     }else{
-	                     	this.stateAble = false;
-	                     	this.stateDisable = true;
-	                     }
-	                	 this.stateUpdate = false;
-	                 	 this.stateDel = false;
-	                 	 this.stateButton = false;
-	                }
+	              switch(val) {
+		              case '9':    //目录 
+		            	 $.extend(that.currentfieldInfo, that.fieldInfo.catalogue);
+		                 break;
+		              case '0':    //功能
+			             $.extend(that.currentfieldInfo, that.fieldInfo.application);
+		                 break;   
+		              case '1':    //接口
+		            	 $.extend(that.currentfieldInfo, that.fieldInfo.api);
+			             break;
+		              case '2':    //模块
+		            	 $.extend(that.currentfieldInfo, that.fieldInfo.module);
+				         break;
+		              case '3':    //按钮
+		            	 $.extend(that.currentfieldInfo, that.fieldInfo.button);
+		              default:
+	
+		         }  
 	                
 	              },
+	              
+	              handleCurrentChange(val) {
+		                this.currentRow = val;
+		                if(!val){
+		                	this.stateUpdate = true;
+		                	this.stateDel = true;
+		                	this.stateButton = true;
+		                	this.stateAble = true;
+		                	this.stateDisable = true;
+		                	return;
+		                }
+		                if(val.id == '1'){
+		                	this.stateUpdate = true;
+		                	this.stateDel = true;
+		                	this.stateButton = true;
+		                	this.stateAble = true;
+		                	this.stateDisable = true;
+		                }else{
+		                	 if(val.SFXS == 'T'){
+		                     	this.stateDisable = false;
+		                     	this.stateAble = true;
+		                     }else{
+		                     	this.stateAble = false;
+		                     	this.stateDisable = true;
+		                     }
+		                	 this.stateUpdate = false;
+		                 	 this.stateDel = false;
+		                 	 this.stateButton = false;
+		                }
+		                
+		              },
 	              handleClose(done) {
 	                this.$confirm('确认关闭？')
 	                  .then(_ => {
@@ -592,10 +634,8 @@ var ModulesManage = moduleinit({
 	    				  }
 	            	  }});
 	            	  var newData = '';
-	            	  if (this.currentRow.SFXS == 'Web端启用') {
+	            	  if (this.currentRow.SFXS == 'T') {
 	            		  newData = 'T';
-	            	  } else if (this.currentRow.SFXS == '手机端启用'){
-	            		  newData = 'S';
 	            	  } else {
 	            		  newData = 'F';
 	            	  }
@@ -604,7 +644,7 @@ var ModulesManage = moduleinit({
 	            		  console.log('this.currentRow===>',this.currentRow);
 	            		  this.ruleForm.isComponent = this.currentRow.isComponent;
 	    				  this.ruleForm.parent = this.currentRow.parent.toString();
-	    				  this.ruleForm.SFXS = newData;
+	    				  this.ruleForm.SFXS = this.currentRow.SFXS;
 	    				  this.ruleForm.GNMC = this.currentRow.GNMC;				
 	    				  this.ruleForm.GNDZ = this.currentRow.GNDZ;			
 	    				  this.ruleForm.JDMS = this.currentRow.JDMS;		
@@ -684,21 +724,20 @@ var ModulesManage = moduleinit({
 	           	  },
 	           	  zhuanhuan(val)
       	        	{
-      	        		if(val=="0")
-      	        		{
-      	        			return "菜单";
+		           		if(val=="9"){
+	  	        			return "目录";
+	  	        		}else if(val=="0"){
+      	        			return "功能";
       	        		}else if(val=="1")
       	        		{
       	        			return "接口";
       	        		}else if(val=="2")
       	        		{
-      	        			
-      	        			return "功能";
+      	        			return "模块";
       	        		}else if(val=="3")
       	        		{
       	        			return "按钮";
-      	        		}
-      	 
+      	        		} 
       	        	},
 	           	  //启用
 	           	  able(){

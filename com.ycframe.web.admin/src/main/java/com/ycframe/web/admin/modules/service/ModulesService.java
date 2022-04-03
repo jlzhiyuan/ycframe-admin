@@ -246,7 +246,7 @@ public class ModulesService {
 			ModulesDao dao = null;
 			manager.load();
 			dao = manager.getDao(ModulesDao.class); 
-			List<DBMap> list =dao.getComponent().andIn("jsgn.jszid", Arrays.asList(jsids) ).andEq("gnlx", "0").select(); 
+			List<DBMap> list =dao.getComponent().andIn("jsgn.jszid", Arrays.asList(jsids) ).andIn("gnlx", Arrays.asList("0","2")).select(); 
 			List<DBMap> list3 = new ArrayList<DBMap>();
 			for(int i = 0; i < list.size(); i++){
 				DBMap dbMap = list.get(i);
@@ -264,8 +264,28 @@ public class ModulesService {
 		
 	}
 
-	
-	
+ 
+	public List<DBMap> getPermissions(String user) throws Exception {
+		Manager manager = new Manager();
+		ModulesDao dao = null;
+		manager.load();
+		dao = manager.getDao(ModulesDao.class); 
+		List<DBMap> list =dao.getPermissions().andEq("ry.yhm", user).select();  
+		return list; 
+	}
+	/**
+	 * 获取所有资源及所授予角色
+	 * @return   gndz：功能地址     roles：角色名逗号分开
+	 * @throws Exception
+	 */
+	public List<DBMap> getResourcesOfGuest() throws Exception {
+		Manager manager = new Manager();
+		ModulesDao dao = null;
+		manager.load();
+		dao = manager.getDao(ModulesDao.class); 
+		List<DBMap> list =dao.getResourcesOfGuest().select();  
+		return list; 
+	}
 	/**
 	 * 获取所有资源及所授予角色
 	 * @return   gndz：功能地址     roles：角色名逗号分开
@@ -573,26 +593,7 @@ public class ModulesService {
 			return map;
 		}
 	}
-	
-	public List<DBMap> getBtnData(String id) throws ServiceException{
-		Manager manager = new Manager();
-		ModulesDao dao = null;
-		List<DBMap> list = null; 
-		try {
-			manager.load();
-			dao = manager.getDao(ModulesDao.class);
-			list = dao.getAnList(id); 
-		} catch (DaoTypeErrorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new ServiceException("获取数据错误");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new ServiceException("获取数据错误");
-		}
-		return list;
-	}
+	 
 	
 	
 	

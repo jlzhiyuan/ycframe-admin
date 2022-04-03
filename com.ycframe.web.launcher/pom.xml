@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ycframe</groupId>
-	<artifactId>adminlaunchder</artifactId>
+	<artifactId>launchder</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 		
@@ -47,6 +47,11 @@
 		</dependency> 	 
 		<dependency>
 			<groupId>com.ycframe</groupId>
+			<artifactId>ycframe-web</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+		</dependency> 
+		<dependency>
+			<groupId>com.ycframe</groupId>
 			<artifactId>ycframe-boot</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency> 
@@ -65,17 +70,21 @@
 			<artifactId>ycframe-key</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
 		<dependency>
-			<groupId>com.ycframe</groupId>
-			<artifactId>ycframe-web</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+		  <groupId>com.ycframe</groupId>
+		  <artifactId>ycframe-web-plugins-security</artifactId> 
+		  <version>0.0.2-SNAPSHOT</version>
 		</dependency>
-
 		<dependency>
 		  <groupId>com.ycframe</groupId>
 		  <artifactId>ycframe-web-extends-security</artifactId>
 		  <version>0.0.1-SNAPSHOT</version>
+		  <exclusions>
+		  	<exclusion>
+		  		<artifactId>ycframe-web</artifactId>
+		  		<groupId>com.ycframe</groupId>
+		  	</exclusion>
+		  </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.ycframe</groupId>
@@ -85,6 +94,10 @@
 				<exclusion>
 					<artifactId>okio</artifactId>
 					<groupId>com.squareup.okio</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>ycframe-web</artifactId>
+					<groupId>com.ycframe</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -112,11 +125,23 @@
 			<groupId>com.ycframe</groupId>
 			<artifactId>ycframe-web-admin</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>ycframe-web</artifactId>
+					<groupId>com.ycframe</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.ycframe</groupId>
 			<artifactId>ycframe-web-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>ycframe-web</artifactId>
+					<groupId>com.ycframe</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 			<dependency>
     	<groupId>commons-fileupload</groupId>

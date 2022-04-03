@@ -111,8 +111,8 @@ public class Modules extends AbstractWebDo {
 
 		String select =
 
-		"[" + "{" + " \"id\": \"T\"," + " \"text\": \"Web端(是)\"" + " }" + ",{"
-				+ " \"id\": \"S\"," + " \"text\": \"手机端(是)\"" + " }" + ",{"
+		"[" + "{" + " \"id\": \"T\"," + " \"text\": \"是\"" + " }"
+				 + ",{"
 				+ " \"id\": \"F\"," + " \"text\": \"否\"" + " }" + " ]";
 		List list = JsonUtils.toList(select);
 
@@ -367,29 +367,5 @@ public class Modules extends AbstractWebDo {
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage()); 
 		}
 	}
-	
-	
-	public Result getBtnData(String id){
-		
-		try {
-			ModulesService service = new ModulesService();
-			List<DBMap> data = service.getBtnData(id); 
-			return JsonResult.Result(data).setCode(0);
-		} catch (Exception e) {
-			return JsonResult.Result(null).setCode(1).setMessage("发生错误!");
-		}
-		
-	}
-	
-	public Result getAllAN(){
-		
-		try {
-			ModulesService service = new ModulesService();
-			List<DBMap> data = service.getAllAN(); 
-			return JsonResult.Result(data).setCode(0);
-		} catch (Exception e) {
-			return JsonResult.Result(null).setCode(1).setMessage("发生错误!");
-		}
-		
-	}
+
 }

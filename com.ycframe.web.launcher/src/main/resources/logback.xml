@@ -4,13 +4,11 @@
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
       <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
-      <pattern>[WebAdmin][%d{HH:mm:ss}] [%p] [%-20.20c] %m %n</pattern>
+      <pattern>[Web][%d{HH:mm:ss}] [%p] [%-20.20c] %m %n</pattern>
       <!-- <charset>UTF-8</charset> -->
     </encoder> 
-      <filter class="ch.qos.logback.classic.filter.LevelFilter">   
-     <level>INFO</level>   
-     <onMatch>ACCEPT</onMatch>   
-     <onMismatch>DENY</onMismatch>   
+      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">   
+     <level>WARN</level>
    </filter> 
   </appender>
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">

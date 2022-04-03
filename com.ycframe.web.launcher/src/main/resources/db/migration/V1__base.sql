@@ -1,25 +1,3 @@
-SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for dttj
--- ----------------------------
-DROP TABLE IF EXISTS `dttj`;
-CREATE TABLE `dttj` (
-  `id` varchar(64) NOT NULL,
-  `ryid` varchar(64) DEFAULT NULL,
-  `captions` varchar(2000) DEFAULT NULL COMMENT '上方可拖拽字段',
-  `mrxszd` varchar(2000) DEFAULT NULL COMMENT '默认显示字段',
-  `cjxsdd` varchar(2000) DEFAULT NULL COMMENT '表格中层级显示字段',
-  `sfqy` varchar(200) DEFAULT NULL COMMENT '是否启用 0:启用 ，1：未启用',
-  `cxmsmc` varchar(255) DEFAULT NULL COMMENT '查询模式名称',
-  `jlsj` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录时间',
-  `jlzt` varchar(20) DEFAULT NULL COMMENT '0:未删除，1：已删除',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-
--- ----------------------------
--- Table structure for sextype
--- ----------------------------
 DROP TABLE IF EXISTS `sextype`;
 CREATE TABLE `sextype` (
   `id` varchar(255) DEFAULT NULL,
@@ -27,20 +5,8 @@ CREATE TABLE `sextype` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
--- Table structure for systembutton
+-- Records of sextype
 -- ----------------------------
-DROP TABLE IF EXISTS `systembutton`;
-CREATE TABLE `systembutton` (
-  `id` varchar(36) NOT NULL,
-  `ANNAME` varchar(64) DEFAULT NULL COMMENT '按钮名称',
-  `ANID` varchar(64) DEFAULT NULL COMMENT '控件id',
-  `EFFECT` varchar(64) DEFAULT NULL COMMENT '作用',
-  `ZT` varchar(20) DEFAULT NULL COMMENT '状态',
-  `JLZT` varchar(20) DEFAULT '未删除' COMMENT '记录状态',
-  `JLSJ` datetime DEFAULT NULL COMMENT '记录时间',
-  `tag` varchar(64) DEFAULT '0' COMMENT '数据权限',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for systemcodedebug
@@ -56,6 +22,10 @@ CREATE TABLE `systemcodedebug` (
   `jlzt` varchar(10) DEFAULT NULL COMMENT '0:未删除，1：已删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemcodedebug
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for systemcodeeditor
@@ -75,6 +45,10 @@ CREATE TABLE `systemcodeeditor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
+-- Records of systemcodeeditor
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for systemcodeversion
 -- ----------------------------
 DROP TABLE IF EXISTS `systemcodeversion`;
@@ -90,6 +64,10 @@ CREATE TABLE `systemcodeversion` (
   `jlzt` varchar(10) DEFAULT NULL COMMENT '0:未删除，1：已删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemcodeversion
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for systemdataauthority
@@ -108,6 +86,10 @@ CREATE TABLE `systemdataauthority` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
+-- Records of systemdataauthority
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for systemdataauthorityzt
 -- ----------------------------
 DROP TABLE IF EXISTS `systemdataauthorityzt`;
@@ -115,6 +97,10 @@ CREATE TABLE `systemdataauthorityzt` (
   `ztNo` varchar(6) DEFAULT NULL COMMENT '数据权限状态序号',
   `ztValue` varchar(20) DEFAULT NULL COMMENT '数据权限状态值'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemdataauthorityzt
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for systemgn
@@ -138,7 +124,32 @@ CREATE TABLE `systemgn` (
   `linkUrl` varchar(1000) DEFAULT NULL,
   `gnlx` int(10) DEFAULT '0' COMMENT '资源类型功能类型 0.系统模块  1.api 2.功能 3 按钮',
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11303 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=11309 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemgn
+-- ----------------------------
+INSERT INTO `systemgn` VALUES ('1', '无上级功能', 'null', null, '1', null, null, 'F', '1', null, '', '', null, '1', null, '0');
+INSERT INTO `systemgn` VALUES ('1468', '系统维护', 'null', '', '99', '1', null, 'T', '1-1468', '系统维护', 'el-icon-s-tools', '', '', '1', '', '9');
+INSERT INTO `systemgn` VALUES ('11166', '部门管理', 'null', '/organization', '2', '1468', null, 'T', '1-1468-11166', '部门管理', 'el-icon-eleme', 'organization', '/system/organization/organization.js', '1', null, '0');
+INSERT INTO `systemgn` VALUES ('11253', '数据权限', 'null', '/data', '3', '1468', null, 'F', '1-1468-11253', '数据权限', 'el-icon-loading', 'Data', '/system/data/data.js', '1', null, '0');
+INSERT INTO `systemgn` VALUES ('11254', '按钮管理', 'null', '/button-manage', '4', '1468', null, 'T', '1-1468-11254', '按钮管理', '', 'ButtonManage', '/system/buttonManage/index.js', '1', '', '0');
+INSERT INTO `systemgn` VALUES ('11255', '操作权限', 'null', '/authority', '5', '1468', null, 'T', '1-1468-11255', '操作权限', 'el-icon-lock', 'authority', '/system/authority/authority.js', '1', null, '0');
+INSERT INTO `systemgn` VALUES ('11258', '资源管理', 'null', '/modules-manage', '6', '1468', null, 'T', '1-1468-11258', '资源管理', 'el-icon-notebook-2', 'ModulesManage', '/system/modules/ModulesManage.js', '1', null, '0');
+INSERT INTO `systemgn` VALUES ('11265', '人员管理', null, '/personal-manage', '8', '1468', null, 'T', '1-1468-11265', '人员管理', 'el-icon-user', 'personalManage', '/system/personalManage/personalManage.js', '1', '', '0');
+INSERT INTO `systemgn` VALUES ('11266', '主题管理', null, '/theme', '9', '1468', null, 'T', '1-1468-11266', '主题管理', 'el-icon-view', 'Theme', '/system/theme/index.js', '1', '', '0');
+INSERT INTO `systemgn` VALUES ('11267', '角色管理', null, '/roleManage', '10', '1468', null, 'T', '1-1468-11267', '角色管理', 'el-icon-user-solid', 'RoleManage', '/system/RoleManage/roleManage.js', '1', '', '0');
+INSERT INTO `systemgn` VALUES ('11269', '组织机构导入', null, '/ImportData', '11', '1468', null, 'F', '1-1468-11269', '组织机构导入', 'el-icon-folder-add', 'ImportData', '/system/ImportData/index.js', '1', '', '0');
+INSERT INTO `systemgn` VALUES ('11294', '代码维护', null, '/codeEditor', '14', '1468', null, 'T', '1-1468-11294', '代码维护', 'el-icon-sold-out', 'codeEditor', '/system//codeEditor//codeEditor.js', '1', '', '0');
+INSERT INTO `systemgn` VALUES ('11295', '动态代码模块管理', null, '/codeEditor', '13', '1468', null, 'F', '1-1468-11295', '动态代码模块管理', 'el-icon-sold-out', 'codeEditor', '/system/codeEditor/codeEditor.js', '1', '', '0');
+INSERT INTO `systemgn` VALUES ('11296', '日志管理', null, '/rzgl', '10', '1468', null, 'T', '1-1468-11296', '日志管理', 'el-icon-sold-out', 'rzgl', '/system/rzgl/rzgl.js', '1', '', '0');
+INSERT INTO `systemgn` VALUES ('11297', '日志管理动态统计', null, '/rzgltj', '13', '1468', null, 'T', '1-1468-11297', '日志管理动态统计', 'el-icon-sold-out', 'rzgltj', '/system/rzgl/rzgltj.js', '1', '', '0');
+INSERT INTO `systemgn` VALUES ('11302', 'authority', null, '/authority/*', '11', '11255', null, 'T', '1-1468-11255-11302', '操作权限所有接口', '', '', '', '1', '', '1');
+INSERT INTO `systemgn` VALUES ('11303', 'rzgl', null, '/rzgl/*', '1', '11296', null, 'T', '1-1468-11296-11303', 'rzgl', '', '', '', '1', '', '1');
+INSERT INTO `systemgn` VALUES ('11304', 'organization', null, '/organization/*', '1', '11166', null, 'T', '1-1468-11166-11304', 'organization', '', '', '', '1', '', '1');
+INSERT INTO `systemgn` VALUES ('11305', 'modules', null, '/modules/*', '1', '11258', null, 'T', '1-1468-11258-11305', 'modules', '', '', '', '1', '', '1');
+INSERT INTO `systemgn` VALUES ('11306', 'user', null, '/user/*', '1', '11265', null, 'T', '1-1468-11265-11306', 'user', '', '', '', '1', '', '1');
+INSERT INTO `systemgn` VALUES ('11307', 'role', null, '/role/*', '1', '11267', null, 'T', '1-1468-11267-11307', 'role', '', '', '', '1', '', '1');
 
 -- ----------------------------
 -- Table structure for systemgnanmiddle
@@ -151,6 +162,10 @@ CREATE TABLE `systemgnanmiddle` (
   `jlzt` varchar(64) DEFAULT '未删除' COMMENT '记录状态',
   `jlsj` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录时间'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemgnanmiddle
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for systemgw
@@ -167,6 +182,10 @@ CREATE TABLE `systemgw` (
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
+-- Records of systemgw
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for systemgw_ry
 -- ----------------------------
 DROP TABLE IF EXISTS `systemgw_ry`;
@@ -174,6 +193,10 @@ CREATE TABLE `systemgw_ry` (
   `GWID` int(11) DEFAULT NULL,
   `RYID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemgw_ry
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for systemjsgn
@@ -184,6 +207,34 @@ CREATE TABLE `systemjsgn` (
   `JSZID` int(11) DEFAULT NULL,
   `jlzt` varchar(255) DEFAULT '未删除'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemjsgn
+-- ----------------------------
+INSERT INTO `systemjsgn` VALUES ('1468', '0', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11166', '0', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11255', '0', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11258', '0', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11265', '0', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11266', '0', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11267', '0', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11294', '0', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11296', '0', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11297', '0', '未删除');
+INSERT INTO `systemjsgn` VALUES ('1468', '492', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11166', '492', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11304', '492', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11255', '492', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11302', '492', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11258', '492', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11305', '492', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11265', '492', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11306', '492', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11267', '492', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11307', '492', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11296', '492', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11303', '492', '未删除');
+INSERT INTO `systemjsgn` VALUES ('11297', '492', '未删除');
 
 -- ----------------------------
 -- Table structure for systemjsz
@@ -198,19 +249,14 @@ CREATE TABLE `systemjsz` (
   `JLZT` varchar(10) NOT NULL DEFAULT '未删除' COMMENT '记录状态',
   `JLSJ` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录时间',
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=576 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=578 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
--- Table structure for systemmodulebutton
+-- Records of systemjsz
 -- ----------------------------
-DROP TABLE IF EXISTS `systemmodulebutton`;
-CREATE TABLE `systemmodulebutton` (
-  `id` varchar(36) NOT NULL DEFAULT '主键id',
-  `anmc` varchar(64) DEFAULT NULL COMMENT '按钮名称',
-  `jlzt` varchar(64) DEFAULT '未删除' COMMENT '记录状态',
-  `jlsj` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+INSERT INTO `systemjsz` VALUES ('0', 'ROOT', '1', '系统开发者用户，自动拥有一切权限', '1', '未删除', '2022-04-02 23:48:15');
+INSERT INTO `systemjsz` VALUES ('1', 'GUEST', '1', '游客，非登录用户，谨慎使用', '1', '未删除', '2022-04-02 23:48:02');
+INSERT INTO `systemjsz` VALUES ('492', '系统管理员', '1', '管理员角色', '1', '未删除', '2022-04-02 21:22:36');
 
 -- ----------------------------
 -- Table structure for systemmodulemanage
@@ -232,6 +278,10 @@ CREATE TABLE `systemmodulemanage` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
+-- Records of systemmodulemanage
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for systemoperationauthority
 -- ----------------------------
 DROP TABLE IF EXISTS `systemoperationauthority`;
@@ -243,6 +293,14 @@ CREATE TABLE `systemoperationauthority` (
   `jlsj` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemoperationauthority
+-- ----------------------------
+INSERT INTO `systemoperationauthority` VALUES ('e1cee30c-1268-47f5-8f44-42f788bf67dc', '576', '', '未删除', '2022-03-25 09:44:17');
+INSERT INTO `systemoperationauthority` VALUES ('5d52adc4-a272-456a-a11f-a280ff11f967', '0', '', '未删除', '2022-04-02 22:02:14');
+INSERT INTO `systemoperationauthority` VALUES ('63f3bd82-e4a0-4e92-adf0-58b0cc908043', '1', '', '未删除', '2022-04-03 20:49:17');
+INSERT INTO `systemoperationauthority` VALUES ('9bd2612b-03ee-4c35-942c-76c96a91a228', '492', '', '未删除', '2022-04-03 20:49:35');
 
 -- ----------------------------
 -- Table structure for systemoperationbutton
@@ -257,6 +315,10 @@ CREATE TABLE `systemoperationbutton` (
   `jlsj` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemoperationbutton
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for systemry
@@ -287,6 +349,12 @@ CREATE TABLE `systemry` (
   `rylb` varchar(20) DEFAULT '0' COMMENT '区分系统用户还是业务用户，0为系统用户，1为业务用户',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemry
+-- ----------------------------
+INSERT INTO `systemry` VALUES ('a7c0934854ff4f33b3ea43ed3bad4345', null, null, 'root', 'root', '13131112234', null, '18e1b955c62de32f315b591782633617b86f6d570bee1e8168011462a77bbb421d92848797c1072acb998586f268770b2b3724017757e7baeb1a840da09940ddeade7a7fdcee6e0f2f6bd7fff863817c6f998747e71b550a750e02c7b1583f42beb7d72eae77b3e7ea11009f8705ca05e65b330f4dbe20debea952e7a189a3a7', '18e1b955c62de32f315b591782633617b86f6d570bee1e8168011462a77bbb421d92848797c1072acb998586f268770b2b3724017757e7baeb1a840da09940ddeade7a7fdcee6e0f2f6bd7fff863817c6f998747e71b550a750e02c7b1583f42beb7d72eae77b3e7ea11009f8705ca05e65b330f4dbe20debea952e7a189a3a7', '-', '2022-03-24 15:57:41', null, '', null, null, null, null, '1', '正常', '0', null, '0');
+INSERT INTO `systemry` VALUES ('aa5dcb86-5224-4a32-97d2-7690691190a3', null, null, 'admin', 'admin', null, null, '18e1b955c62de32f315b591782633617b86f6d570bee1e8168011462a77bbb421d92848797c1072acb998586f268770b2b3724017757e7baeb1a840da09940ddeade7a7fdcee6e0f2f6bd7fff863817c6f998747e71b550a750e02c7b1583f42beb7d72eae77b3e7ea11009f8705ca05e65b330f4dbe20debea952e7a189a3a7', '18e1b955c62de32f315b591782633617b86f6d570bee1e8168011462a77bbb421d92848797c1072acb998586f268770b2b3724017757e7baeb1a840da09940ddeade7a7fdcee6e0f2f6bd7fff863817c6f998747e71b550a750e02c7b1583f42beb7d72eae77b3e7ea11009f8705ca05e65b330f4dbe20debea952e7a189a3a7', '-', '2022-01-05 14:46:11', null, '', null, null, null, null, '1', '正常', '0', null, '0');
 
 -- ----------------------------
 -- Table structure for systemrygl_ryjl
@@ -353,6 +421,12 @@ CREATE TABLE `systemrygl_ryjl` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
+-- Records of systemrygl_ryjl
+-- ----------------------------
+INSERT INTO `systemrygl_ryjl` VALUES ('4878393c14014e9dade2144a9558cf07', null, '00001', 'root', null, '1', '13131112234', '13131112234', null, '1', null, '0', null, null, 'root', null, null, null, null, null, null, '', null, null, null, null, null, null, null, null, null, null, null, null, '未删除', null, null, null, null, null, null, null, 'a7c0934854ff4f33b3ea43ed3bad4345', null, null, null, null, null, null, null, null, null, '0', null, '');
+INSERT INTO `systemrygl_ryjl` VALUES ('5d2173e6-eb90-4057-878b-3c5d5d8d8885', null, '1', 'admin', null, '1', '13344445556', '13366668888', null, '1', null, '0', null, null, 'admin', null, null, null, null, null, null, '', null, null, null, null, null, null, null, null, null, null, null, null, '未删除', null, null, null, null, null, null, null, 'aa5dcb86-5224-4a32-97d2-7690691190a3', null, null, null, null, null, null, null, null, null, '0', null, '');
+
+-- ----------------------------
 -- Table structure for systemryjs
 -- ----------------------------
 DROP TABLE IF EXISTS `systemryjs`;
@@ -360,6 +434,12 @@ CREATE TABLE `systemryjs` (
   `RYID` varchar(64) DEFAULT NULL,
   `JSZID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemryjs
+-- ----------------------------
+INSERT INTO `systemryjs` VALUES ('a7c0934854ff4f33b3ea43ed3bad4345', '0');
+INSERT INTO `systemryjs` VALUES ('aa5dcb86-5224-4a32-97d2-7690691190a3', '492');
 
 -- ----------------------------
 -- Table structure for systemryzzjg
@@ -370,6 +450,10 @@ CREATE TABLE `systemryzzjg` (
   `JGBH` varchar(16) NOT NULL,
   PRIMARY KEY (`RYID`,`JGBH`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemryzzjg
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for systemtheme
@@ -383,6 +467,10 @@ CREATE TABLE `systemtheme` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
+-- Records of systemtheme
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for systemxtpz
 -- ----------------------------
 DROP TABLE IF EXISTS `systemxtpz`;
@@ -394,6 +482,11 @@ CREATE TABLE `systemxtpz` (
   `SSSXSJ` int(11) DEFAULT '30',
   PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemxtpz
+-- ----------------------------
+INSERT INTO `systemxtpz` VALUES ('1', '20', '10', '100', '30');
 
 -- ----------------------------
 -- Table structure for systemzy
@@ -422,6 +515,10 @@ CREATE TABLE `systemzy` (
   KEY `zzjgid` (`ID`) USING BTREE,
   KEY `zzjgbm` (`BM`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1526 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of systemzy
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for systemzzjg
@@ -455,12 +552,38 @@ CREATE TABLE `systemzzjg` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
+-- Records of systemzzjg
+-- ----------------------------
+INSERT INTO `systemzzjg` VALUES ('1', '1', '01', '吉林省智远科技有限公司', '0', '1', '1', '1', '最上级', null, '未删除', '2022-03-21 18:30:08', null, '1', '\0', null, null, '最上级', null, '1', '一部asdasdads');
+
+-- ----------------------------
+-- Table structure for system_log_dttj
+-- ----------------------------
+DROP TABLE IF EXISTS `system_log_dttj`;
+CREATE TABLE `system_log_dttj` (
+  `id` varchar(64) NOT NULL,
+  `ryid` varchar(64) DEFAULT NULL,
+  `captions` varchar(2000) DEFAULT NULL COMMENT '上方可拖拽字段',
+  `mrxszd` varchar(2000) DEFAULT NULL COMMENT '默认显示字段',
+  `cjxsdd` varchar(2000) DEFAULT NULL COMMENT '表格中层级显示字段',
+  `sfqy` varchar(200) DEFAULT NULL COMMENT '是否启用 0:启用 ，1：未启用',
+  `cxmsmc` varchar(255) DEFAULT NULL COMMENT '查询模式名称',
+  `jlsj` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录时间',
+  `jlzt` varchar(20) DEFAULT NULL COMMENT '0:未删除，1：已删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of system_log_dttj
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for sys_log
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_log`;
 CREATE TABLE `sys_log` (
   `id` varchar(64) NOT NULL COMMENT 'id',
-  `jlsj` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `jlsj` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `username` varchar(64) DEFAULT NULL COMMENT '用户名',
   `userid` varchar(64) DEFAULT NULL COMMENT '用户id',
   `model` varchar(128) DEFAULT NULL COMMENT '操作模块',
@@ -472,6 +595,10 @@ CREATE TABLE `sys_log` (
   `jlzt` varchar(255) DEFAULT '0' COMMENT '记录状态0：未删除 1：已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sys_log
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for wjsc
@@ -490,3 +617,7 @@ CREATE TABLE `wjsc` (
   `SAVEPATH` text,
   PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of wjsc
+-- ----------------------------
