@@ -88,7 +88,7 @@ public class Role  extends WebDo{
 		
 		 
 		MapValidator validator = com.ycframe.validator.ValidatorFactory.getMapValidator();
-		validator.NotBlank("jsmc").NotBlank("id");
+		validator.NotBlank("jsmc");
 		Map a = validator.valid(inputData);
 		if(a.size()>0){
 			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！",App.getApp().getIp(getRequest()));	
