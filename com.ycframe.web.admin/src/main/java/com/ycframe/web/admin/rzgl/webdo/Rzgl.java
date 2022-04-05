@@ -62,6 +62,17 @@ public class Rzgl extends AbstractWebDo {
 		
 	}
 	
+	public Result clean() throws Exception{ 
+		RzglService service = new RzglService();
+		try {
+			service.clean();
+			return JsonResult.Result(null).setCode(0).setMessage("清空完成"); 
+		} catch (Exception e) { 
+			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage()); 
+		}
+		
+	}
+	
 	public Result getDemoData(){ 
 		UserInfo ui = App.getApp().getUserInfo(this.getRequest());
 		try {

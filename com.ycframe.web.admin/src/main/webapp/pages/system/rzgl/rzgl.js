@@ -97,6 +97,22 @@ var rzgl = moduleinit({
  	                        }
  	                      }
  	                },
+ 	                onClean(){
+ 	                	var that = this;
+ 	                	that.loading = true;
+ 	                	$$.rzgl.clean({data:{},success:function(data){
+ 	 	        		  if (data.code == 0) {
+ 	 	        			that.onSubmit();
+ 	 	        		  } 
+ 	 	        		  that.loading = false;
+	 	 	        		that.$message({
+								showClose: true,
+								message: data.message,
+								type: 'success'
+							});
+ 	                	}
+ 	                	});
+ 	                },
  	                onSubmit(){
  	                	var that = this;
  	                	that.loading = true;

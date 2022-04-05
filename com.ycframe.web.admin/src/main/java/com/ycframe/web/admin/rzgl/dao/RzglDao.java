@@ -7,13 +7,18 @@ import com.ycframe.database.query.inter.QueryInterface;
 
 public interface RzglDao extends IDao  {
 
-	@Sql("select id,DATE_FORMAT(jlsj,'%Y-%m-%d %H:%i:%s') jlsj,username,userid,model,model_handle,message,error_body,ip,dwbm,case jlzt when '0' then '执行次数' else '已删除执行次数' end jlzt  from sys_log ")
+	@Sql("select id,DATE_FORMAT(jlsj,'%Y-%m-%d %H:%i:%s') jlsj,username,userid,model,model_handle,message,error_body,ip,osname,browser, case jlzt when '0' then '执行次数' else '已删除执行次数' end jlzt  from sys_log ")
 	@UseCache(false)
 	public QueryInterface init();
 	
-	@Sql("select id,DATE_FORMAT(jlsj,'%Y年%m月%d日 %h时%i分%s秒') jlsj,username,userid,model,model_handle,message,error_body,ip,dwbm,case jlzt when '0' then '执行次数' else '已删除执行次数' end jlzt  from sys_log ")
+	@Sql("select id,DATE_FORMAT(jlsj,'%Y年%m月%d日 %h时%i分%s秒') jlsj,username,userid,model,model_handle,message,error_body,ip,osname,browser, case jlzt when '0' then '执行次数' else '已删除执行次数' end jlzt  from sys_log ")
 	@UseCache(false)
 	public QueryInterface init1();
+	
+	@Sql("delete from sys_log")
+	@UseCache(false)
+	public int clean();
+	
 
 	@Sql("insert into system_log_dttj (id,ryid,captions,mrxszd,cjxsdd,cxmsmc,sfqy,jlzt) values(?,?,?,?,?,?,?,?) ")
 	@UseCache(false)

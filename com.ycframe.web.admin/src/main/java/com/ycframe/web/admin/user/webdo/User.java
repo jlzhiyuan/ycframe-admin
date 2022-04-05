@@ -140,12 +140,12 @@ public Result getTableData() {
 			   }else{
 				   data = service.getRyglServiceOrder(params,orderCol,orderType,irows,ipages,onlines);
 			   }
-			 SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 列表查询成功！",App.getApp().getIp(getRequest()));	
+			 SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 列表查询成功！",getRequest());	
 
 			return JsonResult.Result(data).setCode(0); 
  
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 列表查询失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 列表查询失败！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}
@@ -170,11 +170,11 @@ public Result getTableData() {
 		try {
 			UserService service = new UserService();
 			boolean succes = service.close(ids);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "禁用",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 禁用成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "禁用",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 禁用成功！",getRequest());	
 
 			return JsonResult.Result(null).setCode(0);
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "禁用",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 禁用失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "禁用",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 禁用失败！"+e.getMessage(),getRequest());	
 
 			 return JsonResult.Result( null).setCode(1).setMessage("发生错误!");
 		}		
@@ -186,11 +186,11 @@ public Result getTableData() {
 		try {
 			UserService service = new UserService();
 			boolean succes = service.open(ids);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "启用",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 启用成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "启用",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 启用成功！",getRequest());	
 
 			return JsonResult.Result(null).setCode(0);
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "启用",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 启用失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "启用",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 启用失败！"+e.getMessage(),getRequest());	
 
 			 return JsonResult.Result( null).setCode(1).setMessage("发生错误!");
 		}		
@@ -253,11 +253,11 @@ public Result getTableData() {
 
 			boolean success = service.savedata(id, deptID, userName, YHM,  empCode, sex, Telepone1, Telepone2,zy, ids);
 			 
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  :保存成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  :保存成功！",getRequest());	
 
 			return JsonResult.Result(null).setCode(0);
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！"+e.getMessage(),getRequest());	
 			
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}
@@ -281,16 +281,16 @@ public Result getTableData() {
 			boolean success = service.mmxg(userid,mm);
 			 
 			if(success){
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改密码", SystemInfoLog.UPDATA,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据 修改成功！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改密码", SystemInfoLog.UPDATA,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据 修改成功！",getRequest());	
 				
 				return JsonResult.Result(null).setCode(0);
 			}else{
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改密码", SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改失败！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改密码", SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改失败！",getRequest());	
 				
 				return JsonResult.Result(null).setCode(1).setMessage("修改密码失败，请稍后重试！");
 			}
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改密码", SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改密码", SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改错误！"+e.getMessage(),getRequest());	
 			
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}
@@ -316,16 +316,16 @@ public Result getTableData() {
 			boolean success = service.grxxxg(userid,tel1,tel2,name);
 			 
 			if(success){
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改个人信息", SystemInfoLog.UPDATA,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据 修改成功！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改个人信息", SystemInfoLog.UPDATA,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据 修改成功！",getRequest());	
 				
 				return JsonResult.Result(null).setCode(0);
 			}else{
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改个人信息", SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改失败！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改个人信息", SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改失败！",getRequest());	
 				
 				return JsonResult.Result(null).setCode(1).setMessage("修改密码失败，请稍后重试！");
 			}
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改个人信息", SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改个人信息", SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改错误！"+e.getMessage(),getRequest());	
 			
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}
@@ -344,16 +344,16 @@ public Result getTableData() {
 			boolean success = service.updatePassword(ids);
 			 
 			if(success){
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改密码", SystemInfoLog.UPDATA,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据 修改成功！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改密码", SystemInfoLog.UPDATA,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据 修改成功！",getRequest());	
 				
 				return JsonResult.Result(null).setCode(0);
 			}else{
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改密码", SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改失败！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改密码", SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改失败！",getRequest());	
 				
 				return JsonResult.Result(null).setCode(1).setMessage("修改密码失败，请稍后重试！");
 			}
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改密码", SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_修改密码", SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改错误！"+e.getMessage(),getRequest());	
 			
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}

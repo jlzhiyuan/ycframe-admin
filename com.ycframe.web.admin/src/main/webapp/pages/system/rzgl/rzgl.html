@@ -6,6 +6,7 @@
 		<div class="box-header">
 	    	<el-col :span="24" style="text-align:right">
 	    	<el-button type="primary" @click="onSubmit">查询</el-button>
+	    	<el-button type="primary" @click="onClean">清空日志</el-button>
 	        <el-button type="primary" @click="peopleNumber">动态统计</el-button>
 	        <meta charset="UTF-8">
 	      	</el-col>
@@ -49,7 +50,7 @@
 				        <el-form-item class="nomargin" label="执行状态">
 				          	<el-input v-model="formInline.message" placeholder="执行状态" @change="onSubmit"></el-input>
 				        </el-form-item>
-			        </el-col>
+			        </el-col> 
 			        <el-col :span="8">
 				        <el-form-item class="nomargin" label="IP地址" >
 							<el-input v-model="formInline.ip" placeholder="IP地址" @change="onSubmit"></el-input>
@@ -90,6 +91,17 @@
 	                <span :title="scope.row.message">{{scope.row.message}}</span>
 	            </template> -->
           	</el-table-column>
+          	<el-table-column prop="osname" label="系统" width="100px" sortable="custom">
+          		<!-- <template slot-scope="scope">
+	                <span :title="scope.row.osname">{{scope.row.osname}}</span>
+	            </template> -->
+          	</el-table-column>
+          	<el-table-column prop="browser" label="浏览器" width="100px" sortable="custom">
+          		<!-- <template slot-scope="scope">
+	                <span :title="scope.row.browser">{{scope.row.browser}}</span>
+	            </template> -->
+          	</el-table-column>
+  
           	<el-table-column prop="ip" label="IP地址" width="150px" sortable="custom">
           		<!-- <template slot-scope="scope">
 	                <span :title="scope.row.ip">{{scope.row.ip}}</span>

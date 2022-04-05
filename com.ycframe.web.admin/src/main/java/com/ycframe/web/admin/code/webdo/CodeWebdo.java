@@ -69,11 +69,11 @@ public class CodeWebdo extends AbstractWebDo {
 			inputData.put("orderType", orderType);
 			
 			map = service.init(orderCol,orderType,model_name,model_code,model_describe,page,pageSize);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 获取列表页查询成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 获取列表页查询成功！",getRequest());	
 			
 			return JsonResult.Result(map).setCode(0).setMessage(""); 
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 列表页查询失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 列表页查询失败！"+e.getMessage(),getRequest());	
 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -122,17 +122,17 @@ public class CodeWebdo extends AbstractWebDo {
 
 			boolean success = service.delcode(id);
 			if(success){
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 删除成功！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 删除成功！",getRequest());	
 				
 				return JsonResult.Result(null).setCode(0);
 			}else{
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！",getRequest());	
 				
 
 				return JsonResult.Result(null).setCode(1).setMessage("删除发生错误!");
 			}
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询发生错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询发生错误！"+e.getMessage(),getRequest());	
 			
 			return JsonResult.Result(null).setCode(1).setMessage("删除发生错误!"+e.getCause());
 		}
@@ -181,20 +181,20 @@ public class CodeWebdo extends AbstractWebDo {
 			
 			int success = service.save(fh);
 			if(success==0){
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SAVE,"输入数据 : "+inputData+"\r\n输出数据  : 保存成功！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SAVE,"输入数据 : "+inputData+"\r\n输出数据  : 保存成功！",getRequest());	
 
 				return JsonResult.Result(null).setCode(0);
 			}else if(success==1){
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！模块编码重复!",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！模块编码重复!",getRequest());	
 
 				return JsonResult.Result(null).setCode(1).setMessage("模块编码重复!");
 			}else{
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！!",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！!",getRequest());	
 
 				return JsonResult.Result(null).setCode(1).setMessage("保存发生错误!");
 			}
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！"+e.getMessage(),getRequest());	
 
 			e.printStackTrace();
 			return JsonResult.Result(null).setCode(1).setMessage("保存发生错误!"+e.getCause());
@@ -217,16 +217,16 @@ public class CodeWebdo extends AbstractWebDo {
 			inputData=fh;
 			boolean success = service.del(fh);
 			if(success){
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  删除成功！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  删除成功！",getRequest());	
 				
 				return JsonResult.Result(null).setCode(0);
 			}else{
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  删除失败！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  删除失败！",getRequest());	
 				
 				return JsonResult.Result(null).setCode(1).setMessage("删除发生错误!");
 			}
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 删除错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 删除错误！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(null).setCode(1).setMessage("删除发生错误!"+e.getCause());
 		}
@@ -245,11 +245,11 @@ public class CodeWebdo extends AbstractWebDo {
 			String zjlid = this.getParam("zjlid");
 			inputData.put("zjlid", zjlid);
 			map = service.getVersion(zjlid);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_初始化列表", SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 查询成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_初始化列表", SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 查询成功！",getRequest());	
 
 			return JsonResult.Result(map).setCode(0).setMessage(""); 
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_初始化列表", SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_初始化列表", SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！"+e.getMessage(),getRequest());	
 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -273,28 +273,28 @@ public class CodeWebdo extends AbstractWebDo {
 			inputData=fh;
 			int success = service.saveVersion(fh);
 			if(success==1){
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本成功！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本成功！",getRequest());	
 
 				return JsonResult.Result(null).setCode(0);				
 			}else if(success==2){
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本失败！当前无启用版本！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本失败！当前无启用版本！",getRequest());	
 
 				return JsonResult.Result(null).setCode(1).setMessage("当前无启用版本!");
 			}else if(success==3){
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本失败！当前启用版本超过1个请检查!！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本失败！当前启用版本超过1个请检查!！",getRequest());	
 
 				return JsonResult.Result(null).setCode(1).setMessage("当前启用版本超过1个请检查!");
 			}else if(success==4){
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本失败！版本只能启用1个请检查!！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本失败！版本只能启用1个请检查!！",getRequest());	
 
 				return JsonResult.Result(null).setCode(1).setMessage("版本只能启用1个请检查!");
 			}else{
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本失败！！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本失败！！",getRequest());	
 
 				return JsonResult.Result(null).setCode(1).setMessage("保存发生错误!");
 			}
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本错误！！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本错误！！"+e.getMessage(),getRequest());	
 
 			e.printStackTrace();
 			return JsonResult.Result(null).setCode(1).setMessage("保存发生错误!"+e.getCause());
@@ -319,16 +319,16 @@ public class CodeWebdo extends AbstractWebDo {
 			Map fh =  com.ycframe.web.utils.JsonUtils.toMap(form);
 			boolean success = service.updateVersion(fh,code);
 			if(success){
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本成功！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本成功！",getRequest());	
 
 				return JsonResult.Result(null).setCode(0);
 			}else{
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本失败！！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本失败！！",getRequest());	
 
 				return JsonResult.Result(null).setCode(1).setMessage("保存发生错误!");
 			}
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本错误！！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 保存版本错误！！"+e.getMessage(),getRequest());	
 
 			e.printStackTrace();
 			return JsonResult.Result(null).setCode(1).setMessage("保存发生错误!"+e.getCause());

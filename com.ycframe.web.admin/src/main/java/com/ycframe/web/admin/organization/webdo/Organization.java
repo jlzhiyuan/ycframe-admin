@@ -40,12 +40,12 @@ public class Organization extends WebDo {
 			   }else{
 				   data = service.getOrgList(orderCol,orderType); 
 			   }
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 查询成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 查询成功！",getRequest());	
 
 				 return JsonResult.Result(data).setCode(0).setMessage("success"); 
 			 
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！"+e.getMessage(),getRequest());	
 
 			e.printStackTrace();
 			 return JsonResult.Result(null).setCode(1).setMessage("发生错误!"); 
@@ -98,7 +98,7 @@ public class Organization extends WebDo {
 				if(map.size()>0){
 					Object[] messagesobj = map.values().toArray();
 					String messages = com.ycframe.web.utils.JsonUtils.toString(messagesobj);
-					SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : "+messages,App.getApp().getIp(getRequest()));	
+					SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : "+messages,getRequest());	
 					return JsonResult.Result(null).setCode(1).setMessage(messages);
 				}
 				
@@ -106,16 +106,16 @@ public class Organization extends WebDo {
 						memo,  deptnobm, jc,px);
 			 if(success)
 				 {
-				 SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存成功！",App.getApp().getIp(getRequest()));	
+				 SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存成功！",getRequest());	
 
 				 return JsonResult.Result(null).setCode(0).setMessage("success");
 				 }else {
-					 SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！",App.getApp().getIp(getRequest()));	
+					 SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！",getRequest());	
 						
 				 return JsonResult.Result(null).setCode(1).setMessage("保存失败");
 				 }
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 保存错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 保存错误！"+e.getMessage(),getRequest());	
 			
 			e.printStackTrace();
 			return JsonResult.Result(null).setCode(1).setMessage("保存失败"+e.getMessage());
@@ -136,23 +136,23 @@ public class Organization extends WebDo {
 				   sres= service.delOrg(ids);
 			}
 			if(sres.get("is") == 1 && sres.get("delcount")>0)
-			{	SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : "+"部分删除成功，数量"+sres.get("delcount")+"！某些部门下有人员，未被删除",App.getApp().getIp(getRequest()));	
+			{	SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : "+"部分删除成功，数量"+sres.get("delcount")+"！某些部门下有人员，未被删除",getRequest());	
 			
 				return JsonResult.Result(null).setCode(0).setMessage("部分删除成功，数量"+sres.get("delcount")+"！某些部门下有人员，未被删除");
 			}
 			else if(sres.get("is") == 0 && sres.get("delcount")>0) 
 			{
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 删除成功！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 删除成功！",getRequest());	
 				
 				return JsonResult.Result(null).setCode(0).setMessage("删除成功!");
 			}else 
-			{  SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 删除失败！请检查所选部门下是否有人员",App.getApp().getIp(getRequest()));	
+			{  SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 删除失败！请检查所选部门下是否有人员",getRequest());	
 			
 				return JsonResult.Result(null).setCode(1).setMessage("删除失败!请检查所选部门下是否有人员");
 			}
 			
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 删除错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 删除错误！"+e.getMessage(),getRequest());	
 
 			e.printStackTrace();
 			return JsonResult.Result(null).setCode(1).setMessage("删除错误！"+e.getMessage());

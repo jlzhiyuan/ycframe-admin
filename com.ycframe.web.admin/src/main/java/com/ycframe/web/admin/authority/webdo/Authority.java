@@ -47,11 +47,11 @@ public class Authority  extends WebDo{
 			   } 
 		    data = service.getAnxx(irows,ipages,jsid,gnid,tj);
 		  
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 查询成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 查询成功！",getRequest());	
 			
 		    return JsonResult.Result( data).setCode(0);
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！"+e.getMessage(),getRequest());	
 			
 			 return JsonResult.Result( null).setCode(1).setMessage(e.getMessage());
 		}
@@ -88,12 +88,12 @@ public class Authority  extends WebDo{
 		    }else{
 			    data = service.getCzqxxx(jsids," order by "+orderCol+" "+orderType);
 		    }
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 操作权限查询成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 操作权限查询成功！",getRequest());	
 
 			return JsonResult.Result(data).setCode(0);
 		} catch (Exception e) {
 			e.printStackTrace();
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}
@@ -171,11 +171,11 @@ public class Authority  extends WebDo{
 		try {
 			AuthorityService service = new AuthorityService();
 			boolean data = service.saveczandata(anid,jsid,gnid);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存成功！",getRequest());	
 
 			return JsonResult.Result(null).setCode(0);
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询错误！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}
@@ -191,12 +191,12 @@ public class Authority  extends WebDo{
 		try {
 			AuthorityService service = new AuthorityService();
 			boolean data = service.deletedata(jsid,gnid,xzsjqxid);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 删除成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 删除成功！",getRequest());	
 
 			return JsonResult.Result(null).setCode(0);
 		
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 删除错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 删除错误！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}
@@ -225,11 +225,11 @@ public class Authority  extends WebDo{
 			jsid = jsid.trim(); 	
 			AuthorityService service = new AuthorityService();
 			boolean data = service.savegnids(ids,jsid);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  ：保存角色功能成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  ：保存角色功能成功！",getRequest());	
 
 			return JsonResult.Result(null).setCode(0);
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  ：保存角色功能失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  ：保存角色功能失败！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}
@@ -259,11 +259,11 @@ public class Authority  extends WebDo{
 			String lsits = service.dgzzjgtree(); 
 			String json = "[" + lsits + "]";
 			List list = JsonUtils.toList(json);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 组织机构查询成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 组织机构查询成功！",getRequest());	
 
 			return JsonResult.Result(list).setCode(0);
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据 ：: 组织机构查询失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据 ：: 组织机构查询失败！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}

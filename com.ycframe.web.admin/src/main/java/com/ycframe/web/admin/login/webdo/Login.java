@@ -66,7 +66,7 @@ public class Login extends AbstractWebDo {
 				if (passport != null) {
 					Entity en = passport.getUser();
 					if (en != null) {
-						SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),"退出登录",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 退出登录成功！",App.getApp().getIp(getRequest()));	
+						SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),"退出登录",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 退出登录成功！",getRequest());	
 							
 						sm.getAuth().logout();
 					
@@ -74,7 +74,7 @@ public class Login extends AbstractWebDo {
 				}
 			}
 		} catch (Exception e1) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),"退出登录",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 退出登录错误！"+e1.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),"退出登录",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 退出登录错误！"+e1.getMessage(),getRequest());	
 			
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -119,7 +119,7 @@ public class Login extends AbstractWebDo {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "登录",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 登录错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "登录",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 登录错误！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(null).setCode(1).setMessage("系统错误");
 		}
@@ -131,9 +131,7 @@ public class Login extends AbstractWebDo {
 		}else{
 			UserInfo userinfo = App.getApp().getUserInfoByName(username);
 			if (!loginservice.checkUserLoginIP(userinfo, remoteip)) {
-				SystemInfoLog.actionLog(username, "登录", "不同IP登录",
-						App.getApp().getIp(this.getRequest()));
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "登录",SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 登录失败！不同ip登录",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "登录",SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 登录失败！不同ip登录",getRequest());	
 
 				return JsonResult.Result(null).setCode(1).setMessage("不同IP登录");
 			} 
@@ -153,9 +151,8 @@ public class Login extends AbstractWebDo {
 			App.getApp().updateUserState(username, "正常");
 			loginservice.logined(userInfo, this.getRequest()); 
 			App.getApp().setMainUserInfo(this.getRequest(),userInfo); 
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "登录",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 登录成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "登录",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 登录成功！",getRequest());	
 
-			SystemInfoLog.actionLog(username, "登录", "登录成功",App.getApp().getIp(this.getRequest()));
 			return JsonResult.Result(userInfo).setCode(0).setMessage("登录成功");
 		} 
 	}

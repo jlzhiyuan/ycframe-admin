@@ -37,11 +37,11 @@ public class Modules extends AbstractWebDo {
 				data = service.getModules(orderCol, orderType,
 						userinfo.getJueseId());
 			}
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),"启用",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 操作权限查询成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),"启用",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 操作权限查询成功！",getRequest());	
 
 			return JsonResult.Result(data).setCode(0).setMessage("ok");
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "启用",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 启用失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "启用",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 启用失败！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(e.fillInStackTrace()).setCode(1)
 					.setMessage("error");
@@ -249,13 +249,13 @@ public class Modules extends AbstractWebDo {
 
 			service.insert(id, FGNID, GNMC, SFXS, GNDZ, JDMS, gnbh, SXBH, icon,
 					component, jsPath, isComponent, linkUrl,gnlx);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.ADD,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 新增成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.ADD,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 新增成功！",getRequest());	
 
 			return JsonResult.Result(null).setCode(0);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.ADD,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 新增错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.ADD,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 新增错误！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(null).setCode(1)
 					.setMessage(e.getMessage());
@@ -300,11 +300,11 @@ public class Modules extends AbstractWebDo {
 			
 			service.update(FGNID, GNMC, SFXS, GNDZ, JDMS, gnbh, SXBH, id, icon,
 					component, jsPath, isComponent, linkUrl,gnlx);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.UPDATA,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 修改成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.UPDATA,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 修改成功！",getRequest());	
 
 			return JsonResult.Result(null).setCode(0);
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.UPDATA,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 修改错误！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(null).setCode(1)
 					.setMessage(e.getMessage());
@@ -321,17 +321,17 @@ public class Modules extends AbstractWebDo {
 			inputData.put("id", id);
 			boolean success = service.delete(id.split(","));
 			if(success){
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 删除成功！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 删除成功！",getRequest());	
 
 				 return JsonResult.Result(null).setCode(0); 
 			}else{
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  :删除失败 ！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  :删除失败 ！",getRequest());	
 
 				return JsonResult.Result(null).setCode(1).setMessage("保存错误"); 
 			}
 			
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 删除错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 删除错误！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage()); 
 		}

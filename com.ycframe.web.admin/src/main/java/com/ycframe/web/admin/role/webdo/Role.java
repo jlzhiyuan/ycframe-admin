@@ -46,12 +46,12 @@ public class Role  extends WebDo{
 			   }else{
 				   data = service.initOrder(orderCol,orderType,irows,ipages);
 			   }
-			   SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 查询成功！",App.getApp().getIp(getRequest()));	
+			   SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 查询成功！",getRequest());	
 
 			 return JsonResult.Result(data).setCode(0);
 		} catch (Exception e) {
 			// TODO: handle exception
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 查询失败！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(data).setCode(0).setMessage(e.getMessage());
 		}
@@ -91,7 +91,7 @@ public class Role  extends WebDo{
 		validator.NotBlank("jsmc");
 		Map a = validator.valid(inputData);
 		if(a.size()>0){
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！",getRequest());	
 			return JsonResult.Result(a).setCode(1);
 		}
 
@@ -100,11 +100,11 @@ public class Role  extends WebDo{
 			String yjlidpd = id;
 			String ZT = "0";
 			boolean data = service.savedata(yjlidpd,id,jsmc,lx,ms,ZT);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存成功！",getRequest());	
 
 			return JsonResult.Result(data).setCode(0);
 		} catch (Exception e) { 
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}
@@ -118,11 +118,11 @@ public class Role  extends WebDo{
 			RoleService service = new RoleService();
 			service.open(ids);
 			
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),"启用",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 启用成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),"启用",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 启用成功！",getRequest());	
 			
 			return JsonResult.Result(null).setCode(0);
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "启用",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 启用失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "启用",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 启用失败！"+e.getMessage(),getRequest());	
 
 			e.printStackTrace();
 			return JsonResult.Result(null).setMessage(e.getMessage());
@@ -135,11 +135,11 @@ public class Role  extends WebDo{
 		try {
 			RoleService service = new RoleService();
 			service.close(ids);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),"禁用",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 禁用成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),"禁用",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 禁用成功！",getRequest());	
 			
 			return JsonResult.Result(null).setCode(0);
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "禁用",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 禁用失败！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "禁用",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 禁用失败！"+e.getMessage(),getRequest());	
 
 			e.printStackTrace();
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
@@ -154,12 +154,12 @@ public class Role  extends WebDo{
  			RoleService service = new RoleService();
 			if(id!=null && !"".equals(id)){
 				boolean success = service.deleteJueses(id);
-				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 删除成功！",App.getApp().getIp(getRequest()));	
+				SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 删除成功！",getRequest());	
 				return JsonResult.Result(null).setCode(0);
 			}else
 			return JsonResult.Result(null).setCode(1);
 		} catch (Exception e) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 删除错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.DEL,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 删除错误！"+e.getMessage(),getRequest());	
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		} 
 	} 
@@ -171,11 +171,11 @@ public class Role  extends WebDo{
  		try {
  			RoleService service = new RoleService(); 
 			boolean map = service.addRyjs(ryid,jsid);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_新增人员角色",SystemInfoLog.ADD,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 新增成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_新增人员角色",SystemInfoLog.ADD,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 新增成功！",getRequest());	
 			
 			return JsonResult.Result(null).setCode(0);
 		} catch (Exception e) { 
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_新增人员角色", SystemInfoLog.ADD,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 新增错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_新增人员角色", SystemInfoLog.ADD,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 新增错误！"+e.getMessage(),getRequest());	
 
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}
@@ -188,11 +188,11 @@ public class Role  extends WebDo{
  		try {
 			RoleService service = new RoleService();
 			boolean success = service.deleteRyjs(ryid,jsid);
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_删除人员角色",SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 删除成功！",App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_删除人员角色",SystemInfoLog.DEL,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 删除成功！",getRequest());	
 			
 			return JsonResult.Result(null).setCode(0);
 		} catch (Exception e) { 
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_删除人员角色", SystemInfoLog.DEL,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 删除错误！"+e.getMessage(),App.getApp().getIp(getRequest()));	
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_")+"_删除人员角色", SystemInfoLog.DEL,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 删除错误！"+e.getMessage(),getRequest());	
 
 			e.printStackTrace();
 			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());

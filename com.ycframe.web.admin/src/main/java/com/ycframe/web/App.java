@@ -12,13 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import java.util.regex.Pattern; 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;  
 import com.ycframe.cache.Cache;
 import com.ycframe.database.Executor;
 import com.ycframe.database.Manager;
+import com.ycframe.log.Logger;
+import com.ycframe.log.LoggerFactory;
 import com.ycframe.security.auth.Entity;
 import com.ycframe.security.auth.Passport;
 import com.ycframe.web.admin.common.pojo.UserInfo;
@@ -32,8 +33,9 @@ public  String mainAppname = "/hdsysglx";
 	public  String userinfoKey = "userinfo";	
 	public  ThreadLocal<String> RunningFunction = new ThreadLocal<String>();
 	WebContext context=null;
+	private Logger logger;
 	public static App gyfunction;
-	public static final App getApp(){ 
+	public static final App getApp(){  
 		return gyfunction; 
 	}
 	
@@ -49,15 +51,14 @@ public  String mainAppname = "/hdsysglx";
 	}
 	private App(WebContext context)
 	{
+		logger = LoggerFactory.getLogger("App");
 		this.context=context; 
 	}
 	
 	public  String getRunningFunction(){
 		return RunningFunction.get();
 	}
-	public  String getIp(HttpServletRequest request) {
-		return request.getRemoteAddr();
-	}
+ 
 	public  boolean isNumeric(String str)
 	{
 		Pattern pattern = Pattern.compile("^-?\\d+$");

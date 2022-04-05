@@ -10,8 +10,10 @@ import java.util.Map;
 import com.ycframe.utils.IDUtils;
 import com.ycframe.utils.StringUtils;
 import com.ycframe.database.Manager;
+import com.ycframe.database.exception.DaoTypeErrorException;
 import com.ycframe.database.query.inter.QueryInterface;
 import com.ycframe.database.util.DBMap;
+import com.ycframe.web.admin.common.exception.ServiceException;
 import com.ycframe.web.admin.rzgl.dao.RzglDao;
 
 public class RzglService {
@@ -80,6 +82,31 @@ public class RzglService {
 		return map;
 	}
 
+	public void clean() throws ServiceException{
+		Manager manager = new Manager();
+		RzglDao dao = null;
+		try {
+			manager.load();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new ServiceException("数据源发生错误。"); 
+		}
+		try {
+			dao = manager.getDao(RzglDao.class); 
+		} catch (DaoTypeErrorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new ServiceException("接口发生错误。"); 
+		}
+		try {
+			dao.clean(); 
+		}catch (Exception e) {
+			throw new ServiceException("执行清除发生错误。"); 
+		}
+		
+	}
+	
 	public Date transDate(String date_){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();  
