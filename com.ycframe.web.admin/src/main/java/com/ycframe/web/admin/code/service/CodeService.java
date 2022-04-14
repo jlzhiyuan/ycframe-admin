@@ -8,20 +8,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.alibaba.druid.support.json.JSONParser;
 import com.alibaba.druid.support.json.JSONUtils;
-import com.ycframe.danymicmodule.DanymicModule;
-import com.ycframe.danymicmodule.DanymicModuleExecuter;
 import com.ycframe.danymicmodule.DanymicModuleFactoryImpl;
 import com.ycframe.database.Manager;
 import com.ycframe.database.query.inter.QueryInterface;
 import com.ycframe.database.util.DBMap;
-import com.ycframe.util.AdvanceMap;
 import com.ycframe.utils.IDUtils;
 import com.ycframe.utils.StringUtils;
+import com.ycframe.utils.map.ConvertHashMap;
 import com.ycframe.web.admin.code.dao.CodeDao;
-import com.ycframe.web.common.ModuleFactory;
 
 
 public class CodeService {
@@ -110,15 +105,15 @@ public class CodeService {
 		CodeDao dao = null;
 		manager.load();
 		dao = manager.getDao(CodeDao.class);
-		try{
-			AdvanceMap map1 = new AdvanceMap();
+		try{ 
+			ConvertHashMap map1 = new ConvertHashMap();
 			map1.putAll(params);
 			HashMap map = new HashMap();
 			manager.startTransaction();
-			String id = map1.getStr("id", "");
-			String model_name = map1.getStr("model_name", "");
-			String model_code = map1.getStr("model_code", "");
-			String model_describe = map1.getStr("model_describe", "");
+			String id = map1.getString("id", "");
+			String model_name = map1.getString("model_name", "");
+			String model_code = map1.getString("model_code", "");
+			String model_describe = map1.getString("model_describe", "");
 //			String versionid = map1.getStr("versionid", "");
 //			String cjr = map1.getStr("cjr", "");
 //			String cjsj = map1.getStr("cjsj", "");
@@ -238,9 +233,9 @@ public class CodeService {
 		HashMap map = new HashMap();
 		Manager manager = new Manager();
 		CodeDao dao = null;
-		AdvanceMap map1 = new AdvanceMap();
+		ConvertHashMap map1 = new ConvertHashMap();
 		map1.putAll(params);
-		String versionid = map1.getStr("versionid", "");
+		String versionid = map1.getString("versionid", "");
 		manager.load();
 		dao = manager.getDao(CodeDao.class);
 		int i = 0;
@@ -297,15 +292,15 @@ public class CodeService {
 		manager.load();
 		dao = manager.getDao(CodeDao.class);
 		try{
-			AdvanceMap map1 = new AdvanceMap();
+			ConvertHashMap map1 = new ConvertHashMap();
 			map1.putAll(params);
 			HashMap map = new HashMap();
-			String id = map1.getStr("id", "");
-			String versionid = map1.getStr("versionid", "");
-			String cjr = map1.getStr("cjr", "");
-			String cjsj = map1.getStr("cjsj", "");
-			String versiondescribe = map1.getStr("versiondescribe", "");
-			String sfqy = map1.getStr("sfqy", "");
+			String id = map1.getString("id", "");
+			String versionid = map1.getString("versionid", "");
+			String cjr = map1.getString("cjr", "");
+			String cjsj = map1.getString("cjsj", "");
+			String versiondescribe = map1.getString("versiondescribe", "");
+			String sfqy = map1.getString("sfqy", "");
 //			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
 //			Date date=sdf.parse(cjsj);
 			QueryInterface qif = dao.queryVersion();//获取版本
@@ -359,15 +354,15 @@ public class CodeService {
 		manager.load();
 		dao = manager.getDao(CodeDao.class);
 		try{
-			AdvanceMap map1 = new AdvanceMap();
+			ConvertHashMap map1 = new ConvertHashMap();
 			map1.putAll(params);
 			HashMap map = new HashMap();
-			String id = map1.getStr("id", "");
-			String versionid = map1.getStr("versionid", "");
+			String id = map1.getString("id", "");
+			String versionid = map1.getString("versionid", "");
 //			String cjr = map1.getStr("cjr", "");
 //			String cjsj = map1.getStr("cjsj", "");
-			String versiondescribe = map1.getStr("versiondescribe", "");
-			String sfqy = map1.getStr("sfqy", "");
+			String versiondescribe = map1.getString("versiondescribe", "");
+			String sfqy = map1.getString("sfqy", "");
 			if(sfqy.equals("true")){
 				dao.updateVersionSfqy("false",id);
 			}
@@ -422,13 +417,13 @@ public class CodeService {
 	
 			manager.load();
 			dao = manager.getDao(CodeDao.class);
-			AdvanceMap map1 = new AdvanceMap();
+			ConvertHashMap map1 = new ConvertHashMap();
 			map1.putAll(params);
-			String code = map1.getStr("code", "");//写的代码
-			String input = map1.getStr("input", "");//输入
-			String output = map1.getStr("output", "");//输出
-			String versionid = map1.getStr("versionid", "");//版本id
-			String model_code = map1.getStr("model_code", "");//模塊編碼
+			String code = map1.getString("code", "");//写的代码
+			String input = map1.getString("input", "");//输入
+			String output = map1.getString("output", "");//输出
+			String versionid = map1.getString("versionid", "");//版本id
+			String model_code = map1.getString("model_code", "");//模塊編碼
 			
 			String tj=code+input;
 //			List<DBMap> data = dao.ceshi(tj);

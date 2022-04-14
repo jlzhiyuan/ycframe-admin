@@ -9,7 +9,6 @@ import java.util.UUID;
 import com.ycframe.database.Manager;
 import com.ycframe.database.dao.DaoPage;
 import com.ycframe.database.util.DBMap;
-import com.ycframe.util.AdvanceMap;
 import com.ycframe.web.admin.organization.dao.OrganizationDao;
 
 public class OrganizationService {
@@ -94,7 +93,6 @@ public class OrganizationService {
 				String bmbm = "";
 				String bmbh = "";
 				String newid = "";
-				AdvanceMap data0 = new AdvanceMap();
 				manager.load();
 				dao = manager.getDao(OrganizationDao.class);
 				String BMBH = "";

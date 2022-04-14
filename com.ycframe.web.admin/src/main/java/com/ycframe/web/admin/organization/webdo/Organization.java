@@ -1,24 +1,19 @@
 package com.ycframe.web.admin.organization.webdo;
 
-import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Payload;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
-import org.hibernate.validator.constraints.Length;
-
 import com.ycframe.database.util.DBMap;
+import com.ycframe.event.EventManager;
+import com.ycframe.utils.map.ConvertHashMap;
 import com.ycframe.validator.MapValidator;
 import com.ycframe.web.App;
 import com.ycframe.web.admin.organization.service.OrganizationService;
 import com.ycframe.web.annotation.Param;
 import com.ycframe.web.annotation.Webdo;
 import com.ycframe.web.base.WebDo;
+import com.ycframe.web.common.event.SaveDataEvent;
 import com.ycframe.web.context.result.JsonResult;
 import com.ycframe.web.context.result.Result;
 import com.ycframe.web.utils.SystemInfoLog;  
@@ -28,6 +23,10 @@ public class Organization extends WebDo {
 	
 	String[] function = new String[]{"系统维护", "部门管理"};
 	public Result getOranizations(@Param(name = "orderCol")String orderCol,@Param(name = "orderType")String orderType) {
+		
+		ConvertHashMap paramMap = this.getParamMap();
+		String order = paramMap.getString("orderCol");
+		
 		Map<String, Object> inputData = new HashMap();
 		inputData.put("orderCol", orderCol);
 		inputData.put("orderType", orderType);
@@ -41,7 +40,7 @@ public class Organization extends WebDo {
 				   data = service.getOrgList(orderCol,orderType); 
 			   }
 			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SELECT,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 查询成功！",getRequest());	
-
+ 
 				 return JsonResult.Result(data).setCode(0).setMessage("success"); 
 			 
 		} catch (Exception e) {
@@ -54,69 +53,54 @@ public class Organization extends WebDo {
 	
 	// 添加方法
  	public Result saveData() {
- 		Map<String, Object> inputData = new HashMap();
+ 		ConvertHashMap paramMap = this.getParamMap();
+ 		MapValidator validator = null;
 		try {
-			String id = "";
-			// 行政区划
-			String areaCode = "";
-			// 部门类型
-			String deptType = "";
-			// 上级部门
-			String fjgbh = "";
-			// 部门名称
-			String deptName = "";
-			// 部门编号
-			String deptnobm = "";
-			// 管养单位
-			String JGDJ = "";
-			// 备注
-			String memo = "";
-			// 所属管养单位
-			String ssgydw = "";
-			String jc = "";
-			String yjlidpd = "";
-			int px = 0;
-  
-				id = (String) this.getParam("id");
-				// 上级部门
-				fjgbh = (String) this.getParam("parentID");
-				deptName = (String) this.getParam("deptName");
-				deptnobm = this.getParam("deptnobm");
-				memo = this.getParam("memo");
-				jc = this.getParam("jc");
-				px = Integer.parseInt(this.getParam("px"));
-				OrganizationService service = new OrganizationService();
-				inputData.put("id", id);
-				inputData.put("deptName", deptName);
-				inputData.put("fjgbh", fjgbh);
-				inputData.put("memo", memo);
-				inputData.put("deptnobm", deptnobm);
-				inputData.put("jc", jc);
-				inputData.put("px", px);
-				MapValidator validator = com.ycframe.validator.ValidatorFactory.getMapValidator();
-				Map<String,String> map = validator.NotNull("deptName","必须填写机构名称").NotBlank("deptName","机构名称不能为空字符串").valid(inputData);
-				if(map.size()>0){
-					Object[] messagesobj = map.values().toArray();
-					String messages = com.ycframe.web.utils.JsonUtils.toString(messagesobj);
-					SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : "+messages,getRequest());	
-					return JsonResult.Result(null).setCode(1).setMessage(messages);
-				}
-				
-				boolean success = service.saveOrg(id, deptName, fjgbh,
-						memo,  deptnobm, jc,px);
-			 if(success)
-				 {
-				 SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 保存成功！",getRequest());	
+			validator = com.ycframe.validator.ValidatorFactory.getMapValidator();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Map<String,String> map = validator.NotNull("deptName","必须填写机构名称").NotBlank("deptName","机构名称不能为空字符串").valid(paramMap);
+		if(map.size()>0){
+			Object[] messagesobj = map.values().toArray();
+			String messages = com.ycframe.web.utils.JsonUtils.toString(messagesobj);
+			String paramMapJson = com.ycframe.web.utils.JsonUtils.toString(paramMap);
+			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+paramMapJson+"\r\n输出数据  : "+messages,getRequest());	
+			return JsonResult.Result(null).setCode(1).setMessage(messages);
+		}
+		String inputData = com.ycframe.web.utils.JsonUtils.toString(paramMap);
+ 		try {
+			String id = paramMap.getString("id");  			
+			String fjgbh = paramMap.getString("parentID");// 上级部门			
+			String deptName = paramMap.getString("deptName");// 部门名称			
+			String deptnobm = paramMap.getString("deptnobm"); // 部门编号 			
+			String memo = paramMap.getString("memo"); // 备注
+			String jc = paramMap.getString("jc");
+ 			int px = paramMap.getInteger("px",0); 
+			OrganizationService service = new OrganizationService(); 
+			boolean success = service.saveOrg(id, deptName, fjgbh,memo,  deptnobm, jc,px);
+			if (success) {
+				SystemInfoLog.actionLog(
+						App.getApp().getUserInfo(getRequest()).getUsername(),
+						com.ycframe.utils.StringUtils.join(function, "_"),
+						SystemInfoLog.SAVE, SystemInfoLog.SUCCESS,
+						"输入数据 : " + inputData + "\r\n输出数据  : 保存成功！",
+						getRequest());
 
-				 return JsonResult.Result(null).setCode(0).setMessage("success");
-				 }else {
-					 SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 保存失败！",getRequest());	
-						
-				 return JsonResult.Result(null).setCode(1).setMessage("保存失败");
-				 }
+				return JsonResult.Result(null).setCode(0).setMessage("success");
+			} else {
+				SystemInfoLog.actionLog(
+						App.getApp().getUserInfo(getRequest()).getUsername(),
+						com.ycframe.utils.StringUtils.join(function, "_"),
+						SystemInfoLog.SAVE, SystemInfoLog.FAIL,
+						"输入数据 : " + inputData + "\r\n输出数据  : 保存失败！",
+						getRequest());
+
+				return JsonResult.Result(null).setCode(1).setMessage("保存失败");
+			}
 		} catch (Exception e) {
 			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), SystemInfoLog.SAVE,SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 保存错误！"+e.getMessage(),getRequest());	
-			
 			e.printStackTrace();
 			return JsonResult.Result(null).setCode(1).setMessage("保存失败"+e.getMessage());
 		}
