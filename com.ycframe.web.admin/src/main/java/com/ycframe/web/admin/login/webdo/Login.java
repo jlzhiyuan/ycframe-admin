@@ -1,6 +1,5 @@
 package com.ycframe.web.admin.login.webdo;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -9,29 +8,26 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.util.AntPathMatcher;
-import com.ycframe.database.Executor;
-import com.ycframe.database.Manager;
-import com.ycframe.database.util.DBMap;
+
 import com.ycframe.log.Logger;
 import com.ycframe.log.LoggerFactory;
 import com.ycframe.security.auth.Auth;
 import com.ycframe.security.auth.Entity;
-import com.ycframe.security.auth.Passport;
-import com.ycframe.utils.ArrayUtils;
+import com.ycframe.security.auth.passport.Passport;
 import com.ycframe.utils.StringUtils;
 import com.ycframe.web.App;
-import com.ycframe.web.admin.common.pojo.UserInfo;
-import com.ycframe.web.admin.common.webdo.AbstractWebDo;
 import com.ycframe.web.admin.login.service.LoginService;
 import com.ycframe.web.annotation.Param;
 import com.ycframe.web.annotation.Webdo;
+import com.ycframe.web.common.pojo.UserInfo;
+import com.ycframe.web.common.webdo.AbstractWebDo;
 import com.ycframe.web.context.result.JsonResult;
 import com.ycframe.web.context.result.Result;
 import com.ycframe.web.security.WebUrlAuthorization;
 import com.ycframe.web.security.auth.UrlAuthConfig;
 import com.ycframe.web.security.service.AuthService;
-import com.ycframe.web.utils.JsonUtils;
 import com.ycframe.web.utils.SystemInfoLog;
 
 @Webdo(url = "/login")
@@ -106,7 +102,7 @@ public class Login extends AbstractWebDo {
 		user.setUsername(username);
 		user.setPassword(passwordcode[0]);
 		user.setPasswordecc("");
-		user.setRememberMe(rememberMe);
+		user.setRememberMe(rememberMe); 
 		LoginService loginservice = new LoginService(); 
 		String remoteip = loginservice.getRealIp(this.getRequest());
 		
@@ -117,17 +113,14 @@ public class Login extends AbstractWebDo {
 		try {
 			pp = sm.getAuth().login(user);
 			
-		} catch (Exception e) {
-			e.printStackTrace();
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "登录",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 登录错误！"+e.getMessage(),getRequest());	
-
-			return JsonResult.Result(null).setCode(1).setMessage("系统错误");
+		} catch (com.ycframe.security.auth.exceptions.AuthenticationException e) {
+ 			SystemInfoLog.actionLog(user.getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "登录",SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  :"+e.getMessage(),getRequest());	
+			return JsonResult.Result(null).setCode(1).setMessage(e.getMessage());
 		}
 		
-		if(!pp.getUser().isLogined()){
-			SystemInfoLog.actionLog(username, "登录", pp.getUser().getLogininfo(),remoteip);
-			
-			return JsonResult.Result(null).setCode(1).setMessage(pp.getUser().getLogininfo());
+		if(!pp.isAuthenticated()){
+			SystemInfoLog.actionLog(username, "登录", "登录失败",remoteip); 
+			return JsonResult.Result(null).setCode(1).setMessage("登录失败");
 		}else{
 			UserInfo userinfo = App.getApp().getUserInfoByName(username);
 			if (!loginservice.checkUserLoginIP(userinfo, remoteip)) {

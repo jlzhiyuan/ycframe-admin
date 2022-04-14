@@ -15,11 +15,11 @@ import com.ycframe.security.crypto.Decrypt;
 import com.ycframe.utils.DateUtil;
 import com.ycframe.utils.time.DateUtils;
 import com.ycframe.web.App;
-import com.ycframe.web.admin.common.pojo.UserInfo;
-import com.ycframe.web.admin.common.pojo.UserOnlineInfo;
 import com.ycframe.web.admin.login.dao.LoginDao;
 import com.ycframe.web.admin.login.pojo.SystemXtpz;
 import com.ycframe.web.admin.login.pojo.UserConfig;
+import com.ycframe.web.common.pojo.UserInfo;
+import com.ycframe.web.common.pojo.UserOnlineInfo;
 
 public class LoginService {
 	 
