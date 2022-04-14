@@ -1,4 +1,4 @@
-package com.ycframe.web.admin.common.webdo;
+package com.ycframe.web.common.webdo;
 
 import com.ycframe.web.annotation.Webdo;
 import com.ycframe.web.base.WebDo;

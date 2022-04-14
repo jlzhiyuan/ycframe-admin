@@ -1,4 +1,4 @@
-package com.ycframe.web.admin.common.exception;
+package com.ycframe.web.common.exception;
 
 public class ServiceException extends Exception {
 	public ServiceException(String message){

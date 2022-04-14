@@ -1,4 +1,4 @@
-package com.ycframe.web.admin.common.pojo;
+package com.ycframe.web.common.pojo;
 
 import java.util.Date;
 
