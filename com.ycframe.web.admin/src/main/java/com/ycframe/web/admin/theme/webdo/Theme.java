@@ -16,11 +16,11 @@ import com.ycframe.database.Manager;
 import com.ycframe.log.Logger;
 import com.ycframe.log.LoggerFactory;
 import com.ycframe.web.App;
-import com.ycframe.web.admin.common.pojo.UserInfo;
-import com.ycframe.web.admin.common.webdo.AbstractWebDo;
 import com.ycframe.web.admin.theme.service.ThemeService;
 import com.ycframe.web.annotation.Webdo;
 import com.ycframe.web.base.WebDo;
+import com.ycframe.web.common.pojo.UserInfo;
+import com.ycframe.web.common.webdo.AbstractWebDo;
 import com.ycframe.web.context.result.JsonResult;
 import com.ycframe.web.context.result.Result;
 import com.ycframe.web.ex.render.FreemarkerResult; 
@@ -39,7 +39,7 @@ public class Theme extends AbstractWebDo {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Override
 	public Result index() {
-		return Result.success("");
+		return  JsonResult.Result(null).setCode(0).setMessage("Theme is ok"); 
 	}
  
 	public Result getStyle(){ 
