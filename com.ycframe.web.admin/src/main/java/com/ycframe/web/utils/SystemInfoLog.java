@@ -17,9 +17,10 @@ import com.ycframe.log.LoggerFactory;
 import com.ycframe.utils.DateUtil;
 import com.ycframe.utils.StringUtils;
 import com.ycframe.web.App;
-import com.ycframe.web.admin.common.pojo.UserInfo;
+import com.ycframe.web.common.pojo.UserInfo;
 import com.ycframe.web.utils.JsonUtils;
 
+import eu.bitwalker.useragentutils.BrowserType;
 import eu.bitwalker.useragentutils.UserAgent;  
 
 public class SystemInfoLog {
@@ -124,7 +125,11 @@ public class SystemInfoLog {
 		log.put("module", modulename);
 		log.put("data", data);
 		log.put("ip", ip);
-		log.put("browser", userAgent.getBrowser().getName() + userAgent.getBrowserVersion().getVersion()); 
+		if(userAgent.getBrowser().getBrowserType() == BrowserType.UNKNOWN){
+			log.put("browser",userAgentstr); 
+		}else{
+			log.put("browser", userAgent.getBrowser().getName() + userAgent.getBrowserVersion().getVersion());  
+		}
 		log.put("osname", userAgent.getOperatingSystem().getName()); 
 		log.put("datetime", new Date()); 
 		String logstr = JsonUtils.toString(log); 
