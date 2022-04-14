@@ -21,10 +21,10 @@ import com.ycframe.database.Manager;
 import com.ycframe.log.Logger;
 import com.ycframe.log.LoggerFactory;
 import com.ycframe.security.auth.Entity;
-import com.ycframe.security.auth.Passport;
-import com.ycframe.web.admin.common.pojo.UserInfo;
-import com.ycframe.web.admin.common.pojo.UserOnlineInfo;
+import com.ycframe.security.auth.passport.Passport;
 import com.ycframe.web.admin.login.service.LoginService;
+import com.ycframe.web.common.pojo.UserInfo;
+import com.ycframe.web.common.pojo.UserOnlineInfo;
 import com.ycframe.web.context.WebContext;
 import com.ycframe.web.exception.WebException; 
 public class App {
@@ -463,7 +463,7 @@ public  String mainAppname = "/hdsysglx";
 			Passport passport = sm.getAuth().getPassport();
 			Entity user = passport.getUser();
 			userinfo = (UserInfo) passport.getSession().getAttribute(userinfoKey);
-			if(userinfo==null && (user.isLogined() == false && user.isRememberMe() == true)){
+			if(userinfo==null && (passport.isAuthenticated() == false && user.isRememberMe() == true)){
 				LoginService service = new LoginService();
 				userinfo = new UserInfo();
 				userinfo.setUsername(user.getUsername());

@@ -11,7 +11,7 @@ import com.ycframe.database.util.DBMap;
 import com.ycframe.utils.StringUtils;
 import com.ycframe.web.App;
 import com.ycframe.web.admin.authority.dao.AuthorityDao;
-import com.ycframe.web.admin.common.exception.ServiceException;
+import com.ycframe.web.common.exception.ServiceException;
 import com.ycframe.web.utils.SystemInfoLog; 
 
 public class AuthorityService {

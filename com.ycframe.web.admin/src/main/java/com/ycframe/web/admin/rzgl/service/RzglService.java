@@ -13,8 +13,8 @@ import com.ycframe.database.Manager;
 import com.ycframe.database.exception.DaoTypeErrorException;
 import com.ycframe.database.query.inter.QueryInterface;
 import com.ycframe.database.util.DBMap;
-import com.ycframe.web.admin.common.exception.ServiceException;
 import com.ycframe.web.admin.rzgl.dao.RzglDao;
+import com.ycframe.web.common.exception.ServiceException;
 
 public class RzglService {
 

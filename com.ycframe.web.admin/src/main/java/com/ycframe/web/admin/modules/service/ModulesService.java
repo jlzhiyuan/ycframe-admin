@@ -22,8 +22,8 @@ import com.ycframe.database.query.QueryCondition;
 import com.ycframe.database.query.Update;
 import com.ycframe.database.util.DBMap;
 import com.ycframe.utils.StringUtils;
-import com.ycframe.web.admin.common.exception.ServiceException;
-import com.ycframe.web.admin.modules.dao.ModulesDao; 
+import com.ycframe.web.admin.modules.dao.ModulesDao;
+import com.ycframe.web.common.exception.ServiceException; 
 public class ModulesService {
 	String[] function = new String[] { "系统维护", "模块管理" };
 

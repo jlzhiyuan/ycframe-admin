@@ -14,8 +14,8 @@ import com.ycframe.database.util.DBMap;
 import com.ycframe.utils.IDUtils;
 import com.ycframe.utils.StringUtils;
 import com.ycframe.web.App;
-import com.ycframe.web.admin.common.exception.ServiceException;
 import com.ycframe.web.admin.role.dao.RoleDao;
+import com.ycframe.web.common.exception.ServiceException;
 import com.ycframe.web.context.result.JsonResult;
 import com.ycframe.web.utils.SystemInfoLog; 
 

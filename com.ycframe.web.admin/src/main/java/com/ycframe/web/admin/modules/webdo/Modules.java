@@ -6,11 +6,11 @@ import java.util.Map;
 
 import com.ycframe.database.util.DBMap;
 import com.ycframe.web.App;
-import com.ycframe.web.admin.common.pojo.UserInfo;
-import com.ycframe.web.admin.common.webdo.AbstractWebDo;
 import com.ycframe.web.admin.modules.service.ModulesService;
 import com.ycframe.web.annotation.Param;
 import com.ycframe.web.annotation.Webdo;
+import com.ycframe.web.common.pojo.UserInfo;
+import com.ycframe.web.common.webdo.AbstractWebDo;
 import com.ycframe.web.context.result.JsonResult;
 import com.ycframe.web.context.result.Result;
 import com.ycframe.web.utils.JsonUtils;
