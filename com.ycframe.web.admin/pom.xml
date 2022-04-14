@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 	<name>ycframe-web-admin</name> 
 	
-	  <repositories>
+	<repositories>
     <repository>
       <id>oss-snapshots</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
@@ -36,7 +36,11 @@
 			<artifactId>ycframe-web</artifactId>
 			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
-		
+		<dependency>
+		  <groupId>com.ycframe</groupId>
+		  <artifactId>ycframe-utils</artifactId>
+		  <version>0.0.1-SNAPSHOT</version> 
+		</dependency>
 		<dependency>
 		   	<groupId>javax.servlet</groupId>
 		   	<artifactId>javax.servlet-api</artifactId>
@@ -74,7 +78,14 @@
 		 <groupId>com.ycframe</groupId>
 		  <artifactId>ycframe-web-plugins-httputils</artifactId>
 		  <version>0.0.1-SNAPSHOT</version>
-		 </dependency>     
+		 </dependency>    
+		 
+		<dependency>
+			<groupId>com.ycframe</groupId>
+			<artifactId>ycframe-plugins-event-guava</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency> 
+		 
 		<dependency>
   			<groupId>com.ycframe</groupId>
 			<artifactId>ycframe-web-common</artifactId>
