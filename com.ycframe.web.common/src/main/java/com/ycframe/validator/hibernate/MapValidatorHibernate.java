@@ -19,6 +19,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.internal.engine.constraintvalidation.ConstraintValidatorContextImpl;
 import org.hibernate.validator.spi.time.TimeProvider;
 
+import com.ycframe.utils.map.ConvertHashMap;
 import com.ycframe.validator.MapValidator;
 import com.ycframe.validator.ValidatorConfig;
  
@@ -61,7 +62,12 @@ public class MapValidatorHibernate  implements MapValidator{
 	public boolean isValid(Map<String,Object> data){
  
 		for(ValidatorConfig cfg : validators){
-			Object value = data.get(cfg.getKey()); 
+			Object value = data.get(cfg.getKey());
+			if(data instanceof ConvertHashMap){
+				value = ((ConvertHashMap)data).getString(cfg.getKey());
+			}else{
+				value = data.get(cfg.getKey());
+			} 
 			ConstraintValidator vali = cfg.getValidator();
 			boolean valiresult = vali.isValid(value, constraintValidatorContext);
 			if(valiresult == false){
@@ -76,7 +82,12 @@ public class MapValidatorHibernate  implements MapValidator{
 	public Map<String,String> valid(Map<String,Object> data){
 		Map<String,String> result = new MultiValueMap();
 		for(ValidatorConfig cfg : validators){
-			Object value = data.get(cfg.getKey()); 
+			Object value = data.get(cfg.getKey());
+			if(data instanceof ConvertHashMap){
+				value = ((ConvertHashMap)data).getString(cfg.getKey());
+			}else{
+				value = data.get(cfg.getKey());
+			} 
 			ConstraintValidator vali = cfg.getValidator();
 			boolean valiresult = vali.isValid(value, constraintValidatorContext);
 			if(valiresult == false){
