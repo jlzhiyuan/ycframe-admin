@@ -13,7 +13,7 @@
 		<version>1.5.22.RELEASE</version>
 	</parent>
 	
-	  <repositories>
+	<repositories>
     <repository>
       <id>oss-snapshots</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
@@ -78,7 +78,7 @@
 		<dependency>
 		  <groupId>com.ycframe</groupId>
 		  <artifactId>ycframe-web-extends-security</artifactId>
-		  <version>0.0.1-SNAPSHOT</version>
+		  <version>0.0.2-SNAPSHOT</version>
 		  <exclusions>
 		  	<exclusion>
 		  		<artifactId>ycframe-web</artifactId>
@@ -86,6 +86,12 @@
 		  	</exclusion>
 		  </exclusions>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.ycframe</groupId>
+			<artifactId>ycframe-plugins-event-guava</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency> 
 		<dependency>
 			<groupId>com.ycframe</groupId>
 			<artifactId>ycframe-web-plugins-httputils</artifactId>
