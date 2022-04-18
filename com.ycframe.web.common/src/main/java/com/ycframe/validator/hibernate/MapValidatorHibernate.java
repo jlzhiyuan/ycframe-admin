@@ -3,6 +3,7 @@ package com.ycframe.validator.hibernate;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,8 +80,8 @@ public class MapValidatorHibernate  implements MapValidator{
 		return true;
 	}
 	
-	public Map<String,String> valid(Map<String,Object> data){
-		Map<String,String> result = new MultiValueMap();
+	public Map<String,String[]> valid(Map<String,Object> data){
+		MultiValueMap result = new MultiValueMap();
 		for(ValidatorConfig cfg : validators){
 			Object value = data.get(cfg.getKey());
 			if(data instanceof ConvertHashMap){
@@ -94,7 +95,9 @@ public class MapValidatorHibernate  implements MapValidator{
 				result.put(cfg.getKey(), cfg.getMessage());
 			}
 		}
-		return result;
+		Map<String,String[]> resultvalue = new HashMap();
+		resultvalue.putAll(result);
+		return resultvalue;
 		
 	}
 	
