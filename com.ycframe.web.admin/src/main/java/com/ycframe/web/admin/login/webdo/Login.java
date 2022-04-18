@@ -55,26 +55,22 @@ public class Login extends AbstractWebDo {
 		HttpServletRequest request=this.getRequest();
 		com.ycframe.security.auth.SecurityManager sm = this.getContext()
 				.getWebContext().getSecurityManager();
+		String username = App.getApp().getUserInfo( getRequest()).getUsername();
 		try {
 			Auth auth = sm.getAuth();
 			if (auth != null) {
 				Passport passport = auth.getPassport();
-				if (passport != null) {
+				if (passport != null || passport.isAuthenticated()) {
 					Entity en = passport.getUser();
 					if (en != null) {
-						SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),"退出登录",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 退出登录成功！",getRequest());	
-							
 						sm.getAuth().logout();
-					
+						SystemInfoLog.actionLog(username,com.ycframe.utils.StringUtils.join(function, "_"),"退出登录",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 退出登录成功！",getRequest());	
 					}
 				}
 			}
 		} catch (Exception e1) {
-			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"),"退出登录",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 退出登录错误！"+e1.getMessage(),getRequest());	
-			
-			// TODO Auto-generated catch block
+			SystemInfoLog.actionLog(username,com.ycframe.utils.StringUtils.join(function, "_"),"退出登录",SystemInfoLog.ERROR,"输入数据 : "+inputData+"\r\n输出数据  : 退出登录错误！"+e1.getMessage(),getRequest());	
 			e1.printStackTrace();
-	
 		}
 
 		try {

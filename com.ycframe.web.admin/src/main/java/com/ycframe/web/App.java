@@ -461,16 +461,20 @@ public  String mainAppname = "/hdsysglx";
 		UserInfo userinfo = null;
 		try {
 			Passport passport = sm.getAuth().getPassport();
-			Entity user = passport.getUser();
-			userinfo = (UserInfo) passport.getSession().getAttribute(userinfoKey);
-			if(userinfo==null && (passport.isAuthenticated() == false && user.isRememberMe() == true)){
-				LoginService service = new LoginService();
-				userinfo = new UserInfo();
-				userinfo.setUsername(user.getUsername());
-				service.logined(userinfo, request); 
-				App.getApp().setMainUserInfo(request, userinfo);
+			if(passport == null){
+				userinfo = null;
 			}else{
+				Entity user = passport.getUser();
 				userinfo = (UserInfo) passport.getSession().getAttribute(userinfoKey);
+				if(userinfo==null && (passport.isAuthenticated() == false && user.isRememberMe() == true)){
+					LoginService service = new LoginService();
+					userinfo = new UserInfo();
+					userinfo.setUsername(user.getUsername());
+					service.logined(userinfo, request); 
+					App.getApp().setMainUserInfo(request, userinfo);
+				}else{
+					userinfo = (UserInfo) passport.getSession().getAttribute(userinfoKey);
+				}
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
