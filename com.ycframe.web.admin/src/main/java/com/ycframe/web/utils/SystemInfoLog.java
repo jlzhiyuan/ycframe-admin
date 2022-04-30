@@ -4,12 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-
+import java.util.UUID; 
 import javax.print.attribute.standard.DateTimeAtCompleted;
-import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.HttpServletRequest; 
 import com.squareup.okhttp.Request;
+import com.ycframe.common.utils.DbUtils;
 import com.ycframe.database.Manager;
 import com.ycframe.key.HttpRequest;
 import com.ycframe.log.Logger;
@@ -18,8 +17,7 @@ import com.ycframe.utils.DateUtil;
 import com.ycframe.utils.StringUtils;
 import com.ycframe.web.App;
 import com.ycframe.web.common.pojo.UserInfo;
-import com.ycframe.web.utils.JsonUtils;
-
+import com.ycframe.web.utils.JsonUtils; 
 import eu.bitwalker.useragentutils.BrowserType;
 import eu.bitwalker.useragentutils.UserAgent;  
 
@@ -93,11 +91,9 @@ public class SystemInfoLog {
  		
  		String uuid = UUID.randomUUID().toString();
 		SystemInfoLotgDao dao = null;
-		Manager manager = new Manager();
-		try {
-			manager.load();
-			dao = manager.getDao(SystemInfoLotgDao.class);
-	       
+		Manager manager = DbUtils.getDatabase();
+		try { 
+			dao = manager.getDao(SystemInfoLotgDao.class); 
 			dao.insertData(uuid,username,modulename,actionname,data,"","",ip,state);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -118,30 +114,33 @@ public class SystemInfoLog {
 	public static void actionLog(String username,String  modulename,String  actionname,String state,String  data,HttpServletRequest request){
 		Logger logger = LoggerFactory.getLogger("ActionLog");
 		String userAgentstr=request.getHeader("User-Agent");
-		UserAgent userAgent = UserAgent.parseUserAgentString(userAgentstr);
 		String ip = AppUtils.getIpAddress(request);
 		Map log = new HashMap();
 		log.put("username", username);
 		log.put("module", modulename);
 		log.put("data", data);
 		log.put("ip", ip);
-		if(userAgent.getBrowser().getBrowserType() == BrowserType.UNKNOWN){
-			log.put("browser",userAgentstr); 
-		}else{
-			log.put("browser", userAgent.getBrowser().getName() + userAgent.getBrowserVersion().getVersion());  
-		}
-		log.put("osname", userAgent.getOperatingSystem().getName()); 
+		
+		String browser = String.format("%s-%s-%s-%s-%s",UserAgentUtils.getBorderGroup(userAgentstr),
+		UserAgentUtils.getBorderName(userAgentstr),
+		UserAgentUtils.getBorderType(userAgentstr),
+		UserAgentUtils.getBrowserManufacturer(userAgentstr),
+		UserAgentUtils.getBrowserVersion(userAgentstr));
+		String os =String.format("%s-%s-%s",UserAgentUtils.getOs(userAgentstr),
+		UserAgentUtils.getOsName(userAgentstr),
+		UserAgentUtils.getOsVersion(userAgentstr));
+		
+		log.put("browser", browser);
+		log.put("osname", os);  
 		log.put("datetime", new Date()); 
 		String logstr = JsonUtils.toString(log); 
  		logger.info(logstr);
  		
  		String uuid = UUID.randomUUID().toString();
 		SystemInfoLotgDao dao = null;
-		Manager manager = new Manager();
-		try {
-			manager.load();
-			dao = manager.getDao(SystemInfoLotgDao.class);
-	       
+		Manager manager = DbUtils.getDatabase();
+		try { 
+			dao = manager.getDao(SystemInfoLotgDao.class); 
 			dao.insertData(uuid,username,modulename,actionname,data,log.get("osname").toString(),log.get("browser").toString(),ip,state);
 		} catch (Exception e) {
 			e.printStackTrace();
