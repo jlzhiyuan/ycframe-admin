@@ -13,13 +13,13 @@ import com.ycframe.web.base.WebDo;
 import com.ycframe.web.context.result.JsonResult;
 import com.ycframe.web.context.result.Result;
 import com.ycframe.web.demo.dao.DemoDataDao;
+import com.ycframe.common.utils.DbUtils;
 
 @Webdo(url="/demodata")
 public class DemoData  extends WebDo{
 	public Result getDemoData(){ 
 		try {
-			Manager manager = new Manager();
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
 			DemoDataDao dao = null ; 
 			dao = manager.getDao(DemoDataDao.class);
 			List<DBMap> dataFromDB = dao.getLotsOfData6();

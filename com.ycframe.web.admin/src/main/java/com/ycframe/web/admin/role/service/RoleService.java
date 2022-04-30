@@ -2,30 +2,25 @@ package com.ycframe.web.admin.role.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import com.ycframe.database.Manager;
 import com.ycframe.database.dao.DaoPage;
-import com.ycframe.database.query.inter.QueryInterface;
-import com.ycframe.database.query.inter.UpdateInterface;
+import com.ycframe.database.query.Query;
+import com.ycframe.database.query.Update;
 import com.ycframe.database.util.DBMap;
-import com.ycframe.utils.IDUtils;
 import com.ycframe.utils.StringUtils;
-import com.ycframe.web.App;
 import com.ycframe.web.admin.role.dao.RoleDao;
 import com.ycframe.web.common.exception.ServiceException;
-import com.ycframe.web.context.result.JsonResult;
-import com.ycframe.web.utils.SystemInfoLog; 
+import com.ycframe.common.utils.DbUtils;
 
 public class RoleService {
 	public HashMap init(int row, int page) throws ServiceException {
 		HashMap map = new HashMap();
 		try {
-			Manager manager = new Manager();
-			RoleDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			RoleDao dao = null; 
 			dao = manager.getDao(RoleDao.class);
 			int count = dao.getRoleCountt("");
 			int ys = (count % row == 0) ? count / row : (count / row + 1);
@@ -53,9 +48,8 @@ public class RoleService {
 			int page) throws ServiceException {
 		HashMap map = new HashMap();
 		try {
-			Manager manager = new Manager();
-			RoleDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			RoleDao dao = null; 
 			dao = manager.getDao(RoleDao.class);
 			int count = dao.getRoleCountt("");
 			int ys = (count % row == 0) ? count / row : (count / row + 1);
@@ -81,10 +75,9 @@ public class RoleService {
 	}
 
 	public boolean open(String[] ids) throws ServiceException{ 
-		Manager manager = new Manager();
+		Manager manager = DbUtils.getDatabase();
 		RoleDao dao = null;
-		try {
-			manager.load();
+		try { 
 			dao = manager.getDao(RoleDao.class);
 			long i = dao.update().set("zt", "1").andIn("id", Arrays.asList(ids)).update();
 			if(i>0){
@@ -104,10 +97,9 @@ public class RoleService {
 			throw new ServiceException("系统保留用户不允许操作。"); 
 		}
 		 
-		Manager manager = new Manager();
+		Manager manager = DbUtils.getDatabase();
 		RoleDao dao = null;
-		try {
-			manager.load();
+		try { 
 			dao = manager.getDao(RoleDao.class);
 			long i = dao.update().set("zt", "0").andIn("id", Arrays.asList(ids)).update();
 			if(i>0){
@@ -147,9 +139,8 @@ public class RoleService {
 			 
 			
 			
-			Manager manager = new Manager();
-			RoleDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			RoleDao dao = null; 
 			dao = manager.getDao(RoleDao.class);
 			int count = dao.getTableDataCount(jsid, tj);
 			int ys = (count % row == 0) ? count / row : (count / row + 1);
@@ -183,9 +174,8 @@ public class RoleService {
 		HashMap map = new HashMap();
 		try {
 			String success = null; 
-			Manager manager = new Manager();
-			RoleDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			RoleDao dao = null; 
 			dao = manager.getDao(RoleDao.class); 
 			if (JSMC == null || LX == null || LX == null || ZT == null) {
 				throw new ServiceException("必须数据不完整!"); 
@@ -229,13 +219,12 @@ public class RoleService {
 		
 		HashMap map = new HashMap(); 
 		try {
-			Manager manager = new Manager();
+			Manager manager = DbUtils.getDatabase();
 			RoleDao dao = null;
-			String success = null;
-			manager.load();
+			String success = null; 
 			dao = manager.getDao(RoleDao.class);
  
-			QueryInterface ii = dao.querySystemryjs();
+			Query ii = dao.querySystemryjs();
 			long count = ii.andIn("JSZID", Arrays.asList(jsid)).count();
  
 			if (count > 0) {
@@ -243,7 +232,7 @@ public class RoleService {
 			}
 			try{
 				manager.startTransaction();
-				UpdateInterface update = dao.updateSystemjsz();
+				Update update = dao.updateSystemjsz();
 				long i = update.set("jlzt", "已删除").andIn("id", Arrays.asList(jsid)).update();
 				
 				if (i > 0 ) { 
@@ -269,10 +258,9 @@ public class RoleService {
 
 	public boolean addRyjs(String ryid, String jsid) throws ServiceException {
 		try {
-			Manager manager = new Manager();
+			Manager manager = DbUtils.getDatabase();
 			RoleDao dao = null;
-			String success = null;
-			manager.load();
+			String success = null; 
 			dao = manager.getDao(RoleDao.class); 
 			int i = dao.addRyjs(ryid, jsid);
 			if (i > 0) {
@@ -289,9 +277,8 @@ public class RoleService {
 	public boolean deleteRyjs(String ryid, String jsid) throws ServiceException {
 		HashMap map = new HashMap();
 		try {
-			Manager manager = new Manager();
-			RoleDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			RoleDao dao = null; 
 			dao = manager.getDao(RoleDao.class);
 			int i = dao.deleteRyjs(ryid, jsid);
 			if (i > 0) {

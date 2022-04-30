@@ -1,11 +1,12 @@
 package com.ycframe.web.demo.dao;
 
 import java.util.List;
-import com.ycframe.database.dao.IDao;
+
+import com.ycframe.database.dao.Dao;
 import com.ycframe.database.dao.annotation.Sql;
 import com.ycframe.database.util.DBMap;
 
-public interface DemoDataDao extends IDao  {
+public interface DemoDataDao extends Dao  {
 	
 	@Sql("select * from sbwtk_sbtz")
 	public List<DBMap> getLotsOfData();	

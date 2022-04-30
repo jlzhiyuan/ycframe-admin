@@ -52,6 +52,7 @@ public class ApiLogin extends WebDo {
 		UserInfo userinfo = App.getApp().getUserInfoByName(username);
 		Object JwtSecret = pp.getInfos().get("JwtSecret");
 		SystemInfoLog.actionLog(user.getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "sign",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  :获取秘钥成功",getRequest());
+		pp.logout();
 		return JsonResult.Result(JwtSecret).setCode(0).setMessage("signed");
 	}
 	 

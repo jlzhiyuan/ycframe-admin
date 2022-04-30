@@ -1,6 +1,5 @@
 package com.ycframe.web.admin.modules.service;
-
-
+ 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -23,15 +22,15 @@ import com.ycframe.database.query.Update;
 import com.ycframe.database.util.DBMap;
 import com.ycframe.utils.StringUtils;
 import com.ycframe.web.admin.modules.dao.ModulesDao;
-import com.ycframe.web.common.exception.ServiceException; 
+import com.ycframe.web.common.exception.ServiceException;
+import com.ycframe.common.utils.DbUtils;
 public class ModulesService {
 	String[] function = new String[] { "系统维护", "模块管理" };
 
 	public List<DBMap> getModules(String orderCol,String orderType,String jsid) throws Exception { 
 		try {
-			Manager manager = new Manager();
-			ModulesDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			ModulesDao dao = null; 
 			dao = manager.getDao(ModulesDao.class);
 			DaoPage dp = null;
 			if(orderCol==null && orderType==null || orderCol.equals("") && orderType.equals("")){
@@ -102,9 +101,8 @@ public class ModulesService {
 	public HashMap getTreeSelect() {
 		HashMap hashMap = new HashMap();
 		try {
-			Manager manager = new Manager();
-			ModulesDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			ModulesDao dao = null; 
 			dao = manager.getDao(ModulesDao.class);
 			DaoPage dp = null;
 			dp = dao.getMkgl();
@@ -170,9 +168,8 @@ public class ModulesService {
 	
 	public List<DBMap> getMenu(String userid) throws Exception {
 		HashMap hashMap = new HashMap();
-		Manager manager = new Manager();
-		ModulesDao dao = null;
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		ModulesDao dao = null; 
 		dao = manager.getDao(ModulesDao.class);
 		DaoPage dp = null;
 		 
@@ -242,9 +239,8 @@ public class ModulesService {
 	
 	public List<DBMap> getComponent(String[] jsids) throws Exception {
  
-			Manager manager = new Manager();
-			ModulesDao dao = null;
-			manager.load();
+		Manager manager = DbUtils.getDatabase();
+			ModulesDao dao = null; 
 			dao = manager.getDao(ModulesDao.class); 
 			List<DBMap> list =dao.getComponent().andIn("jsgn.jszid", Arrays.asList(jsids) ).andIn("gnlx", Arrays.asList("0","2")).select(); 
 			List<DBMap> list3 = new ArrayList<DBMap>();
@@ -266,9 +262,8 @@ public class ModulesService {
 
  
 	public List<DBMap> getPermissions(String user) throws Exception {
-		Manager manager = new Manager();
-		ModulesDao dao = null;
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		ModulesDao dao = null; 
 		dao = manager.getDao(ModulesDao.class); 
 		List<DBMap> list =dao.getPermissions().andEq("ry.yhm", user).select();  
 		return list; 
@@ -279,9 +274,8 @@ public class ModulesService {
 	 * @throws Exception
 	 */
 	public List<DBMap> getResourcesOfGuest() throws Exception {
-		Manager manager = new Manager();
-		ModulesDao dao = null;
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		ModulesDao dao = null; 
 		dao = manager.getDao(ModulesDao.class); 
 		List<DBMap> list =dao.getResourcesOfGuest().select();  
 		return list; 
@@ -292,9 +286,8 @@ public class ModulesService {
 	 * @throws Exception
 	 */
 	public List<DBMap> getResourcesRoles() throws Exception {
-		Manager manager = new Manager();
-		ModulesDao dao = null;
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		ModulesDao dao = null; 
 		dao = manager.getDao(ModulesDao.class); 
 		List<DBMap> list =dao.getResourcesRoles().select();  
 		return list; 
@@ -305,9 +298,8 @@ public class ModulesService {
 			String SXBH,String icon,String component,String jsPath,Boolean isComponent,String linkUrl,String gnlx) throws Exception {
 		 
 			String success = null;
-			Manager manager = new Manager();
-			ModulesDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			ModulesDao dao = null; 
 			dao = manager.getDao(ModulesDao.class);
 			String tj = "";
 			tj += " and id= '" + FGNID.trim() + "' ";
@@ -337,9 +329,8 @@ public class ModulesService {
 				String id,String icon,String component,String jsPath,Boolean isComponent,String linkUrl,String gnlx) throws Exception {
 	 		try {
 				String success = null;
-				Manager manager = new Manager();
-				ModulesDao dao = null;
-				manager.load();
+				Manager manager = DbUtils.getDatabase();
+				ModulesDao dao = null; 
 				dao = manager.getDao(ModulesDao.class); 
 				String tj = "";
 				if (id != null && !"".equals(id) && !"null".equals(id)) {
@@ -366,9 +357,8 @@ public class ModulesService {
 
 	public boolean delete(String[] ids) throws Exception{
 		try {
-			Manager manager = new Manager();
-			ModulesDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			ModulesDao dao = null; 
 			dao = manager.getDao(ModulesDao.class);
 			Update update = dao.deleteData();
 //			QueryCondition child = new QueryCondition();
@@ -393,9 +383,8 @@ public class ModulesService {
 	
 	public boolean open(String[] ids) throws Exception{
 		try {
-			Manager manager = new Manager();
-			ModulesDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			ModulesDao dao = null; 
 			dao = manager.getDao(ModulesDao.class);
 			Update update = dao.updateData(); 
 			long count; 
@@ -413,9 +402,8 @@ public class ModulesService {
 	
 	public boolean close(String[] ids) throws Exception{
 		try {
-			Manager manager = new Manager();
-			ModulesDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			ModulesDao dao = null; 
 			dao = manager.getDao(ModulesDao.class);
 			Update update = dao.updateData(); 
 			long count; 
@@ -440,11 +428,8 @@ public class ModulesService {
 
 		if (!"".equals(anid) && anid != null && !"null".equals(anid)) {
 			if (StringUtils.isNotBlank(gnid) && !"null".equals(gnid)) {
-
-				Manager manager = new Manager();
-				ModulesDao dao = null;
-				
-					manager.load();
+				Manager manager = DbUtils.getDatabase();
+				ModulesDao dao = null; 
 					dao = manager.getDao(ModulesDao.class);
 				
 				for (int i = 0; i < anid.split(",").length; i++) {
@@ -478,9 +463,8 @@ public class ModulesService {
 		HashMap map = new HashMap();
 		
 		try {
-			Manager manager = new Manager();
-			ModulesDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			ModulesDao dao = null; 
 			dao = manager.getDao(ModulesDao.class);
 			String tj1 = "";
 			if (gnid != null && !"".equals(gnid) && !"null".equals(gnid)) {
@@ -531,9 +515,8 @@ public class ModulesService {
 		HashMap map = new HashMap();
 		
 		try {
-			Manager manager = new Manager();
-			ModulesDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			ModulesDao dao = null; 
 			dao = manager.getDao(ModulesDao.class);
 			String i = dao.getLinkUrl(gnmc);
 			map.put("state", "success");
@@ -598,11 +581,10 @@ public class ModulesService {
 	
 	
 	public List<DBMap> getAllAN() throws ServiceException{
-		Manager manager = new Manager();
+		Manager manager = DbUtils.getDatabase();
 		ModulesDao dao = null;
 		List<DBMap> list = null; 
-		try {
-			manager.load();
+		try { 
 			dao = manager.getDao(ModulesDao.class);
 			list = dao.getAllanList(); 
 		} catch (DaoTypeErrorException e) {

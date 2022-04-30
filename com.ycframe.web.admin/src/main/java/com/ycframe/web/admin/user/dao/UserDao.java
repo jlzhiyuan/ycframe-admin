@@ -5,20 +5,50 @@ package com.ycframe.web.admin.user.dao;
  *
  */
 import java.util.List;
-import java.util.List;
+
+import com.ycframe.database.dao.Dao;
 import com.ycframe.database.dao.DaoPage;
-import com.ycframe.database.dao.IDao;
 import com.ycframe.database.dao.annotation.Arguments;
 import com.ycframe.database.dao.annotation.Sql;
 import com.ycframe.database.dao.annotation.UseCache;
+import com.ycframe.database.query.Query;
 import com.ycframe.database.util.DBMap; 
-public interface UserDao  extends IDao{	
+public interface UserDao  extends Dao{	
+	
+	
+	/**
+	 * 查询用户 
+	 * @return
+	 */
+	@Sql(" SELECT * from systemry ry")
+	@UseCache(false)
+	public Query getSystemUser();	
+	
+	
+	@Sql(" "+ 
+	" SELECT  "+ 
+	" tempUser.id yhid,ryxx.id ryxxid,ryxx.xm xingming,ryxx.zybm zybm,ryxx.glry glry,ryxx.dwbm dwbm, "+ 
+	" gs.jgmc dwmc,bm.bm bmbm,bm.ssgydw ssgydw,bm.jgmc bmmc, "+ 
+	" tempUser.yhzt yhzt,tempUser.jsid jsid,tempUser.jsmc jsmc "+ 
+	" FROM "+ 
+	" (SELECT user.id id,user.yhzt yhzt , GROUP_CONCAT(ryjs.JSZID) jsid, GROUP_CONCAT(js.JSMC)  jsmc   "+ 
+	" from systemry user "+ 
+	" LEFT JOIN systemryjs ryjs ON ryjs.RYID = USER.ID "+ 
+	" LEFT JOIN systemjsz js on js.id = ryjs.JSZID and js.jlzt='未删除' "+ 
+	" where user.yhm=? and user.JLZT = 1 "+ 
+	" GROUP BY user.id) tempUser "+ 
+	" Left JOIN systemrygl_ryjl ryxx on ryxx.GLRY = tempUser.id "+ 
+	" Left JOIN systemzzjg gs on gs.BM = ryxx.dwbm   "+ 
+	" Left JOIN systemzzjg bm on bm.BM = ryxx.ejdwbm   "+ 
+	" ")
+	@UseCache(false)
+	public Query getSystemUserInfo(String username);	
+	
 	/**
 	 * 返填方法
 	 * @param tj
 	 * @return
 	 */
-	
 	@Sql("select a.id,c.jgmc,c.BM,a.xm userName,ry.xm XM,'' mmcodersa, '' mmcode, a.Sex sex,a.jc telephone1,a.Telepone2 telephone2 "
 			+ " from systemry ry LEFT JOIN  systemrygl_ryjl a on a.glry = ry.id "
 			+ " LEFT JOIN systemzzjg c on a.ejdwbm = c.id where ry.jlzt = 1 and ry.yhm=?") 
@@ -30,50 +60,28 @@ public interface UserDao  extends IDao{
 			+ " where ry.id=?") 
 	@UseCache(false)
 	public DBMap getUserById(String id);
-	
-	@Sql("   select   DISTINCT  a.id,d.id yid, b.JGMC,b.BM JGBM , d.XM userName,d.YHM ,a.empCode, s.sizetype sex,a.telepone1,a.telepone2, d.YHZT ,b.bmbh, GROUP_CONCAT(DISTINCT r.jsmc)   js  "
-			+ "	from  systemrygl_ryjl  a  " + "	 LEFT JOIN systemzzjg b on a.ejdwbm = b.id and b.jlzt='未删除' "
-			+ " left  join systemryjs c on a.glry = c.ryid "
-			+ " left JOIN systemjsz r  on   c.jszid = r.id and r.ZT ='1' " + " INNER join systemry d on a.glry = d.id "
-			+ " LEFT JOIN systemdataauthorityzt yhzt on a.ZT = yhzt.ztNo " + " left join  sextype  s  on s.id = a.sex "
-			+ " where a.jlzt='未删除'  ${tj}   "
-			+ " 	GROUP by  a.id,d.id ,b.JGMC,b.BM ,d.XM,d.YHM ,a.empCode, s.sizetype ,a.telepone1,a.telepone2,d.yhzt  ,b.bmbh "
-			+ "   order by ${orderindex} ${ordertype} ")
-	@Arguments({ "tj", "orderindex", "ordertype" })
-	@UseCache(false)
-	public DaoPage getRyglOrder(String tj, String orderindex, String ordertype);
+ 
 
-	@Sql("   select   DISTINCT a.id,d.id yid,a.zy,  b.JGMC,b.id JGBM , d.XM userName,d.YHM ,a.empCode,  s.sizetype  sex,a.jc,a.telepone2,d.YHZT ,b.bmbh, GROUP_CONCAT(DISTINCT r.jsmc)  js    "
+	@Sql("   select   DISTINCT a.id,d.id yid,a.zy,  b.JGMC,b.id JGBM , d.XM userName,d.YHM YHM,a.empCode,  a.sex,a.jc,a.telepone2,d.YHZT ,b.bmbh, GROUP_CONCAT(DISTINCT r.jsmc)  js    "
 			+ "	from  systemrygl_ryjl  a  " + "	 LEFT JOIN systemzzjg b on a.ejdwbm = b.id and b.jlzt='未删除' "
 			+ " left  join systemryjs c on a.glry = c.ryid "
 			+ " left JOIN systemjsz r  on   c.jszid = r.id  and r.ZT ='1' " + " INNER join systemry d on a.glry = d.id "
-			+ " LEFT JOIN systemdataauthorityzt yhzt on a.ZT = yhzt.ztNo " + "	 left join  sextype s on s.id = a.sex "
+			+ " LEFT JOIN systemdataauthorityzt yhzt on a.ZT = yhzt.ztNo " + "	 "
 			+ " where a.jlzt='未删除' ${tj} "
-			+ " 	GROUP by  a.id,d.id ,b.JGMC,b.BM ,d.XM,d.YHM ,a.empCode, s.sizetype ,a.jc,a.telepone2,d.yhzt  ,b.bmbh "
+			+ " 	GROUP by  a.id,d.id ,b.JGMC,b.BM ,d.XM,d.YHM ,a.empCode, a.sex ,a.jc,a.telepone2,d.yhzt  ,b.bmbh "
 			+ " ${orderTj}  ")
 	@Arguments({ "tj","orderTj" })
 	@UseCache(false)
 	public DaoPage getRyglxx(String tj,String orderTj);
-	
-	@Sql("   select   DISTINCT a.id,d.id yid,a.zy,  b.JGMC,b.BM JGBM , d.XM userName,d.YHM ,a.empCode,  s.sizetype  sex,a.jc,a.telepone2,d.YHZT ,b.bmbh, GROUP_CONCAT(DISTINCT r.jsmc)  js    "
-			+ "	from  systemrygl_ryjl  a  " + "	 LEFT JOIN systemzzjg b on a.ejdwbm = b.id and b.jlzt='未删除' "
-			+ " left  join systemryjs c on a.glry = c.ryid "
-			+ " left JOIN systemjsz r  on   c.jszid = r.id  and r.ZT ='1' " + " INNER join systemry d on a.glry = d.id "
-			+ " LEFT JOIN systemdataauthorityzt yhzt on a.ZT = yhzt.ztNo " + "	 left join  sextype s on s.id = a.sex "
-			+ " where a.jlzt='未删除' ${tj} "
-			+ " 	GROUP by  a.id,d.id ,b.JGMC,b.BM ,d.XM,d.YHM ,a.empCode, s.sizetype ,a.jc,a.telepone2,d.yhzt  ,b.bmbh "
-			+ " order by d.YHM  ")
-	@Arguments({ "tj" })
-	@UseCache(false)
-	public List getExcelData(String tj);
+ 
 
-	@Sql("select count(*) from (  select   DISTINCT a.id,d.id yid,  b.JGMC,b.BM JGBM , d.XM userName,d.YHM ,a.empCode,  s.sizetype  sex,a.jc,a.telepone2,d.YHZT ,b.bmbh, GROUP_CONCAT(DISTINCT r.jsmc)  js    "
+	@Sql("select count(*) from (  select   DISTINCT a.id,d.id yid,  b.JGMC,b.BM JGBM , d.XM userName,d.YHM ,a.empCode,  a.sex,a.jc,a.telepone2,d.YHZT ,b.bmbh, GROUP_CONCAT(DISTINCT r.jsmc)  js    "
 			+ "	from  systemrygl_ryjl  a  " + "	 LEFT JOIN systemzzjg b on a.ejdwbm = b.id and b.jlzt='未删除' "
 			+ " left  join systemryjs c on a.glry = c.ryid "
 			+ " left JOIN systemjsz r  on   c.jszid = r.id  and r.ZT ='1' " + " INNER join systemry d on a.glry = d.id "
-			+ " LEFT JOIN systemdataauthorityzt yhzt on a.ZT = yhzt.ztNo " + "	 left join  sextype s on s.id = a.sex "
+			+ " LEFT JOIN systemdataauthorityzt yhzt on a.ZT = yhzt.ztNo " + "	"
 			+ " where a.jlzt='未删除' ${tj} "
-			+ " 	GROUP by  a.id,d.id ,b.JGMC,b.BM ,d.XM,d.YHM ,a.empCode, s.sizetype ,a.jc,a.telepone2,d.yhzt  ,b.bmbh "
+			+ " 	GROUP by  a.id,d.id ,b.JGMC,b.BM ,d.XM,d.YHM ,a.empCode, a.sex ,a.jc,a.telepone2,d.yhzt  ,b.bmbh "
 			+ " order by d.YHM  )  ttt ")
 	@Arguments({ "tj" })
 	@UseCache(false)
@@ -144,9 +152,9 @@ public interface UserDao  extends IDao{
 	@UseCache(false)
 	public int insertJs(String id, String tj);
 	
-	@Sql(" select * from  systemrygl_ryjl where  XM = ? and EJDWBM = ? and JLZT = '未删除'   ")
+	@Sql(" select * from  systemry where  YHM = ? and JLZT = 1   ")
 	@UseCache(false)
-	public List findByYHM(String YHM,String deptID);
+	public List findByYHM(String YHM);
 	
 	@Sql(" select * from  systemrygl_ryjl where  userName = ? and JLZT = '未删除'   ")
 	@UseCache(false)
@@ -157,9 +165,9 @@ public interface UserDao  extends IDao{
 	public List findByCode(String code);
 	
 	// 添加systemry字段
-	@Sql(" insert into systemry (id,XM,YHM,mmcodersa, mmcode,ecccode,phone,YHZT)values(?,?,?,?,?,?,?,'正常') ")
+	@Sql(" insert into systemry (id,XM,YHM,mmcodersa, mmcode,ecccode,YHZT)values(?,?,?,?,?,?,'正常') ")
 	@UseCache(false)
-	public int insertry(String id, String XM, String YHM, String mm, String mms, String mmc, String Telepone1);
+	public int insertry(String id, String XM, String YHM, String mm, String mms, String mmc);
 	// 添加
 	@Sql("insert into  systemrygl_ryjl (id,ejdwbm,xm,userName,GlRY,empCode,sex,jc,Telepone2,zy) values(?,?,?,?,?,?,?,?,?,?) ")
 	@UseCache(false)

@@ -8,15 +8,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.alibaba.druid.support.json.JSONUtils;
 import com.ycframe.danymicmodule.DanymicModuleFactoryImpl;
 import com.ycframe.database.Manager;
-import com.ycframe.database.query.inter.QueryInterface;
+import com.ycframe.database.query.Query;
 import com.ycframe.database.util.DBMap;
 import com.ycframe.utils.IDUtils;
 import com.ycframe.utils.StringUtils;
 import com.ycframe.utils.map.ConvertHashMap;
 import com.ycframe.web.admin.code.dao.CodeDao;
+import com.ycframe.common.utils.DbUtils;
 
 
 public class CodeService {
@@ -26,13 +28,12 @@ public class CodeService {
 	public Map init(String orderCol,String orderType,String model_name, String model_code, String model_describe, int page, int pageSize) {
 
 		HashMap map = new HashMap();
-		Manager manager = new Manager();
+		Manager manager = DbUtils.getDatabase();
 		CodeDao dao = null;
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			manager.load();
+		try { 
 			dao = manager.getDao(CodeDao.class);
-			QueryInterface qif = dao.init();
+			Query qif = dao.init();
 			//默认查询条件
 			qif.andEq("jlzt", "0");//0未删除，1已删除
 			
@@ -70,13 +71,12 @@ public class CodeService {
 	public Map initmx(String id) {
 
 		HashMap map = new HashMap();
-		Manager manager = new Manager();
+		Manager manager = DbUtils.getDatabase();
 		CodeDao dao = null;
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			manager.load();
+		try { 
 			dao = manager.getDao(CodeDao.class);
-			QueryInterface qif = dao.initmx();
+			Query qif = dao.initmx();
 			//默认查询条件
 			qif.andEq("jlzt", "0");//0未删除，1已删除
 			qif.andEq("sfqy", "true");
@@ -101,9 +101,8 @@ public class CodeService {
 	 */
 	public int save(Map params) throws Exception {
 		int success=0;
-		Manager manager = new Manager();
-		CodeDao dao = null;
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		CodeDao dao = null; 
 		dao = manager.getDao(CodeDao.class);
 		try{ 
 			ConvertHashMap map1 = new ConvertHashMap();
@@ -119,10 +118,10 @@ public class CodeService {
 //			String cjsj = map1.getStr("cjsj", "");
 //			String versiondescribe = map1.getStr("versiondescribe", "");
 //			String sfqy = map1.getStr("sfqy", "");
-			QueryInterface qif = dao.selectCode();//获取版本
+			Query qif = dao.selectCode();//获取版本
 			qif.andEq("id", id);
 			List<DBMap> list = qif.select();
-			QueryInterface qif1 = dao.queryCode();//获取模块编码
+			Query qif1 = dao.queryCode();//获取模块编码
 			qif1.andEq("jlzt", "0");
 			List<DBMap> list1 = qif1.select();
 			int pd=0;
@@ -185,9 +184,8 @@ public class CodeService {
 	public boolean delcode(String id) throws Exception {
 
 		HashMap map = new HashMap();
-		Manager manager = new Manager();
-		CodeDao dao = null;
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		CodeDao dao = null; 
 		dao = manager.getDao(CodeDao.class);
 		int	i = dao.delCode(id);
 		if (i > 0) {
@@ -231,12 +229,11 @@ public class CodeService {
 	public boolean del(Map params) throws Exception {
 
 		HashMap map = new HashMap();
-		Manager manager = new Manager();
+		Manager manager = DbUtils.getDatabase();
 		CodeDao dao = null;
 		ConvertHashMap map1 = new ConvertHashMap();
 		map1.putAll(params);
-		String versionid = map1.getString("versionid", "");
-		manager.load();
+		String versionid = map1.getString("versionid", ""); 
 		dao = manager.getDao(CodeDao.class);
 		int i = 0;
 		if (StringUtils.isNoneBlank(versionid)) {
@@ -260,12 +257,10 @@ public class CodeService {
 	public Map getVersion(String zjlid) throws Exception {
 
 		HashMap map = new HashMap();
-		Manager manager = new Manager();
-		CodeDao dao = null;
-
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		CodeDao dao = null; 
 		dao = manager.getDao(CodeDao.class);
-		QueryInterface qif = dao.queryVersion();
+		Query qif = dao.queryVersion();
 		//默认查询条件
 		qif.andEq("jlzt", "0");//0未删除，1已删除
 		qif.andEq("zjlid", zjlid);//0未删除，1已删除
@@ -287,9 +282,8 @@ public class CodeService {
 	 */
 	public int saveVersion(Map params) throws Exception {
 		int success=0;
-		Manager manager = new Manager();
-		CodeDao dao = null;
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		CodeDao dao = null; 
 		dao = manager.getDao(CodeDao.class);
 		try{
 			ConvertHashMap map1 = new ConvertHashMap();
@@ -303,7 +297,7 @@ public class CodeService {
 			String sfqy = map1.getString("sfqy", "");
 //			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
 //			Date date=sdf.parse(cjsj);
-			QueryInterface qif = dao.queryVersion();//获取版本
+			Query qif = dao.queryVersion();//获取版本
 			qif.andEq("zjlid", id);
 			qif.descorderBy("version+0");
 			List<DBMap> list = qif.select();
@@ -349,9 +343,8 @@ public class CodeService {
 	 * @throws Exception
 	 */
 	public boolean updateVersion(Map params,String code) throws Exception {
-		Manager manager = new Manager();
-		CodeDao dao = null;
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		CodeDao dao = null; 
 		dao = manager.getDao(CodeDao.class);
 		try{
 			ConvertHashMap map1 = new ConvertHashMap();
@@ -385,12 +378,10 @@ public class CodeService {
 	public Map getVersionXx(String id) throws Exception {
 
 		HashMap map = new HashMap();
-		Manager manager = new Manager();
-		CodeDao dao = null;
-
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		CodeDao dao = null; 
 		dao = manager.getDao(CodeDao.class);
-		QueryInterface qif = dao.queryVersionxx();
+		Query qif = dao.queryVersionxx();
 		//默认查询条件
 		qif.andEq("b.jlzt", "0");//0未删除，1已删除
 		qif.andEq("b.id", id);
@@ -412,10 +403,8 @@ public class CodeService {
 	public Map perform(Map params,String userid) throws Exception {
 			HashMap map = new HashMap();
 		try{
-			Manager manager = new Manager();
-			CodeDao dao = null;
-	
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			CodeDao dao = null; 
 			dao = manager.getDao(CodeDao.class);
 			ConvertHashMap map1 = new ConvertHashMap();
 			map1.putAll(params);
@@ -467,12 +456,10 @@ public class CodeService {
 	public Map getLog(String orderCol ,String orderType,String zxr,String zxsj,String versionid) throws Exception {
 
 		HashMap map = new HashMap();
-		Manager manager = new Manager();
-		CodeDao dao = null;
-
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		CodeDao dao = null; 
 		dao = manager.getDao(CodeDao.class);
-		QueryInterface qif = dao.getLog();
+		Query qif = dao.getLog();
 		//默认查询条件
 		qif.andEq("a.jlzt", "0");//0未删除，1已删除
 		if(StringUtils.isNoneBlank(zxsj)&&!"[]".equals(zxsj)&&!"null".equals(zxsj)){
@@ -609,9 +596,8 @@ public class CodeService {
 	public boolean delLog(String id) throws Exception {
 
 		HashMap map = new HashMap();
-		Manager manager = new Manager();
-		CodeDao dao = null;
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		CodeDao dao = null; 
 		dao = manager.getDao(CodeDao.class);
 		int	i = dao.delLog(id);
 		if (i > 0) {

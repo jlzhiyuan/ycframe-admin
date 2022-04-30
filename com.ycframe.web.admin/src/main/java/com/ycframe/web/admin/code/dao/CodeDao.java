@@ -2,32 +2,31 @@ package com.ycframe.web.admin.code.dao;
 
 import java.util.Date;
 import java.util.List;
-import com.ycframe.database.dao.DaoPage;
-import com.ycframe.database.dao.IDao;
+
+import com.ycframe.database.dao.Dao;
 import com.ycframe.database.dao.annotation.Arguments;
 import com.ycframe.database.dao.annotation.Sql;
 import com.ycframe.database.dao.annotation.UseCache;
 import com.ycframe.database.query.Query;
-import com.ycframe.database.query.inter.QueryInterface;
 import com.ycframe.database.util.DBMap; 
-public interface CodeDao extends IDao  {
+public interface CodeDao extends Dao  {
 
 	@Sql("select *, "
 		+"	(select count(*) from systemcodeversion a where systemcodeeditor.id=a.zjlid and a.jlzt='0') versioncount "
 		+"  from systemcodeeditor")
 	@UseCache(false)
-	public QueryInterface init();
+	public Query init();
 	
 	@Sql("select *  from systemcodeversion")
 		@UseCache(false)
-		public QueryInterface initmx();
+		public Query initmx();
 	
 	@Sql("update systemcodeeditor set jlzt='1' where id = ? ")
 	public int delCode(String id);
 	
 	@Sql("select * from  systemcodeeditor")
 	@UseCache(false)
-	public QueryInterface selectCode();
+	public Query selectCode();
 	
 	@Sql("insert into systemcodeeditor (id,model_name,model_code,model_describe,jlzt) values(?,?,?,?,?) ")
 	@UseCache(false)
@@ -43,11 +42,11 @@ public interface CodeDao extends IDao  {
 
 	@Sql("SELECT * FROM  systemcodeversion ")
 	@UseCache(false)
-	public QueryInterface queryVersion();
+	public Query queryVersion();
 	
 	@Sql("SELECT b.*,ry.xm cjrxm FROM  systemcodeversion b left join systemry ry on  b.cjr=ry.id ")
 	@UseCache(false)
-	public QueryInterface queryVersionxx();
+	public Query queryVersionxx();
 	
 
 	@Sql("update systemcodeversion set versiondescribe=?,code=?,sfqy=? where id = ? ")
@@ -75,7 +74,7 @@ public interface CodeDao extends IDao  {
 	@Sql("select a.model_name,a.model_code,a.model_describe,b.version,ry.xm,c.use_userid,date_format(c.use_time, '%Y-%m-%d') use_time,c.versionid,c.input,c.output,c.id "
        +" from systemcodeeditor a INNER JOIN  systemcodeversion b on a.id=b.zjlid and b.jlzt='0' INNER JOIN systemcodedebug c on b.id=c.versionid and c.jlzt='0' left join systemry ry on c.use_userid=ry.id ")
 	@UseCache(false)
-	public QueryInterface getLog();
+	public Query getLog();
 	
 //	@Sql("select a.model_name,a.model_code,a.model_describe,b.version,ry.xm,c.use_userid,date_format(c.use_time, '%Y-%m-%d') use_time,c.versionid,c.input,c.output,c.id "
 //		       +" from systemcodeeditor a INNER JOIN  systemcodeversion b on a.id=b.zjlid and b.jlzt='0' INNER JOIN systemcodedebug c on b.id=c.versionid and c.jlzt='0' left join systemry ry on c.use_userid=ry.id where a.jlzt='0' ${tj} ${tj1} ")
@@ -88,5 +87,5 @@ public interface CodeDao extends IDao  {
 	
 	@Sql("SELECT * FROM  systemcodeeditor ")
 	@UseCache(false)
-	public QueryInterface queryCode();
+	public Query queryCode();
 }

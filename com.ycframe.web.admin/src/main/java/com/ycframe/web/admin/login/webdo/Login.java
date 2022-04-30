@@ -28,6 +28,7 @@ import com.ycframe.web.context.result.Result;
 import com.ycframe.web.security.WebUrlAuthorization;
 import com.ycframe.web.security.auth.UrlAuthConfig;
 import com.ycframe.web.security.service.AuthService;
+import com.ycframe.web.utils.AppUtils;
 import com.ycframe.web.utils.SystemInfoLog;
 
 @Webdo(url = "/login")
@@ -99,10 +100,9 @@ public class Login extends AbstractWebDo {
 		user.setPassword(passwordcode[0]);
 		user.setPasswordecc("");
 		user.setRememberMe(rememberMe); 
-		LoginService loginservice = new LoginService(); 
-		String remoteip = loginservice.getRealIp(this.getRequest());
+		LoginService loginservice = new LoginService();  
 		
-		
+		String remoteip = AppUtils.getIpAddress(this.getRequest());
 		com.ycframe.security.auth.SecurityManager sm = this.getContext()
 				.getWebContext().getSecurityManager();
 		Passport pp = null;
@@ -115,7 +115,8 @@ public class Login extends AbstractWebDo {
 		}
 		
 		if(!pp.isAuthenticated()){
-			SystemInfoLog.actionLog(username, "登录", "登录失败",remoteip); 
+ 			SystemInfoLog.actionLog(username,com.ycframe.utils.StringUtils.join(function, "_"), "登录",SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  :登录失败",this.getRequest());	
+ 
 			return JsonResult.Result(null).setCode(1).setMessage("登录失败");
 		}else{
 			UserInfo userinfo = App.getApp().getUserInfoByName(username);
@@ -141,7 +142,6 @@ public class Login extends AbstractWebDo {
 			loginservice.logined(userInfo, this.getRequest()); 
 			App.getApp().setMainUserInfo(this.getRequest(),userInfo); 
 			SystemInfoLog.actionLog(App.getApp().getUserInfo( getRequest()).getUsername(),com.ycframe.utils.StringUtils.join(function, "_"), "登录",SystemInfoLog.SUCCESS,"输入数据 : "+inputData+"\r\n输出数据  : 登录成功！",getRequest());	
-
 			return JsonResult.Result(userInfo).setCode(0).setMessage("登录成功");
 		} 
 	}

@@ -6,27 +6,29 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import com.ycframe.database.Executor;
 import com.ycframe.database.Manager;
-import com.ycframe.database.query.Query;
-import com.ycframe.database.query.inter.QueryInterface;
 import com.ycframe.database.util.DBMap;
 import com.ycframe.security.crypto.CryptoAdapterResult;
 import com.ycframe.security.crypto.Decrypt;
 import com.ycframe.utils.DateUtil;
 import com.ycframe.utils.time.DateUtils;
 import com.ycframe.web.App;
-import com.ycframe.web.admin.login.dao.LoginDao;
 import com.ycframe.web.admin.login.pojo.SystemXtpz;
 import com.ycframe.web.admin.login.pojo.UserConfig;
 import com.ycframe.web.admin.modules.service.ModulesService;
 import com.ycframe.web.common.pojo.UserInfo;
 import com.ycframe.web.common.pojo.UserOnlineInfo;
 import com.ycframe.web.security.auth.UrlAuthConfig;
+import com.ycframe.common.utils.DbUtils;
 
 public class AuthService {
+	
+	/**
+	 * 系统登录人数上限检测
+	 * @param onlineUser
+	 * @return
+	 */
 	public boolean checkAllowOnlineMaxUser(long onlineUser) {
 		SystemXtpz xptz = getSystemConfig();
 		if (onlineUser >= xptz.getDTYHBFS()) {
@@ -53,14 +55,7 @@ public class AuthService {
 	}
 
 	public SystemXtpz getSystemConfig() {
-		Manager manager = new Manager();
-		try {
-			manager.load();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
+		Manager manager = DbUtils.getDatabase();
 		Executor executor = manager.getExecutor();
 		String sql = "select * from systemxtpz";
 		List result;
@@ -92,15 +87,9 @@ public class AuthService {
 	}
   
 	public String getUserState(String usname) {
-		Manager database = new Manager();
-		try {
-			database.load();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Manager manager = DbUtils.getDatabase();
 		String sql = "SELECT ry.id id,ry.yhzt yhzt from systemry ry where ry.yhm = ?";
-		Executor executor = database.getExecutor();
+		Executor executor = manager.getExecutor();
 		try {
 			List ls = executor.query(sql, usname);
 			if (ls != null && ls.size() > 0) {
@@ -143,15 +132,8 @@ public class AuthService {
 	public boolean CheckPassword(String username, String mmcode) {
 		boolean tem = false;
 		String sql = "SELECT ry.yhm as yhm,ry.mmcodersa,ry.ecccode as ecccode from systemry ry "
-				+ " left join systemrygl_ryjl ryxx on ry.id=ryxx.glry"
 				+ " WHERE ry.yhm = ? ";
-		Manager manager = new Manager();
-		try {
-			manager.load();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Manager manager = DbUtils.getDatabase();
 		Executor executor = manager.getExecutor();
 		List ls = null;
 		try {
@@ -190,14 +172,7 @@ public class AuthService {
 	}
 
 	private UserConfig SystemUserConfig(String username) {
-		Manager manager = new Manager();
-		try {
-			manager.load();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
+		Manager manager = DbUtils.getDatabase();
 		Executor executor = manager.getExecutor();
 		String sql = "SELECT ry.fwipq ipq,ry.fwipz ipz,ry.fwsjq sjq,ry.fwsjz sjz,yxrq yxrq from systemry ry where ry.yhm=?";
 		List result;
@@ -282,14 +257,7 @@ public class AuthService {
 	}
 	
 	public List<String> getRoles(String username) throws SQLException{
-		Manager manager = new Manager();
-		try {
-			manager.load();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
+		Manager manager = DbUtils.getDatabase();
 		Executor executor = manager.getExecutor();
 		String sql = "select jsz.jsmc jsmc,jsz.id jsid from systemjsz jsz inner JOIN systemryjs ryjs on jsz.ID = ryjs.JSZID inner JOIN systemry ry on ryjs.RYID = ry.id and ry.yhm=?";
 		List<DBMap> maps = executor.query(sql,username);

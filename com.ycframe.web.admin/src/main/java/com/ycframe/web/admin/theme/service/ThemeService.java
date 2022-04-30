@@ -8,6 +8,7 @@ import com.ycframe.database.util.DBMap;
 import com.ycframe.utils.IDUtils;
 import com.ycframe.web.admin.theme.dao.ThemeDao;
 import com.ycframe.web.context.WebContext;
+import com.ycframe.common.utils.DbUtils;
 import com.ycframe.web.utils.JsonUtils;
 
 public class ThemeService {
@@ -17,10 +18,8 @@ public class ThemeService {
 
 		HashMap map = new HashMap();
 
-		Manager manager = new Manager();
-		ThemeDao dao = null;
-
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		ThemeDao dao = null; 
 		dao = manager.getDao(ThemeDao.class);
 
 		DBMap data = dao.getStyle(username);
@@ -53,10 +52,8 @@ public class ThemeService {
 	public boolean update(String username, String style) throws Exception {
 
 		HashMap map = new HashMap();
-		Manager manager = new Manager();
-		ThemeDao dao = null;
-
-		manager.load();
+		Manager manager = DbUtils.getDatabase();
+		ThemeDao dao = null; 
 		dao = manager.getDao(ThemeDao.class);
 		long c = dao.queryStyle().andEq("paramName", username).count();
 		int i = 0;

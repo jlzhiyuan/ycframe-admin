@@ -8,14 +8,14 @@ package com.ycframe.web.admin.organization.dao;
  */
 import java.util.List;
 
+import com.ycframe.database.dao.Dao;
 import com.ycframe.database.dao.DaoPage;
-import com.ycframe.database.dao.IDao;
 import com.ycframe.database.dao.annotation.Arguments;
 import com.ycframe.database.dao.annotation.Sql;
 import com.ycframe.database.dao.annotation.UseCache;
 import com.ycframe.database.util.DBMap; 
 
-public interface OrganizationDao extends IDao {
+public interface OrganizationDao extends Dao {
 	
 	
 	@Sql(" select  jg.JGBH ID,jg.jgmc bmmc,jg.fjgbh parent,jg.bmbm,jg.memo bz,jg.bmbh,LENGTH(jg.bmbh) - LENGTH(REPLACE(jg.bmbh,'-','')) levels ,jg.px  ,zgn.gnzjd"

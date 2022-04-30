@@ -245,7 +245,18 @@ var personalManage = moduleinit({
 	            	  }
 	              });
 	            },
-	            methods: {
+	            methods: { 
+	            	getSexName(id){
+	            		let sex = this.select.filter((i) => {
+	            			  return id == i.id;
+	            		});
+	            	   if(sex.length > 0){
+	            		   return sex[0].text; 
+	            	   }else{
+	            		   return ""
+	            	   }
+	                   
+	            	},
 	            	change(value) {
 	            		this.checked = value;
 	            	},

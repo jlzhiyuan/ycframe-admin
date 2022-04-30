@@ -2,8 +2,9 @@ package com.ycframe.danymicmodule;
 
 import java.util.List;
 
+import com.ycframe.common.utils.DbUtils;
 import com.ycframe.database.Manager;
-import com.ycframe.database.query.inter.QueryInterface;
+import com.ycframe.database.query.Query;
 import com.ycframe.database.util.DBMap;
 
 public class DanymicModuleFactoryImpl implements DanymicModuleFactory{
@@ -11,11 +12,10 @@ public class DanymicModuleFactoryImpl implements DanymicModuleFactory{
 	public DanymicModule getDanymicModule(String versionid) throws DanymicModuleException {
 		DanymicModule danymicModule=new DanymicModule();
 		try {
-			Manager manager = new Manager();
-			DanymicModuleFactoryDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			DanymicModuleFactoryDao dao = null; 
 			dao = manager.getDao(DanymicModuleFactoryDao.class);
-			QueryInterface qif = dao.queryCode();
+			Query qif = dao.queryCode();
 			//默认查询条件
 			qif.andEq("a.id", versionid);
 			List<DBMap> list = qif.select();

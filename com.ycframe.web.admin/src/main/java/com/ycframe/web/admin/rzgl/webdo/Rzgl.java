@@ -6,10 +6,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
+import java.util.Map; 
 import com.ycframe.database.Manager;
-import com.ycframe.database.query.inter.QueryInterface;
+import com.ycframe.database.query.Query;
 import com.ycframe.database.util.DBMap;
 import com.ycframe.utils.StringUtils;
 import com.ycframe.web.App;
@@ -20,6 +19,7 @@ import com.ycframe.web.common.pojo.UserInfo;
 import com.ycframe.web.common.webdo.AbstractWebDo;
 import com.ycframe.web.context.result.JsonResult;
 import com.ycframe.web.context.result.Result;
+import com.ycframe.common.utils.DbUtils;
 
 @Webdo(url = "/rzgl")
 public class Rzgl extends AbstractWebDo {
@@ -77,8 +77,7 @@ public class Rzgl extends AbstractWebDo {
 		UserInfo ui = App.getApp().getUserInfo(this.getRequest());
 		try {
 			HashMap map = new HashMap();
-			Manager manager = new Manager();
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
 			RzglDao dao = null ; 
 			dao = manager.getDao(RzglDao.class);	
 			UserInfo userinfo = App.getApp().getUserInfo(this.getRequest());
@@ -99,7 +98,7 @@ public class Rzgl extends AbstractWebDo {
 			if(StringUtils.isNoneBlank(ydl)){
 				listdate = com.ycframe.web.utils.JsonUtils.toList(ydl);
 			}
-			QueryInterface qif = dao.init1();
+			Query qif = dao.init1();
 //			if(StringUtils.isNoneBlank(zxsj)&&!"[]".equals(zxsj)&&!"null".equals(zxsj)){
 //				zxsj = zxsj.replace("\"", "");
 //				zxsj = zxsj.replace("[", "");

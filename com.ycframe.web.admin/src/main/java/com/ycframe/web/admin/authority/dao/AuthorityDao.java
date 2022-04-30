@@ -1,13 +1,14 @@
 package com.ycframe.web.admin.authority.dao;
 
 import java.util.List;
+
+import com.ycframe.database.dao.Dao;
 import com.ycframe.database.dao.DaoPage;
-import com.ycframe.database.dao.IDao;
 import com.ycframe.database.dao.annotation.Arguments;
 import com.ycframe.database.dao.annotation.Sql;
 import com.ycframe.database.dao.annotation.UseCache;
 import com.ycframe.database.util.DBMap; 
-public interface AuthorityDao extends IDao{
+public interface AuthorityDao extends Dao{
 	@Sql("select id,jsmc from systemjsz where zt = '1' ${tj} ")
 	@Arguments({"tj"}) 
 	@UseCache(false)

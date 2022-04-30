@@ -61,7 +61,7 @@ public class Organization extends WebDo {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		Map<String,String> map = validator.NotNull("deptName","必须填写机构名称").NotBlank("deptName","机构名称不能为空字符串").valid(paramMap);
+		Map<String,String[]> map = validator.NotNull("deptName","必须填写机构名称").NotBlank("deptName","机构名称不能为空字符串").valid(paramMap);
 		if(map.size()>0){
 			Object[] messagesobj = map.values().toArray();
 			String messages = com.ycframe.web.utils.JsonUtils.toString(messagesobj);

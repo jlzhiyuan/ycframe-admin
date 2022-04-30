@@ -6,27 +6,26 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.ycframe.utils.IDUtils;
-import com.ycframe.utils.StringUtils;
 import com.ycframe.database.Manager;
 import com.ycframe.database.exception.DaoTypeErrorException;
-import com.ycframe.database.query.inter.QueryInterface;
+import com.ycframe.database.query.Query;
 import com.ycframe.database.util.DBMap;
+import com.ycframe.utils.IDUtils;
+import com.ycframe.utils.StringUtils;
 import com.ycframe.web.admin.rzgl.dao.RzglDao;
 import com.ycframe.web.common.exception.ServiceException;
+import com.ycframe.common.utils.DbUtils;
 
 public class RzglService {
 
 	public Map init(String orderCol,String orderType,String model, String username,String jlsj1,String jlsj2,int page, int pageSize,String model_handle,String message,String ip) {
 
 		HashMap map = new HashMap();
-		Manager manager = new Manager();
+		Manager manager = DbUtils.getDatabase();
 		RzglDao dao = null;
-		try {
-			manager.load();
+		try { 
 			dao = manager.getDao(RzglDao.class);
-			QueryInterface qif = dao.init();
+			Query qif = dao.init();
 			//默认查询条件
 	//		qif.andEq("jlzt", "0");//0未删除，1已删除
 			
@@ -71,7 +70,6 @@ public class RzglService {
 				   }
 			   }
 			qif.descorderBy("jlsj");
-			qif.printSql();
 			List<DBMap> list = qif.limit((page-1)*pageSize, pageSize).select();
 			map.put("data", list);
 			
@@ -83,15 +81,8 @@ public class RzglService {
 	}
 
 	public void clean() throws ServiceException{
-		Manager manager = new Manager();
-		RzglDao dao = null;
-		try {
-			manager.load();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new ServiceException("数据源发生错误。"); 
-		}
+		Manager manager = DbUtils.getDatabase();
+		RzglDao dao = null; 
 		try {
 			dao = manager.getDao(RzglDao.class); 
 		} catch (DaoTypeErrorException e) {
@@ -205,9 +196,8 @@ public class RzglService {
 		int k=0;
 		try{
 			HashMap map = new HashMap();
-			Manager manager = new Manager();
-			RzglDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			RzglDao dao = null; 
 			dao = manager.getDao(RzglDao.class);
 			String id=IDUtils.GUID();
 			
@@ -235,12 +225,11 @@ public class RzglService {
 	public Map getmsCxms(String userid) throws Exception {
 
 		HashMap map = new HashMap();
-		Manager manager = new Manager();
+		Manager manager = DbUtils.getDatabase();
 		RzglDao dao = null;
-		List<DBMap> list=null;
-		manager.load();
+		List<DBMap> list=null; 
 		dao = manager.getDao(RzglDao.class);
-		QueryInterface qif = dao.getCxms();
+		Query qif = dao.getCxms();
 		qif.andEq("ryid", userid);
 		qif.andEq("jlzt", "0");
 		qif.andEq("sfqy", "0");
@@ -258,9 +247,8 @@ public class RzglService {
 			int k=0;
 			try{
 				HashMap map = new HashMap();
-				Manager manager = new Manager();
-				RzglDao dao = null;
-				manager.load();
+				Manager manager = DbUtils.getDatabase();
+				RzglDao dao = null; 
 				dao = manager.getDao(RzglDao.class);
 				int k1=dao.updateDttj1("1",userid);
 				if(k1>0){
@@ -284,9 +272,8 @@ public class RzglService {
 			int k=0;
 			try{
 				HashMap map = new HashMap();
-				Manager manager = new Manager();
-				RzglDao dao = null;
-				manager.load();
+				Manager manager = DbUtils.getDatabase();
+				RzglDao dao = null; 
 				dao = manager.getDao(RzglDao.class);
 				
 				k=dao.deleteDttj(id);
@@ -310,15 +297,13 @@ public class RzglService {
 		 * @return
 		 * @throws Exception
 		 */
-		public Map getCxms(String xlmc,String userid) throws Exception {
-
+		public Map getCxms(String xlmc,String userid) throws Exception { 
 			HashMap map = new HashMap();
-			Manager manager = new Manager();
+			Manager manager = DbUtils.getDatabase();
 			RzglDao dao = null;
-			List<DBMap> list=null;
-			manager.load();
+			List<DBMap> list=null; 
 			dao = manager.getDao(RzglDao.class);
-			QueryInterface qif = dao.getCxms();
+			Query qif = dao.getCxms();
 			if(StringUtils.isNoneBlank(xlmc)){
 				qif.andLike("cxmsmc", "%"+xlmc+"%");
 			}

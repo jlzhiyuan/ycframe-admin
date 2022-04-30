@@ -9,19 +9,19 @@
 	              </el-form-item>
 	            </el-col>
 	            <el-col :span="8">
-	              <el-form-item label="人员名称" prop="userName">
+	              <el-form-item label="人员姓名" prop="userName">
 	                <el-input v-model="form.userName" placeholder=""></el-input>
 	              </el-form-item>
 	            </el-col>
 	       		<el-col :span="8">
-	              <el-form-item label="用户名称" prop="YHM">
+	              <el-form-item label="用户名" prop="YHM">
 	                <el-input v-model="form.YHM" placeholder="" :disabled="isDisabled"></el-input>
 	              </el-form-item>
 	            </el-col> 
 	          </el-row>
 	          <el-row> 
 	            <el-col :span="8">
-	              <el-form-item label="人事编码" prop="empCode">
+	              <el-form-item label="人员编码" prop="empCode">
 	                <el-input v-model="form.empCode" @change="rsbmChange" placeholder="" :disabled="isDisabled"></el-input>
 	              </el-form-item>
 	            </el-col>

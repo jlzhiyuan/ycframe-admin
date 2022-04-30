@@ -2,9 +2,8 @@ package com.ycframe.web.admin.modules.dao;
 
 import java.util.List;
 
-import java.util.List;
+import com.ycframe.database.dao.Dao;
 import com.ycframe.database.dao.DaoPage;
-import com.ycframe.database.dao.IDao;
 import com.ycframe.database.dao.annotation.Arguments;
 import com.ycframe.database.dao.annotation.Sql;
 import com.ycframe.database.dao.annotation.UseCache;
@@ -12,7 +11,7 @@ import com.ycframe.database.query.Query;
 import com.ycframe.database.query.Update;
 import com.ycframe.database.util.DBMap; 
 
-public interface ModulesDao extends IDao {
+public interface ModulesDao extends Dao {
 	
 	
 	/*
@@ -84,9 +83,9 @@ public interface ModulesDao extends IDao {
 			" LEFT JOIN systemjsgn jsgn ON jsgn.gnid = gn.ID   "+
 			" LEFT JOIN systemjsz js ON jsgn.JSZID = js.ID  "+
 			" INNER JOIN systemryjs ryjs on ryjs.jszid = js.id "+
-			"  INNER JOIN systemry ry on ry.id = ryjs.ryid "+
-			" 	WHERE	gn.gnlx IN ('3')  "+
-			" 	GROUP BY	gn.GNDZ   "+
+			" INNER JOIN systemry ry on ry.id = ryjs.ryid "+
+			" WHERE	gn.gnlx IN ('3')  "+
+			" GROUP BY	gn.GNDZ   "+
 			" ORDER BY	gn.GNDZ  ")
 	@UseCache(false)
 	public Query getPermissions();
@@ -104,75 +103,7 @@ public interface ModulesDao extends IDao {
 			+ "   ORDER BY gnbh,gn.SXBH,gn.id ) datatable ")
 	@UseCache(false)
 	public int getMkglCount();
-
-	/*
-	 * //列表页查询
-	 * 
-	 * @Sql(
-	 * "SELECT DISTINCT gn.id, gn.FGNID parent, gn.GNMC,gn.SXBH , case when gn.SFXS='T' then 'Web端启用' when gn.SFXS='S' then '手机端启用' else '禁用' end SFXS, gn.GNDZ,gn.JDMS ,GROUP_CONCAT(DISTINCT butt.ANNAME) anmc,zgn.gnzjd,gn.gnbh, "
-	 * +
-	 * "LENGTH(gn.gnbh) - LENGTH(REPLACE(gn.gnbh,'-','')) level,CASE  zgn.gnzjd>0 when 1 then 'FALSE' ELSE 'true' end isLeaf, "
-	 * + "CASE  zgn.gnzjd>0 when 1 then 'TRUE' ELSE 'FALSE' end expanded "+
-	 * "from systemgn gn "+
-	 * "LEFT JOIN (SELECT DISTINCT jsid, gnid ,czanid  from systemoperationbutton where jlzt='未删除'  ) as operabut ON operabut.gnid = gn.ID "
-	 * +
-	 * "LEFT JOIN (SELECT * from systembutton where jlzt='未删除' ) as but ON but.id = operabut.czanid  "
-	 * +
-	 * "LEFT JOIN (select count(*) gnzjd,zgn.FGNID gnid from systemgn zgn where zgn.sfxs != 'F'  GROUP BY zgn.FGNID) zgn  ON  zgn.gnid = gn.ID "
-	 * + "left join systemgnanmiddle m on m.gnid=gn.id and m.jlzt='未删除' "+
-	 * "left join systembutton butt on m.anid=butt.id  and butt.jlzt='未删除' "+
-	 * " GROUP BY gn.id "+ " ORDER BY gnbh,gn.SXBH,gn.id ")
-	 * 
-	 * public DaoPage getMkgl();
-	 * 
-	 * 
-	 * 
-	 * //查询数据总数
-	 * 
-	 * @Sql(
-	 * "select  count(*)  from (SELECT DISTINCT gn.id, gn.FGNID parent, gn.GNMC,gn.SXBH , case when gn.SFXS='T' then 'Web端启用' when gn.SFXS='S' then '手机端启用' else '禁用' end SFXS, gn.GNDZ,gn.JDMS ,butt.ANNAME,zgn.gnzjd,gn.gnbh, "
-	 * +
-	 * "LENGTH(gn.gnbh) - LENGTH(REPLACE(gn.gnbh,'-','')) level,CASE  zgn.gnzjd>0 when 1 then FALSE ELSE true end isLeaf, "
-	 * + "CASE  zgn.gnzjd>0 when 1 then TRUE ELSE FALSE end expanded "+
-	 * "from systemgn gn "+
-	 * "LEFT JOIN (SELECT DISTINCT jsid, gnid ,czanid  from systemoperationbutton where jlzt='未删除' ) as operabut ON operabut.gnid = gn.ID "
-	 * +
-	 * "LEFT JOIN (SELECT * from systembutton where jlzt='未删除' ) as but ON but.id = operabut.czanid  "
-	 * +
-	 * "LEFT JOIN (select count(*) gnzjd,zgn.FGNID gnid from systemgn zgn where zgn.sfxs != 'F'  GROUP BY zgn.FGNID) zgn  ON  zgn.gnid = gn.ID "
-	 * + "left join systemgnanmiddle m on m.gnid=gn.id  and m.jlzt='未删除' "+
-	 * "left join systembutton butt on m.anid=butt.id "+
-	 * " ORDER BY gnbh,gn.SXBH,gn.id  ) AS old ")
-	 * 
-	 * public int getMkglCount();
-	 */ // 启用
-	@Sql("update systemgn  set SFXS='T' where id in (${tj}) ")
-	@Arguments({ "tj" })
-	@UseCache(false)
-	public int updatezt1(String tj);
-
-	// 禁用
-	@Sql("update systemgn  set SFXS='F' where id in (${tj}) ")
-	@Arguments({ "tj" })
-	@UseCache(false)
-	public int updatezt2(String tj);
-
-	/**
-	 * 通过ID获取一个功能
-	 * 
-	 * @param id
-	 * @return
-	 */
-	@Sql("SELECT  gn.* from systemgn gn  where   gn.id=?")
-	@UseCache(false)
-	public DBMap getById(String id);
-
-	// 上级节点下拉
-	@Sql("select id,gnmc,gnbh from systemgn where SFXS != 'F' and (gndz = '' or gndz is null ) ${tj} order by sxbh*1  ")
-	@Arguments({ "tj" })
-	@UseCache(false)
-	public List getjsjd(String tj);
-	
+ 
 	@Sql("select count(*) from systemgn where gnmc = '${name}' order by sxbh*1  ")
 	@Arguments({ "name" })
 	@UseCache(false)
@@ -225,11 +156,6 @@ public interface ModulesDao extends IDao {
 		@UseCache(false)
 		public int deleteButonOperat(String tj, String tj1);
 
-	@Sql("update systemgnanmiddle set jlzt='已删除' where gnid in(${tj}) ")
-	@Arguments({ "tj" })
-	@UseCache(false)
-	public int deleteMkgx1(String tj);
-	
 	@Sql("delete from systemjsgn where gnid in(${tj}) ")
 	@Arguments({ "tj" })
 	@UseCache(false)
@@ -266,13 +192,11 @@ public interface ModulesDao extends IDao {
  	@UseCache(false)
 	public List getAllanList();
 	
-	@Sql("select linkUrl from systemgn where GNMC = '${gnmc}'")
-	@Arguments({ "gnmc" })
+	@Sql("select linkUrl from systemgn where GNMC = ?")
 	@UseCache(false)
 	public String getLinkUrl(String gnmc);
 	
-	@Sql("select JSZID from systemryjs  where RYID = '${ryid}' ")
-	@Arguments({ "ryid" })
+	@Sql("select JSZID from systemryjs  where RYID = ? ")
 	@UseCache(false)
 	public List<DBMap> getJsids(String ryid);
 

@@ -160,16 +160,11 @@ var dialogContent = moduleinit({
   			            type: 'error'
   			         });
               	  }
-        		  var selectSex = '';
-              	for (var i = 0;i < this.select.length;i++) {
-              		if (res.sex == this.select[i].text) {
-              			selectSex = this.select[i].id;
-              		}
-              	}
-			        this.form.deptId = res.JGBM.toString();
+  
+			    this.form.deptId = res.JGBM.toString();
               	this.form.id = res.id;
               	this.form.YHM = res.YHM;
-              	this.form.sex = selectSex;
+              	this.form.sex = res.sex;
               	this.form.Telepone1 = res.jc;
               	this.form.Telepone2 = res.telepone2;
               	this.form.userName = res.userName;

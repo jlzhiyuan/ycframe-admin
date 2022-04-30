@@ -5,18 +5,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-
 import com.ycframe.database.Manager;
 import com.ycframe.database.dao.DaoPage;
 import com.ycframe.database.util.DBMap;
 import com.ycframe.web.admin.organization.dao.OrganizationDao;
+import com.ycframe.common.utils.DbUtils;
 
 public class OrganizationService {
  	public List<DBMap> getOrgList(String orderCol,String orderType) throws Exception {
 		 
-			Manager manager = new Manager();
-			OrganizationDao dao = null;
-			manager.load();
+ 		Manager manager = DbUtils.getDatabase();
+			OrganizationDao dao = null; 
 			dao = manager.getDao(OrganizationDao.class);
 
 			DaoPage dp = null;
@@ -85,15 +84,14 @@ public class OrganizationService {
 	// insert
 	public boolean saveOrg(String id, String deptName, String fjgbh, String memo,
 			String deptnobm,String jc ,int px) throws Exception {
-		Manager manager = new Manager();
+		Manager manager = DbUtils.getDatabase();
 		HashMap map = new HashMap();
 			try {
 				OrganizationDao dao = null;
 				List<DBMap> dp = null;
 				String bmbm = "";
 				String bmbh = "";
-				String newid = "";
-				manager.load();
+				String newid = ""; 
 				dao = manager.getDao(OrganizationDao.class);
 				String BMBH = "";
 				String BMBM = "";
@@ -159,10 +157,9 @@ public class OrganizationService {
 	}
 	
 	public int selectid (){
-		Manager manager = new Manager();
+		Manager manager = DbUtils.getDatabase();
 		OrganizationDao dao = null;
-		try {
-			manager.load();
+		try { 
 			dao = manager.getDao(OrganizationDao.class);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -185,12 +182,11 @@ public class OrganizationService {
 	
 	// 删除
 	public HashMap<String, Integer> delOrg(String[] ids) throws Exception {
-		Manager manager = new Manager();
+		Manager manager = DbUtils.getDatabase();
 		OrganizationDao dao = null;
 		HashMap<String,Integer> restlt=new HashMap<String,Integer>();
 		restlt.put("is", 0);
-		restlt.put("delcount", 0);
-		manager.load();
+		restlt.put("delcount", 0); 
 		dao = manager.getDao(OrganizationDao.class);
 		String tj = "";
 		for (int j = 0; j < ids.length; j++) {

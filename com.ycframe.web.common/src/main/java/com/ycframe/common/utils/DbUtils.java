@@ -1,4 +1,4 @@
-package com.ycframe.web.utils;
+package com.ycframe.common.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,6 +13,11 @@ import com.ycframe.database.Manager;
 import com.ycframe.database.util.DBMap; 
 
 public class DbUtils {
+	public static Manager getDatabase(){
+		Manager manager = new Manager();
+		return manager;
+	}
+	
 	public static <T> T getDao(Manager manager,Class<T> t){
 		try {
 			return manager.getDao(t);

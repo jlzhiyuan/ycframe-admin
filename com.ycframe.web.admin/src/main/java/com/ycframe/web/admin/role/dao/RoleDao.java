@@ -2,15 +2,16 @@ package com.ycframe.web.admin.role.dao;
 
 import java.util.Date;
 import java.util.List;
+
+import com.ycframe.database.dao.Dao;
 import com.ycframe.database.dao.DaoPage;
-import com.ycframe.database.dao.IDao;
 import com.ycframe.database.dao.annotation.Arguments;
 import com.ycframe.database.dao.annotation.Sql;
 import com.ycframe.database.dao.annotation.UseCache;
 import com.ycframe.database.query.Query;
 import com.ycframe.database.query.Update;
 import com.ycframe.database.util.DBMap; 
-public interface RoleDao extends IDao  {
+public interface RoleDao extends Dao  {
 	
 	@Sql("select id,JSMC,MS,LX,ZT from systemjsz jsz LEFT JOIN systemdataauthorityzt zt ON zt.ztNo = jsz.zt  where JLZT = '未删除'  ${tj} ")
 	@Arguments({"tj"}) 
@@ -110,11 +111,7 @@ public interface RoleDao extends IDao  {
 	@UseCache(false)
 	public List<DBMap> getanfulldata(String jsid,String gnid,String tj);
 	
-	@Sql("select id from systemry where XM = '${XM}' and YHM = '${YHM}'")
-	@Arguments({"XM","YHM"})
-	@UseCache(false)
-	public String getRyid(String XM,String yhm);
-	
+ 
 	@Sql("insert into systemryjs (RYID,JSZID) values (?,?) ")
 	@UseCache(false)
 	public int addRyjs(String ryid,String jsid);

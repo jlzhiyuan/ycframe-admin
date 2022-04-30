@@ -196,13 +196,7 @@ public  String mainAppname = "/hdsysglx";
 	 */
 	public  void updateUserState(String yhm,String state)
 	{
-		Manager manager = new Manager();
-		try {
-			manager.load();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		Manager manager = new Manager(); 
 		Executor executor = manager.getExecutor();
 		String sql = "update systemry set yhzt=? where yhm=?";
 		
@@ -509,6 +503,12 @@ public  String mainAppname = "/hdsysglx";
 		return 	sss;	
 	}
 	
+	public String getLoginUser() throws Exception{
+		com.ycframe.security.auth.SecurityManager sm = this.context.getSecurityManager(); 
+		Passport passport = sm.getAuth().getPassport();
+		String username = passport.getUser().getUsername();
+		return username;
+	}
  
 	public  UserInfo getMainUserInfo(HttpServletRequest request) throws Exception
 	{

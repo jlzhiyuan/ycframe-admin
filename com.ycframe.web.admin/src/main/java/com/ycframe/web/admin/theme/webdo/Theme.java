@@ -39,6 +39,13 @@ public class Theme extends AbstractWebDo {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Override
 	public Result index() {
+		try {
+			String loginuser = App.getApp().getLoginUser();
+			return  JsonResult.Result(null).setCode(0).setMessage("User is "+loginuser); 
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return  JsonResult.Result(null).setCode(0).setMessage("Theme is ok"); 
 	}
  

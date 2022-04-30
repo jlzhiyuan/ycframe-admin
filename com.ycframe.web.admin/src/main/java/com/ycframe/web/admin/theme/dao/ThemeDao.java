@@ -1,14 +1,12 @@
 package com.ycframe.web.admin.theme.dao;
 
-import java.util.List;
-import com.ycframe.database.dao.DaoPage;
-import com.ycframe.database.dao.IDao;
+import com.ycframe.database.dao.Dao;
 import com.ycframe.database.dao.annotation.Arguments;
 import com.ycframe.database.dao.annotation.Sql;
 import com.ycframe.database.dao.annotation.UseCache;
 import com.ycframe.database.query.Query;
 import com.ycframe.database.util.DBMap; 
-public interface ThemeDao extends IDao  {
+public interface ThemeDao extends Dao  {
 	
 	@Sql("select paramName,paramValue from systemtheme where paramName=?")
 	@UseCache(false)

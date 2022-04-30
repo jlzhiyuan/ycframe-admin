@@ -5,14 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import com.ycframe.common.utils.DbUtils;
 import com.ycframe.database.Manager;
 import com.ycframe.database.dao.DaoPage;
 import com.ycframe.database.util.DBMap;
 import com.ycframe.utils.StringUtils;
-import com.ycframe.web.App;
 import com.ycframe.web.admin.authority.dao.AuthorityDao;
-import com.ycframe.web.common.exception.ServiceException;
-import com.ycframe.web.utils.SystemInfoLog; 
+import com.ycframe.web.common.exception.ServiceException; 
 
 public class AuthorityService {
 	
@@ -21,11 +20,10 @@ public class AuthorityService {
 	
 	public HashMap getJsxx(String tj, int row, int page, String orderid,
 			String ordertype) {
-		Manager manager = new Manager();
+		Manager manager = DbUtils.getDatabase();
 		AuthorityDao dao = null;
 
-		try {
-			manager.load();
+		try { 
 			dao = manager.getDao(AuthorityDao.class);
 
 		} catch (Exception e) {
@@ -57,9 +55,8 @@ public class AuthorityService {
 			throws ServiceException {
 		HashMap map = new HashMap();
 		try {
-			Manager manager = new Manager();
-			AuthorityDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			AuthorityDao dao = null; 
 			dao = manager.getDao(AuthorityDao.class);
 			DaoPage dp = null;
 			dp = dao.getCzqxxx(jsid, order);
@@ -134,10 +131,9 @@ public class AuthorityService {
 				if (StringUtils.isNotBlank(xzsjqxid)
 						&& !"null".equals(xzsjqxid)) {
 					// System.out.println("进入插入角色方法："+System.currentTimeMillis());
-					Manager manager = new Manager();
+					Manager manager = DbUtils.getDatabase();
 					AuthorityDao dao = null;
-					try {
-						manager.load();
+					try { 
 						dao = manager.getDao(AuthorityDao.class);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -166,9 +162,8 @@ public class AuthorityService {
 			throws ServiceException {
 		HashMap success = new HashMap();
 		try {
-			Manager manager = new Manager();
-			AuthorityDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			AuthorityDao dao = null; 
 			dao = manager.getDao(AuthorityDao.class);
 			if (!"".equals(jsid) && jsid != null && !"null".equals(jsid)) {
 				List<DBMap> list = dao.getanid(jsid, gnid, anid);
@@ -210,9 +205,8 @@ public class AuthorityService {
 				if (StringUtils.isNotBlank(gnid) && !"null".equals(gnid)) {
 					if (StringUtils.isNotBlank(xzsjqxid)
 							&& !"null".equals(xzsjqxid)) {
-						Manager manager = new Manager();
-						AuthorityDao dao = null;
-						manager.load();
+						Manager manager = DbUtils.getDatabase();
+						AuthorityDao dao = null; 
 						dao = manager.getDao(AuthorityDao.class);
 						for (int i = 0; i < xzsjqxid.split(",").length; i++) {
 							tj = "  jsid = '" + jsid.trim() + "'  and gnid = '"
@@ -300,9 +294,8 @@ public class AuthorityService {
 		try {
 			String tj = "";
 			int count = 0;
-			Manager manager = new Manager();
-			AuthorityDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			AuthorityDao dao = null; 
 			dao = manager.getDao(AuthorityDao.class);
 			if (!"".equals(jsid) && jsid != null && !"null".equals(jsid)) {
 				int x = dao.deletejsgns(jsid);
@@ -333,9 +326,8 @@ public class AuthorityService {
 			String tj = "";
 			String id = null;
 			int count = 0;
-			Manager manager = new Manager();
-			AuthorityDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			AuthorityDao dao = null; 
 			dao = manager.getDao(AuthorityDao.class);
 
 			if (!"".equals(jsid) && jsid != null && !"null".equals(jsid)) {
@@ -389,10 +381,8 @@ public class AuthorityService {
 			String tj) throws ServiceException {
 		HashMap map = new HashMap();
 		try {
-			Manager manager = new Manager();
-			AuthorityDao dao = null;
-
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			AuthorityDao dao = null; 
 			dao = manager.getDao(AuthorityDao.class);
 
 			int count = dao.getAnxxCount(jsid, gnid, tj);
@@ -422,9 +412,8 @@ public class AuthorityService {
 	public List<DBMap> getSjqxxx1(String jsid, String order) throws ServiceException {
 		HashMap map = new HashMap();
 		try {
-			Manager manager = new Manager();
-			AuthorityDao dao = null;
-			manager.load();
+			Manager manager = DbUtils.getDatabase();
+			AuthorityDao dao = null; 
 			dao = manager.getDao(AuthorityDao.class);
 			DaoPage dp = null;
 			dp = dao.getSjqxxx(jsid, order);
@@ -437,11 +426,10 @@ public class AuthorityService {
 	}
 	
 	
-	public String dgzzjgtree() { 
-		Manager manager = new Manager();
+	public String dgzzjgtree() {  
+		Manager manager = com.ycframe.common.utils.DbUtils.getDatabase();
 		AuthorityDao dao = null;
-		try {
-			manager.load();
+		try { 
 			dao = manager.getDao(AuthorityDao.class);
 		} catch (Exception e) {
 			e.printStackTrace();
