@@ -21,7 +21,7 @@ import com.ycframe.database.Manager;
 import com.ycframe.web.NacosConfig; 
 
 @EnableAutoConfiguration
-@ServletComponentScan
+@ServletComponentScan  
 @ImportResource("applicationContext.xml")
 public class App extends AbstractApplication {
 	public App() {
@@ -34,10 +34,8 @@ public class App extends AbstractApplication {
 	public static ApplicationContext applicationContext;
 
 	public static void main(String[] args) throws Exception {   
-		initCliArgs(args);
-		
-		Manager man = new Manager();
-		man.load(); 
+		initCliArgs(args); 
+		Manager man = new Manager(); 
 		Flyway primaryFlyway = Flyway.configure().dataSource(man.getDataSource())
 				.cleanDisabled(true).baselineOnMigrate(true).load();
         primaryFlyway.migrate();
