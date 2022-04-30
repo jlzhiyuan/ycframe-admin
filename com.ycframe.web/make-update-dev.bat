@@ -1,0 +1,1 @@
+D:\program\apache-maven-3.8.3\bin\mvn -U package assembly:assembly -Dmaven.test.skip=true -Denv=dev

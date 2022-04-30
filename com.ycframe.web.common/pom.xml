@@ -2,21 +2,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion> 
-	<groupId>com.ycframe</groupId>
 	<artifactId>ycframe-web-common</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ycframe-web-common</name>
- 
+ 	<parent>
+		<groupId>com.ycframe</groupId>
+		<artifactId>ycframe-web</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../com.ycframe.web/pom.xml</relativePath>
+	</parent>
+	
 	<dependencies> 
   		<dependency>
 			<groupId>com.ycframe</groupId>
 			<artifactId>ycframe-web</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
-		</dependency>
+			</dependency>
 		<dependency>
 			<groupId>com.ycframe</groupId>
 			<artifactId>ycframe-database</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>groovy</artifactId>
@@ -28,14 +31,12 @@
 		<dependency>
 			 <groupId>com.ycframe</groupId>
 			  <artifactId>ycframe-expression</artifactId>
-			  <version>0.0.1-SNAPSHOT</version>
-		</dependency> 
+ 		</dependency> 
 		
 		<dependency>
 			  <groupId>org.hibernate</groupId>
 			  <artifactId>hibernate-validator</artifactId>
-			  <version>5.4.3.Final</version>
-			</dependency>
+ 		</dependency>
 	</dependencies>
 
 	<build>
