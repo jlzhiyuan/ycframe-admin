@@ -23,7 +23,7 @@ public class DanymicModuleFactoryImpl implements DanymicModuleFactory{
 			danymicModule.setCode(list.get(0).getString("model_code", ""));//模块編碼
 			danymicModule.setRemarks(list.get(0).getString("model_describe", ""));//模块描述
 			danymicModule.setSourcecode(list.get(0).getString("code", ""));//執行代碼
-			danymicModule.setVersion(list.get(0).getInt("version",0));//版本
+			danymicModule.setVersion(list.get(0).getInteger("version",0));//版本
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

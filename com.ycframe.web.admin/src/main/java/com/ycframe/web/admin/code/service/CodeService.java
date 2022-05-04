@@ -306,7 +306,7 @@ public class CodeService {
 			if(list.size()==0){
 				version="1";
 			}else{
-				version=String.valueOf(list.get(0).getInt("version", 0)+1);
+				version=String.valueOf(list.get(0).getInteger("version", 0)+1);
 			}
 			int sfqypd=0;
 			for(int i=0;i<list.size();i++){

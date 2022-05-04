@@ -80,7 +80,7 @@ public class MapValidatorHibernate  implements MapValidator{
 		return true;
 	}
 	
-	public Map<String,String[]> valid(Map<String,Object> data){
+	public Map<String,List<String>> valid(Map<String,Object> data){
 		MultiValueMap result = new MultiValueMap();
 		for(ValidatorConfig cfg : validators){
 			Object value = data.get(cfg.getKey());
@@ -95,7 +95,7 @@ public class MapValidatorHibernate  implements MapValidator{
 				result.put(cfg.getKey(), cfg.getMessage());
 			}
 		}
-		Map<String,String[]> resultvalue = new HashMap();
+		Map<String,List<String>> resultvalue = new HashMap();
 		resultvalue.putAll(result);
 		return resultvalue;
 		

@@ -34,7 +34,7 @@ public class WebUrlAuthorization implements UrlAuthorization {
 		}
 		
 		//urls.put("/", new UrlAuthConfig("user",""));
-		urls.put("/theme/*",  new UrlAuthConfig("jwt",""));
+		urls.put("/theme/*",  new UrlAuthConfig("jwtroles","492"));
 		urls.put("/apilogin/*",  new UrlAuthConfig("anon",""));
 		urls.put("/user/getUserDetail",  new UrlAuthConfig("user",""));   //登录后都允许获取 当前用户信息
 		urls.put("/modules/getComponent", new UrlAuthConfig("user",""));  //登录后都允许获取 组件

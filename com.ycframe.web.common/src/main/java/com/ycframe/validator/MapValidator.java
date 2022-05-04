@@ -17,7 +17,7 @@ public interface MapValidator {
 	 * @param data  被校验对象，Map 类型
 	 * @return 如果有未通过的要求，返回key message
 	 */
- 	public Map<String,String[]> valid(Map<String,Object> data);  
+ 	public Map<String,List<String>> valid(Map<String,Object> data);  
  
  	/**
 	 * 长度校验
