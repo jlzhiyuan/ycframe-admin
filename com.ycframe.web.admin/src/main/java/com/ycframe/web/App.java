@@ -55,6 +55,10 @@ public  String mainAppname = "/hdsysglx";
 		this.context=context; 
 	}
 	
+	public WebContext getContext(){
+		return this.context;
+	}
+	
 	public  String getRunningFunction(){
 		return RunningFunction.get();
 	}
@@ -487,7 +491,7 @@ public  String mainAppname = "/hdsysglx";
 	public  void SetGlobalAttribute(String key,Object value)
 	{
 		//System.out.println("Start SetGlobalAttribute:"+key+"--"+com.ycframe.utils.DateUtil.DatetoStringMS(new Date()));
-		String cachename = (String) this.context.getWebParam("servername"); 
+		String cachename = (String) this.context.getParam("ycframe.ServerName"); 
 		Cache cache = this.context.getCacheManager().getCache(cachename);
 		cache.put(key, value);
 		//System.out.println("End SetGlobalAttribute:"+key+"--"+com.ycframe.utils.DateUtil.DatetoStringMS(new Date()));
@@ -495,7 +499,7 @@ public  String mainAppname = "/hdsysglx";
 	public  <T> T GetGlobalAttribute(String key)
 	{
 		//System.out.println("Start GetGlobalAttribute:"+key+"--"+com.ycframe.utils.DateUtil.DatetoStringMS(new Date()));
-		String cachename = (String) this.context.getWebParam("servername");
+		String cachename = (String) this.context.getParam("ycframe.ServerName");
 		Cache<String,T> cache = this.context.getCacheManager().getCache(cachename);
 		//System.out.println("End GetGlobalAttribute:"+key+"--"+com.ycframe.utils.DateUtil.DatetoStringMS(new Date()));
  
