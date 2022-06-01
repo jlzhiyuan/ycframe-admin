@@ -16,6 +16,7 @@ import com.ycframe.log.Logger;
 import com.ycframe.log.LoggerFactory;
 import com.ycframe.security.crypto.CryptoAdapter;
 import com.ycframe.security.crypto.CryptoAdapterResult;
+import com.ycframe.utils.StringUtils;
 
  
 public class JsonCryptoRequestWrapper extends HttpServletRequestWrapper {
@@ -88,6 +89,9 @@ public class JsonCryptoRequestWrapper extends HttpServletRequestWrapper {
         byte[] read = IOUtils.toByteArray(inputStream);
         //CryptoAdapterResult cryresult = adapter.Decrypt(str);
         String enaeskey = request.getHeader("aeskey");
+        if("false".equals(enaeskey) || StringUtils.isBlank(enaeskey)){
+        	return read;
+        }
         CryptoAdapterResult rsacryresult = adapter.Decrypt(enaeskey); 
         if(rsacryresult==null){
         	log.info("解密错误。");
