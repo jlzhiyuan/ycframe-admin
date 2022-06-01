@@ -11,3 +11,8 @@ function getPE()
  var result = $$.RsaCrypt.getPE();
  return result;
 }
+
+
+function getPublicKey()
+{
+}

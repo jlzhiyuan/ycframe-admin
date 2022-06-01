@@ -1,5 +1,4 @@
 (function() {
-    ycframe.web.setAppName("");
     ycframe.app.connect.addhook({
         //拦截回调
         onreadystatechange: function(xhr) {
@@ -28,6 +27,13 @@
             // xhr.setRequestHeader("ycframeheadertime",ycframe.secure.encryptRSA(timestamp.toString())); 
         }
     });
+    ycframe.app.setAesKey = function(key){
+    	ycframe.app.aesKey = key;
+    };
+    
+    ycframe.app.setRsaPublicKey = function(key){
+    	ycframe.app.rsaPublicKey = key;
+    };    
 	//allowAccess  检测是否允许访问该链接，true允许，false不允许  
 	ycframe.app.allowAccess = function(targetUrl){
 		var allowAccess = true;
@@ -52,7 +58,41 @@
         });
 		return allowAccess;
 	};
-	
+	ycframe.app.getPostHeader = function(){
+		if(ycframe.web.encryptEnabled == true){
+			var aeskey  = ycframe.app.aesKey;
+			var publickey  = ycframe.app.rsaPublicKey;
+			var encrypt = new JSEncrypt();
+	        encrypt.setPublicKey(publickey);
+	        var enkey = encrypt.encrypt(aeskey);
+	        return {aeskey:enkey};
+		}else{
+			return {};
+		}
+
+	};
+	ycframe.app.getPostDataString = function(data){
+		if(ycframe.web.encryptEnabled == true){
+			var aeskey  = ycframe.app.aesKey;
+			var publickey  = ycframe.app.rsaPublicKey;
+			var encrypt = new JSEncrypt();
+	        encrypt.setPublicKey(publickey);
+	        //var enkey = encrypt.encrypt(aeskey);
+			var poststr = JSON.stringify(data);
+			//poststr=encodeURIComponent(poststr);
+			
+			var iv = aeskey;
+			var salt = "0000000000000000";
+    
+			var aesUtil = new AesUtil(128, 1000);
+			var ciphertext = aesUtil.encrypt(salt, iv, iv, poststr); 
+			return ciphertext;
+		}else{
+			var poststr = JSON.stringify(data);
+			return poststr;
+		}
+
+	};
 	//检测是否已经登录 如果未登录会自动跳转到登录页面
     ycframe.app.checkLogined = function() {
         var logined = true;

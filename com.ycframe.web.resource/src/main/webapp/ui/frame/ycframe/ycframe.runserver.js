@@ -7,7 +7,8 @@
 	ycframe= ycframe || {};
 	ycframe.web = ycframe.web || {};
 	ycframe.web.runserver = ycframe.web.runserver || {}; 
-	
+	ycframe.web.encryptEnabled = false;
+	ycframe.web.appName = "";
 	ycframe.web.getAppName = function(){
 		return ycframe.web.appName;
 	}
@@ -15,7 +16,9 @@
 	ycframe.web.setAppName = function(name){
 		ycframe.web.appName = name;
 	}
-	
+	ycframe.web.setEncryptEnabled = function(enabled){
+		ycframe.web.encryptEnabled = enabled;
+	}
 	const RunServerException = function(message, code)
 	{
 			this.message = message;
@@ -74,11 +77,12 @@
 			if(successCallback == undefined){
 				var a = $.ajax({ url: url,
 					async: false,
+					headers: ycframe.app.getPostHeader(),
+					contentType:"application/json",
 					dataType:"JSON",
 					type: "POST",
-					data: postData==undefined?{}:postData
-					}
-				);  
+					data: ycframe.app.getPostDataString(postData==undefined?{}:postData)
+				});  
 				a.always(function() {
 					//console.log("call fun always"); 
 				}); 
@@ -92,9 +96,11 @@
 			}else{
 				$.ajax({ url: url,
 					async: true,
+					headers: ycframe.app.getPostHeader(),
+					contentType:"application/json",
 					dataType:"JSON",
 					type: "POST",
-					data: postData==undefined?{}:postData,
+					data: ycframe.app.getPostDataString(postData==undefined?{}:postData),
 					success: function (data) {
 						result = data;  
 						successCallback(result);

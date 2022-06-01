@@ -5,5 +5,8 @@ document.write("<script src='ui/frame/ycframe/ycframe.secure.min.js?v=0.0.1'></s
 document.write("<script src='ui/frame/ycframe/ycframe.connect.min.js?v=0.0.1'></script> ");
 document.write("<script src='ui/frame/ycframe/ycframe.javarun.min.js?v=0.0.1'></script>");
 document.write("<script src='ui/frame/ycframe/ycframe.app.js?v=0.0.1'></script>"); 
-
+document.write("<script src='ui/frame/lib/cryptojs/rollups/pbkdf2.js?v=0.0.1'></script>"); 
+document.write("<script src='ui/frame/lib/cryptojs/rollups/aes.js?v=0.0.1'></script>"); 
+document.write("<script src='ui/frame/AesUtil.js?v=0.0.1'></script>"); 
+document.write("<script src='ui/frame/jsencrypt.min.js?v=0.0.1'></script>"); 
 //document.write("<script src='ui/frame/ycframe/ycframe.role.min.js'></script> ");
