@@ -14,7 +14,7 @@ import com.ycframe.database.util.DBMap;
 
 public class DbUtils {
 	public static Manager getDatabase(){
-		Manager manager = new Manager();
+		Manager manager = new Manager("datasource","sqlscript.xml");
 		return manager;
 	}
 	
