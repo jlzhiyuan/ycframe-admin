@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+
 import com.ycframe.database.Executor;
 import com.ycframe.database.Manager;
 import com.ycframe.database.util.DBMap;
@@ -129,9 +132,9 @@ public class AuthService {
 		return true;
 	}
 
-	public boolean CheckPassword(String username, String mmcode) {
+	public boolean CheckPassword(String username, String inputmmcode) {
 		boolean tem = false;
-		String sql = "SELECT ry.yhm as yhm,ry.mmcodersa,ry.ecccode as ecccode from systemry ry "
+		String sql = "SELECT ry.yhm as yhm,ry.mmcodersa,ry.mmcode,ry.ecccode as ecccode from systemry ry "
 				+ " WHERE ry.yhm = ? ";
 		Manager manager = DbUtils.getDatabase();
 		Executor executor = manager.getExecutor();
@@ -145,11 +148,10 @@ public class AuthService {
 		if (ls != null && ls.size() > 0) {
 			Map data = (Map) ls.get(0);
 			String datammcode = (String) data.get("mmcodersa");
-			String dataecccode = (String) data.get("ecccode");
-
-			String datapassword = getPassword(datammcode);
-			String checkpassword = getPassword(mmcode);
-			if (datapassword.equals(checkpassword)) {
+			String mmcode = (String) data.get("mmcode"); 
+			String datapassword = com.ycframe.web.utils.PasswordUtils.getUserPassword(datammcode);
+			String checkpassword = com.ycframe.web.utils.PasswordUtils.getUserPassword(inputmmcode);
+			if (datapassword.equals(checkpassword) && StringUtils.isNotBlank(checkpassword)) {
 				return true;
 			} else {
 				return false;
@@ -157,18 +159,6 @@ public class AuthService {
 
 		}
 		return tem;
-	}
-
-	private String getPassword(String mmcode) {
-		Decrypt rsa2 = new com.ycframe.security.crypto.rsa2.RSAAdapter();
-		try {
-			CryptoAdapterResult DecResult = rsa2.Decrypt(mmcode);
-			String sourceMM = DecResult.getText();
-			return sourceMM;
-		} catch (Exception e) {
-			// logger.error("rsa2 Decrypt Error:" + e.getMessage());
-			return "";
-		}
 	}
 
 	private UserConfig SystemUserConfig(String username) {
@@ -281,8 +271,6 @@ public class AuthService {
 		}
 		return resultpermissions; 
 	}
-	
-	
 	public Map<String, UrlAuthConfig>  getResources()  throws Exception{
 		ModulesService modulesService = new ModulesService();
 		Map<String,UrlAuthConfig> urls = new HashMap<String,UrlAuthConfig>();
@@ -297,12 +285,18 @@ public class AuthService {
 		List<DBMap> resources = modulesService.getResourcesRoles();
 		for(DBMap amap:resources){
 			String gndz = amap.getString("gndz");
-			String roles = amap.getString("roles");
-			if(urls.containsKey(gndz)){
+ 			int resourcetype = amap.getInteger("gnlx");
+ 			String roles = amap.getString("roles"); 
+ 			if(urls.containsKey(gndz)){
 				continue;
 			}
-			UrlAuthConfig config = new UrlAuthConfig("anyroles",roles+",0"); 
-			urls.put(gndz, config);
+			if(resourcetype == 1){
+				UrlAuthConfig config = new UrlAuthConfig("jwtroles",roles+",0"); 
+				urls.put(gndz, config);
+			}else{
+				UrlAuthConfig config = new UrlAuthConfig("anyroles",roles+",0"); 
+				urls.put(gndz, config);
+			}		
 		}
 		return urls;
 	}

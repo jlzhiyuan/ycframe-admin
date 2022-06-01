@@ -214,7 +214,7 @@ public class Authority  extends WebDo{
 		return success;
 	} */
 	
-	public Result savegnids(@Param(name="checkedvalue[]")String[] checkedvalue,@Param(name="jsid")String jsid){ 
+	public Result savegnids(@Param(name="checkedvalue")String[] checkedvalue,@Param(name="jsid")String jsid){ 
 		HashMap inputData = new HashMap();
 		inputData.put("checkedvalue", checkedvalue);
 		inputData.put("jsid", jsid);
@@ -235,7 +235,7 @@ public class Authority  extends WebDo{
 		}
 	}
 	
- 	public Result savesjqxs(@Param(name="checkedvalue[]")String[] checkedvalue,@Param(name="jsid")String jsid){ 
+ 	public Result savesjqxs(@Param(name="checkedvalue")String[] checkedvalue,@Param(name="jsid")String jsid){ 
 		try {
 			String sjqxs = ""; 
 			jsid = jsid.trim(); 

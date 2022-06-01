@@ -14,11 +14,11 @@
   <script src="ui/js/store.js" type="text/javascript" charset="utf-8"></script>
   <script src="ui/js/jquery.js"></script> 
   <script src="common/js/ycframe.loader.js"></script> 
-  <script type="text/javascript" src="ui/frame/rsa2.min.js"></script>
+  <script type="text/javascript" src="ui/frame/jsencrypt.min.js"></script>
   <script type="text/javascript" src="ui/frame/RsaCrypt.js"></script> 
   <script src="ui/js/three.min.js"></script> 
   <script src="./ui/loginui.js"></script>
- <script src="./app.js"></script>
+
   
   <style>
     body, html {
@@ -127,6 +127,8 @@
       </div>
     </div>
   </div> 
+  
+    <script src="./app.js"></script>
   <script> 
 	
 
@@ -182,11 +184,14 @@ showlogin3d();
           this.$refs.loginForm.validate(valid => {
             if (valid) {
               that.loading=true;
-              var m  = getModulus();
-      		  var e = getPE();
-      		  var key = RSAUtils.getKeyPair(e, '', m);
+              //var m  = getModulus();
+      		  //var e = getPE();
+      		  var publickey  = ycframe.app.rsaPublicKey;
+      		  var encrypt = new JSEncrypt();
+              encrypt.setPublicKey(publickey);
+      		  //var key = RSAUtils.getKeyPair(e, '', m);
       		  var rtext = that.loginForm.password.split("").reverse().join("");
-      		  var enpassword = values = RSAUtils.encryptedString(key, rtext);
+      		  var enpassword = values = encrypt.encrypt(rtext);
       	      that.loginForm.passwordcode = enpassword; 
       	      that.loginForm.password = "";
       	      

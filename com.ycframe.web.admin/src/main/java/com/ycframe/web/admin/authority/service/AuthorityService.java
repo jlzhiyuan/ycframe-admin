@@ -296,19 +296,26 @@ public class AuthorityService {
 			int count = 0;
 			Manager manager = DbUtils.getDatabase();
 			AuthorityDao dao = null; 
-			dao = manager.getDao(AuthorityDao.class);
+			dao = manager.getDao(AuthorityDao.class); 
 			if (!"".equals(jsid) && jsid != null && !"null".equals(jsid)) {
-				int x = dao.deletejsgns(jsid);
-				if ("".equals(gnids) || "null".equals(gnids) || null == gnids) {
-					throw new ServiceException("未选择功能!");
-				}
-				for (int i = 0; i < gnids.length; i++) {
-					if(StringUtils.isNotBlank(gnids[i].trim())){
-						tj = " VALUES('" + gnids[i].trim() + "','"
-								+ jsid.trim() + "') ";
-						count += dao.savegnids(tj);
+				manager.startTransaction();
+				try{
+
+					int x = dao.deletejsgns(jsid);
+					if ("".equals(gnids) || "null".equals(gnids) || null == gnids) {
+						throw new ServiceException("未选择功能!");
 					}
-				}
+					for (int i = 0; i < gnids.length; i++) {
+						if(StringUtils.isNotBlank(gnids[i].trim())){
+							tj = " VALUES('" + gnids[i].trim() + "','"
+									+ jsid.trim() + "') ";
+							count += dao.savegnids(tj);
+						}
+					}
+					manager.commit();
+				}catch(Exception e){
+					manager.rollback();
+				} 
 				return true;
 
 			} else {

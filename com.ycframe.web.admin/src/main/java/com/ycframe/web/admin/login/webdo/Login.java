@@ -87,7 +87,7 @@ public class Login extends AbstractWebDo {
 	}
 
 	public Result login(@Param(name = "username") String username,
-			@Param(name = "passwordcode") String[] passwordcode,@Param(name="rememberMe",defaultvalue="false") boolean rememberMe) throws Exception {
+			@Param(name = "passwordcode") String passwordcode,@Param(name="rememberMe",defaultvalue="false") boolean rememberMe) throws Exception {
 		boolean passed = false;
 		HttpSession session = this.getSession();
 		Object flag = session.getAttribute("attributeflag");
@@ -97,7 +97,7 @@ public class Login extends AbstractWebDo {
 		
 		Entity user = new Entity();
 		user.setUsername(username);
-		user.setPassword(passwordcode[0]);
+		user.setPassword(passwordcode);
 		user.setPasswordecc("");
 		user.setRememberMe(rememberMe); 
 		LoginService loginservice = new LoginService();  
