@@ -1,1 +1,1 @@
-D:\program\apache-maven-3.8.3\bin\mvn -U package assembly:assembly -Dmaven.test.skip=true -Denv=dev
+mvn -U package -Dmaven.test.skip=true -Denv=dev  -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true
