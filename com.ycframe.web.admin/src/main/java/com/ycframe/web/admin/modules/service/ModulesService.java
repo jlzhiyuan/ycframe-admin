@@ -4,26 +4,24 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import com.ycframe.YCObject;
+
+import com.ycframe.common.utils.DbUtils;
 import com.ycframe.database.Executor;
 import com.ycframe.database.Manager;
 import com.ycframe.database.dao.DaoPage;
 import com.ycframe.database.exception.DaoTypeErrorException;
-import com.ycframe.database.query.QueryCondition;
 import com.ycframe.database.query.Update;
 import com.ycframe.database.util.DBMap;
+import com.ycframe.utils.ResourceUtils;
 import com.ycframe.utils.StringUtils;
 import com.ycframe.web.admin.modules.dao.ModulesDao;
 import com.ycframe.web.common.exception.ServiceException;
-import com.ycframe.common.utils.DbUtils;
 public class ModulesService {
 	String[] function = new String[] { "系统维护", "模块管理" };
 
@@ -561,7 +559,7 @@ public class ModulesService {
 		try {
 			Manager managerd = new Manager();
 			Executor esx = managerd.getExecutor();
-			String pathBody =	YCObject.getProjectClassPath();
+			String pathBody =	ResourceUtils.getProjectClassPath();
 			String sqlString = readFileContent(pathBody + "all_datatable.sql");
 			String[] sqlArray = sqlString.split(";");
 			for (String sql : sqlArray) {

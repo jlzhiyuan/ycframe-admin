@@ -211,6 +211,9 @@ var authority = moduleinit({
                 handleSelectionChange(val) {
               	  this.multipleSelection = val;
                 },
+                onSelect(selection, row){
+                	console.log(selection);
+                },
                 rowClick1(row) {
               	  this.$refs.multipleTable1.toggleRowSelection(row);
                 },
@@ -486,6 +489,7 @@ var authority = moduleinit({
         	    	   	   return;
                 	  }
                 	var stark = [];
+                	this.multipleSelection = [];
 	              	    stark = stark.concat(this.TableDate);
 	          
 	              	    while(stark.length) {
@@ -499,18 +503,18 @@ var authority = moduleinit({
 	              	        }
 	              	    }
               	  var that = this;
-              	  var dataArr = this.multipleSelection1;
+              	  var dataArr = this.multipleSelection;
 //              	  var gnArr = this.multipleSelection;
                	 	var jsid = this.jsid;
               	  	 var checkedvalueData = new Array();
               	  	 var checkedvaluegn = new Array();
               	  	 for(var i=0;i<dataArr.length;i++){
-              	  		checkedvalueData.push(dataArr[i].id);
+              	  		checkedvalueData.push(dataArr[i]);
               	  	 }
 //              	  	 for(var i=0;i<gnArr.length;i++){
 //              	  		checkedvaluegn.push(gnArr[i].id);
 //              	  	 }
-              	  $$.authority.savegnids({data:{checkedvalue:that.multipleSelection,jsid:jsid},success:function(rdata){
+              	  $$.authority.savegnids({data:{checkedvalue:checkedvalueData,jsid:jsid},success:function(rdata){
               		  if(rdata.code == 0){
     	       			that.$message({
     		  		   	    showClose: true,

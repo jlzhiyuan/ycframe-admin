@@ -34,8 +34,6 @@ public class WebAuthentication implements Authentication {
 		}
 		String userstate = loginservice.getUserState(username);
 		// 正常、初始�?�用户锁定�?�异常锁定�?�注�?
-		
-		
 		if ("注销".equals(userstate)) { 
 			//SystemInfoLog.actionLog(username,"login", "登录",SystemInfoLog.FAIL,"输入数据 : "+inputData+"\r\n输出数据  : 登录失败！已注销用户登录");	
 			throw new Exception("已注销用户无法登录");

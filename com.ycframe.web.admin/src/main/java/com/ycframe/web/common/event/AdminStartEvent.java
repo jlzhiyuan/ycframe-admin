@@ -11,14 +11,14 @@ public class AdminStartEvent extends WebEvent {
 	@Override
 	public void run() {  
 		System.out.println("AdminStart");
-//		添加事件侦听器。
-//		try {
-//			EventManager Event = this.getContext().getWebContext().getEventManager();
-//			Event.addListener(new SaveDataListener());
-//		} catch (EventException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		//添加事件侦听器。
+		try {
+			EventManager Event = this.getContext().getWebContext().getEventManager();
+			Event.addListener(new SaveDataListener());
+		} catch (EventException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		
 //		抛出事件
 //		EventManager Event = this.getContext().getWebContext().getEventManager();

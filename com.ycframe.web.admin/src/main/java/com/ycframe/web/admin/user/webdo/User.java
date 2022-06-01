@@ -228,7 +228,7 @@ public Result getTableData() {
 		}
 	}
 	
-	public Result saveData(@Param(name="ids[]")String[] ids) {
+	public Result saveData(@Param(name="ids")String[] ids) {
 		Map<String, Object> inputData = new HashMap();
 		try {
  			String id = (this.getParam("id")).trim();

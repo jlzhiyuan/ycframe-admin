@@ -12,6 +12,7 @@ import com.ycframe.database.exception.DaoTypeErrorException;
 import com.ycframe.database.query.Update;
 import com.ycframe.database.util.DBMap;
 import com.ycframe.utils.StringUtils;
+import com.ycframe.web.App;
 import com.ycframe.web.admin.user.dao.UserDao;
 import com.ycframe.web.common.exception.ServiceException;
 import com.ycframe.web.common.pojo.UserInfo;
@@ -500,9 +501,8 @@ public class UserService {
 						
 						if (!"".equals(empCode)) {
 							// 初始化默认密码
-							String possword = "Sys_0000";
-							String mm = PasswordUtils
-									.getScrectPassword(possword);
+							String possword = "Sys_0000"; 
+							String mm = PasswordUtils.getScrectPassword(possword);
 							String ryid = com.ycframe.utils.IDUtils.GUID();
 							int ii = dao.insertry(ryid, xingming, YHM, mm, mm,
 									"");

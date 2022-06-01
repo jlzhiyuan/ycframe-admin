@@ -10,6 +10,7 @@ import com.ycframe.database.dao.Dao;
 import com.ycframe.database.dao.DaoPage;
 import com.ycframe.database.dao.annotation.Arguments;
 import com.ycframe.database.dao.annotation.Sql;
+import com.ycframe.database.dao.annotation.SqlName;
 import com.ycframe.database.dao.annotation.UseCache;
 import com.ycframe.database.query.Query;
 import com.ycframe.database.util.DBMap; 
@@ -25,22 +26,8 @@ public interface UserDao  extends Dao{
 	public Query getSystemUser();	
 	
 	
-	@Sql(" "+ 
-	" SELECT  "+ 
-	" tempUser.id yhid,ryxx.id ryxxid,ryxx.xm xingming,ryxx.zybm zybm,ryxx.glry glry,ryxx.dwbm dwbm, "+ 
-	" gs.jgmc dwmc,bm.bm bmbm,bm.ssgydw ssgydw,bm.jgmc bmmc, "+ 
-	" tempUser.yhzt yhzt,tempUser.jsid jsid,tempUser.jsmc jsmc "+ 
-	" FROM "+ 
-	" (SELECT user.id id,user.yhzt yhzt , GROUP_CONCAT(ryjs.JSZID) jsid, GROUP_CONCAT(js.JSMC)  jsmc   "+ 
-	" from systemry user "+ 
-	" LEFT JOIN systemryjs ryjs ON ryjs.RYID = USER.ID "+ 
-	" LEFT JOIN systemjsz js on js.id = ryjs.JSZID and js.jlzt='未删除' "+ 
-	" where user.yhm=? and user.JLZT = 1 "+ 
-	" GROUP BY user.id) tempUser "+ 
-	" Left JOIN systemrygl_ryjl ryxx on ryxx.GLRY = tempUser.id "+ 
-	" Left JOIN systemzzjg gs on gs.BM = ryxx.dwbm   "+ 
-	" Left JOIN systemzzjg bm on bm.BM = ryxx.ejdwbm   "+ 
-	" ")
+ 
+	@SqlName("SystemUserInfo")
 	@UseCache(false)
 	public Query getSystemUserInfo(String username);	
 	

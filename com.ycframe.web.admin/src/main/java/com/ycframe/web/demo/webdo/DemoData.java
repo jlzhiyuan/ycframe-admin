@@ -3,9 +3,7 @@ package com.ycframe.web.demo.webdo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import com.ycframe.YCObject;
+import java.util.Map; 
 import com.ycframe.database.Manager;
 import com.ycframe.database.util.DBMap;
 import com.ycframe.web.annotation.Webdo;

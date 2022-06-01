@@ -58,7 +58,7 @@ public interface ModulesDao extends Dao {
 	public Query getComponent();
 
 	
-	@Sql("SELECT DISTINCT gn.GNDZ gndz, GROUP_CONCAT(js.id) roles  "
+	@Sql("SELECT DISTINCT gn.GNDZ gndz, GROUP_CONCAT(js.id) roles, gn.gnlx gnlx"
 			+"FROM	systemgn gn  "
 			+"LEFT JOIN systemjsgn jsgn ON jsgn.gnid = gn.ID  "
 			+"LEFT JOIN systemjsz js ON jsgn.JSZID = js.ID "

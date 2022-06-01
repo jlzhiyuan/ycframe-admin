@@ -327,83 +327,78 @@ var organization = moduleinit({
     	            rowClick(row) {
                        this.$refs.singleTable.toggleRowSelection(row);
                      },
+                     
+            loop(ids,arr){
+            	for(var i=0;i<arr.length;i++){
+            		if(arr[i].id){ids.push(arr[i].id);}
+            		if(arr[i].children){this.loop(ids,arr[i].children)};
+            	}
+            },
+                     
 	          // 删除
 	        del() {
-	        	if(this.currentRow == null){
-			   	    this.$notify.error({
-			            title: '错误',
-			            message: '请选择您要删除的数据!'
-		            });
-			   	    return;
-	  	   	   	}
+//	        	if(this.currentRow == null){
+//			   	    this.$notify.error({
+//			            title: '错误',
+//			            message: '请选择您要删除的数据!'
+//		            });
+//			   	    return;
+//	  	   	   	}
 	        	var that = this;
 	        	var delarr=[];
 	        		
            	   	 var arr = this.multipleSelection;
        	    	  
-	           function loop(arr){
-	            	for(var i=0;i<arr.length;i++){
-	            		if(arr[i].id){ids.push(arr[i].id);}
-	            		if(arr[i].children){loop(arr[i].children)};
-	            	}
-	            }
+
 	            for(var k=0;k<arr.length;k++){
-	            var ids = [];
-		            loop(that.multipleSelection[k].children);
+	            	var ids = [];
+		            that.loop(ids,that.multipleSelection[k].children);
 		            ids = [that.multipleSelection[k].id].concat(ids);
 		            ids=ids+"";
 		            delarr.push(ids);
 	            }
 	    	   
-	    	    this.$confirm('是否删除？', '提示', {
-			        confirmButtonText: '确定',
-			        cancelButtonText: '取消',
-			        type: 'warning'
-		        }).then(() => {
-		        	this.$confirm('此次操作也将删除所有子节点，请您再次确认!', '提示', {
-		        		confirmButtonText: '确定',
-		        		cancelButtonText: '取消',
-		        		type: 'warning'
-		    	    }).then(() => {
-		    	    	$$.organization.deleteData({data:{ids:delarr},success:function(rdata){
-		    	    		if(rdata.code == 0){
-		    	    			that.$message({
-		                	          showClose: true,
-		                	          message: rdata.message,
-		                	          type: 'success'
-		                	        });
-		    	    			$$.organization.getOranizations({
-		    	        			data:{orderCol:that.name,orderType:that.sort},
-		    	        			success:function(data){
-		    		            	if(data.code==0){
-		    		            		 that.treeData = data.data;
-		    		            		 that.treeTableData = data.data;
-		    		           		}else{
-		    			           		 that.$message({
-		    			                     showClose: true,
-		    			                     message:  data.message,
-		    			                     type: 'error'
-		    			                   });
-		    		           		}
-		    		      		}});  
-		    	    		}else{
-		    	    			that.$message({
-		                	          showClose: true,
-		                	          message: rdata.message,
-		                	          type: 'error'
-		                	        });
-		    	    			
-		    	 		   	    return;
-		    	    		}
-		    	    		
-		    	    	}});
-		    	    }).catch(() => {
-		    	             
-		    	    });
-		        	
-		        }).catch(() => {
-		             
-		        });
+	            this.$confirm('此操作将删除所有选中组织机构及子机构，请您确认!', '提示', {
+	        		confirmButtonText: '确定',
+	        		cancelButtonText: '取消',
+	        		type: 'warning'
+	    	    }).then(() => {
+	    	    	$$.organization.deleteData({data:{ids:delarr},success:function(rdata){
+	    	    		if(rdata.code == 0){
+	    	    			that.$message({
+	                	          showClose: true,
+	                	          message: rdata.message,
+	                	          type: 'success'
+	                	        });
+	    	    			$$.organization.getOranizations({
+	    	        			data:{orderCol:that.name,orderType:that.sort},
+	    	        			success:function(data){
+	    		            	if(data.code==0){
+	    		            		 that.treeData = data.data;
+	    		            		 that.treeTableData = data.data;
+	    		           		}else{
+	    			           		 that.$message({
+	    			                     showClose: true,
+	    			                     message:  data.message,
+	    			                     type: 'error'
+	    			                   });
+	    		           		}
+	    		      		}});  
+	    	    		}else{
+	    	    			that.$message({
+	                	          showClose: true,
+	                	          message: rdata.message,
+	                	          type: 'error'
+	                	        });
+	    	    			
+	    	 		   	    return;
+	    	    		}
+	    	    		
+	    	    	}});
+	    	    }).catch(() => {
+	    	             
+	    	    });
+	        	
 	        	 
 	        },
 	   	    dialogClose(){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           

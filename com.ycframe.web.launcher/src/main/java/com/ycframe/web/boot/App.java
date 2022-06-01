@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ImportResource;
 import com.ycframe.boot.AbstractApplication;
 import com.ycframe.boot.event.Event;
+import com.ycframe.context.Context;
 import com.ycframe.database.Manager;
 import com.ycframe.web.NacosConfig; 
 
@@ -47,7 +48,7 @@ public class App extends AbstractApplication {
 			
 			aplication.addPreparedEvent(new Event(){
 				@Override
-				public void onEvent(com.ycframe.boot.ApplicationContext context)
+				public void onEvent(Context context)
 						throws Exception {
 					NacosConfig config = NacosConfig.start(context,configserveraddress,"group","dataid"); 
 				}
