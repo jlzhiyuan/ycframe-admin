@@ -36,11 +36,11 @@ public class App extends AbstractApplication {
 
 	public static void main(String[] args) throws Exception {   
 		initCliArgs(args); 
-		Manager man = new Manager(); 
-		Flyway primaryFlyway = Flyway.configure().dataSource(man.getDataSource())
-				.cleanDisabled(true).baselineOnMigrate(true).load();
-        primaryFlyway.migrate();
-     
+//		Manager man = new Manager(); 
+//		Flyway primaryFlyway = Flyway.configure().dataSource(man.getDataSource())
+//				.cleanDisabled(true).baselineOnMigrate(true).load();
+//        primaryFlyway.migrate();
+//     
 		com.ycframe.boot.Application aplication = new com.ycframe.boot.Application(App.class);
 
 		if (commandLine.hasOption("c")) {

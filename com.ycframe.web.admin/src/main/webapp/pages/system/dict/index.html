@@ -1,0 +1,212 @@
+<template id="dict">
+	<el-container>
+		<el-header>
+			<div class="box-header">
+	          <h5>数据字典</h5>
+	        </div>
+		</el-header>
+		<el-main>
+			<el-container>
+				<el-aside width="50%" v-loading="dictLoading">
+					<el-container>
+						<el-header style="height: auto;border: 1px solid #ebeef5">
+							<div class="box-header">
+					          <h5>字典管理</h5>
+					          <div>
+						          <el-button type="primary" @click="dictQuery" >查询</el-button>
+					              <el-button type="primary" @click="dictAdd" >新增</el-button>
+					          </div>
+					        </div>
+				            <el-form :model="dictQueryForm" label-width="80px" size="medium">
+				              <el-row :gutter="10">
+				                <el-col :span="12">
+				                  <el-form-item label="字典名称">
+				                    <el-input v-model="dictQueryForm.name" placeholder=""></el-input>
+				                  </el-form-item>
+				                </el-col>
+				                <el-col :span="12">
+				                  <el-form-item label="字典编码">
+				                    <el-input v-model="dictQueryForm.code" placeholder=""></el-input>
+				                  </el-form-item>
+				                </el-col>
+				              </el-row>
+				              <el-row :gutter="10">
+				                <el-col :span="12">
+				                  <el-form-item label="状态">
+				                    <el-select v-model="dictQueryForm.state" clearable placeholder="请选择">
+						              <el-option
+						                v-for="item in stateOptions"
+						                :key="item.val"
+						                :label="item.name"
+						                :value="item.val">
+						              </el-option>
+				                  </el-form-item>
+				                </el-col>
+				              </el-row>
+				            </el-form>
+	  		    		</el-header>
+	  		    		<el-main>
+	  		    			<el-table 
+	   							border
+				                ref="dictTable"
+				                :data="dictTable"
+				                height="100%"
+				                highlight-current-row
+				                @row-click="dictRowClick"
+			                >
+				                <el-table-column prop="rowNum" label="序号" width="70"/>
+				                <el-table-column prop="name" label="字典名称" />
+				                <el-table-column prop="code" label="字典编码" />
+				                <el-table-column prop="memo" label="备注" />
+				                <el-table-column prop="createTime" label="创建时间" />
+				                <el-table-column prop="stateLabel" label="状态" />
+				                 <el-table-column 
+						            label="操作"
+						            width="140"
+					             >
+					            	<template slot-scope="scope">
+							              <el-button type="primary"  size="mini"  round  plain @click.stop="dictEdit(scope.row)">
+							              	 编辑
+							              </el-button>
+							              <el-button type="primary"  size="mini"  round  plain @click.stop="dictDel(scope.row)">
+							              	  删除
+							              </el-button>
+					            	</template>
+					          </el-table-column>
+			              	</el-table>
+	  		    		</el-main>
+	  		    		<el-footer>
+				        	<div class="pagination">
+				              <el-pagination
+				                @size-change="dictPageSizeChange"
+				                @current-change="dictCurrentPageChange"
+				                :current-page="dictCurrentPage"
+				                :page-sizes="[10,20,30,50,100]"
+				                :page-size="dictPageSize"
+				                layout="total, sizes, prev, pager, next, jumper"
+				                :total=dictTotal>
+				              </el-pagination>
+				            </div>
+				        </el-footer>
+  		    		</el-container>
+				</el-aside>
+	  		    <el-aside width="50%" style="margin-left:10px" v-loading="dictItemLoading">
+	  		    	<el-container v-show="!selectedDict.id">
+	  		    		<el-container>
+						  <el-header></el-header>
+						  <el-main style="text-align: center;line-height: 160px;">请选择字典</el-main>
+						  <el-footer></el-footer>
+						</el-container>
+	  		    	</el-container>
+	  		    	<el-container v-show="selectedDict.id" >
+		  		    	<el-header style="height: auto; border: 1px solid #ebeef5">
+		  		    		<div class="box-header">
+					          <h5>[{{ selectedDict.name }}]字典项管理</h5>
+					          <div>
+						          <el-button type="primary" @click="dictItemQuery">查询</el-button>
+					              <el-button  type="primary" @click="dictItemAdd">新增</el-button>
+					          </div>
+					        </div>
+				            <el-form :model="dictItemQueryForm" label-width="80px" size="medium">
+				              <el-row :gutter="10">
+				                <el-col :span="12">
+				                  <el-form-item label="字典项名">
+				                    <el-input v-model="dictItemQueryForm.name" placeholder=""></el-input>
+				                  </el-form-item>
+				                </el-col>
+				                <el-col :span="12">
+				                  <el-form-item label="字典项值">
+				                    <el-input v-model="dictItemQueryForm.code" placeholder=""></el-input>
+				                  </el-form-item>
+				                </el-col>
+				              </el-row>
+				              <el-row :gutter="10">
+				                <el-col :span="12">
+				                  <el-form-item label="状态">
+				                    <el-select v-model="dictItemQueryForm.state" clearable placeholder="请选择">
+						              <el-option
+						                v-for="item in stateOptions"
+						                :key="item.val"
+						                :label="item.name"
+						                :value="item.val">
+						              </el-option>
+				                  </el-form-item>
+				                </el-col>
+				              </el-row>
+				            </el-form>
+	  		    		</el-header>
+	  		    		<el-main>
+	  		    			<el-table 
+	   							border
+				                ref="dictItemTable"
+				                :data="dictItemTable"
+				                height="100%">
+				                <el-table-column prop="rowNum" label="序号" width="70"/>
+				                <el-table-column prop="name" label="字典项名" />
+				                <el-table-column prop="code" label="字典项值" />
+				                <el-table-column prop="sort" label="排序" />
+				                <el-table-column prop="stateLabel" label="状态" />
+				                <el-table-column prop="defaultValLabel" label="默认" />				                
+				                <el-table-column prop="style" label="样式">
+					                  <template slot-scope="scope"> 
+					                  	<el-tag effect="dark" v-if="scope.row.style != '0'" :type="getType(scope.row.style)">{{getTypeText(scope.row.style)}}
+										</el-tag> 
+										<span v-if="scope.row.style == '0'">文本</span> 
+					                  </template>			                  
+			                	</el-table-column> 
+				                <el-table-column prop="memo" label="备注" />
+				                
+				                 <el-table-column 
+						            label="操作"
+						            width="140"
+					             >
+					            	<template slot-scope="scope">
+							              <el-button type="primary"   size="mini"  round  plain  @click.stop="dictItemEdit(scope.row)">
+							              	 编辑
+							              </el-button>
+							              <el-button type="primary"   size="mini"  round  plain @click.stop="dictItemDel(scope.row)">
+							              	  删除
+							              </el-button>
+					            	</template>
+					          </el-table-column>
+			              	</el-table>
+	  		    		</el-main>
+	  		    		<el-footer>
+				        	<div class="pagination">
+				              <el-pagination
+				                @size-change="dictItemPageSizeChange"
+				                @current-change="dictItemCurrentPageChange"
+				                :current-page="dictItemCurrentPage"
+				                :page-sizes="[10,20,30,50,100]"
+				                :page-size="dictItemPageSize"
+				                layout="total, sizes, prev, pager, next, jumper"
+				                :total=dictItemTotal>
+				              </el-pagination>
+				            </div>
+				        </el-footer>
+	  		    	</el-container>	
+	  		    </el-aside>
+			</el-container>
+		</el-main>
+		<el-dialog 
+		  :title="dictDetailDialogTitle" 
+		  :visible.sync="dictDetailDialogShow" 
+		  width="40%"
+		  style="height:80%"
+		  destroy-on-close
+		  v-drag 
+		>
+	  	  	<dict-detail ref="dictDetail" @close="closeDictDialog" @save="saveDict"></dict-detail>
+   		</el-dialog>
+   		<el-dialog 
+		  :title="dictItemDetailDialogTitle" 
+		  :visible.sync="dictItemDetailDialogShow" 
+		  width="40%"
+		  style="height:90%"
+		  destroy-on-close
+		  v-drag 
+		>
+	  	  	<dict-item-detail ref="dictItemDetail" @close="closeDictItemDialog" @save="saveDictItem"></dict-item-detail>
+   		</el-dialog>
+	</el-container>
+</template>

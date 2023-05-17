@@ -1,0 +1,92 @@
+<template id="dictItemDetail">
+	<div>
+		<div class="formBox" v-loading="dictItemLoading">
+	        <el-form :model="dictItemDetailForm" size="medium" ref="ruleForm" :rules="rules" label-width="80px">
+	        	<el-row>
+				   <el-col :span="12">
+						<el-form-item label="字典名称" >
+							<el-input v-model="dictItemDetailForm.dictName" readonly></el-input>
+				        </el-form-item>
+				   </el-col>
+				   <el-col :span="12">
+						<el-form-item label="字典编码">
+							<el-input v-model="dictItemDetailForm.dictCode" readonly></el-input>
+				        </el-form-item>
+				   </el-col>
+				</el-row>
+				<el-row>
+				   <el-col :span="24">
+						<el-form-item label="字典项名" prop="name">
+				        	<el-input v-model="dictItemDetailForm.name" placeholder=""></el-input>
+				        </el-form-item>
+				   </el-col>
+				</el-row>
+				<el-row>
+				   <el-col :span="24">
+						<el-form-item label="字典项值" prop="code">
+				        	<el-input v-model="dictItemDetailForm.code" placeholder=""></el-input>
+				        </el-form-item>
+				   </el-col>
+				</el-row>
+				<el-row>
+				   <el-col :span="24">
+						<el-form-item label="排序" prop="sort">
+				        	<el-input-number v-model="dictItemDetailForm.sort" :min="1" ></el-input-number>
+				        </el-form-item>
+				   </el-col>
+				</el-row>
+				<el-row>
+				   <el-col :span="24">
+						<el-form-item label="状态" prop="state">
+							<el-radio-group v-model="dictItemDetailForm.state">
+	       						<el-radio label="0" >正常 </el-radio>
+	 							<el-radio label="1" >禁用</el-radio>
+	    					</el-radio-group>
+				        </el-form-item>
+				   </el-col>
+				</el-row>
+				<el-row>
+				   <el-col :span="24">
+						<el-form-item label="默认" prop="defaultVal">
+							<el-radio-group v-model="dictItemDetailForm.defaultVal">
+	       						<el-radio label="0" >是 </el-radio>
+	 							<el-radio label="1" >否</el-radio>
+	    					</el-radio-group>
+				        </el-form-item>
+				   </el-col>
+				</el-row>
+				<el-row>
+				   <el-col :span="24">
+						<el-form-item label="样式" prop="style">
+							<el-radio-group v-model="dictItemDetailForm.style">
+	       						<el-radio label="0" >文本 </el-radio>
+	 							<el-radio label="1" >默认标签</el-radio>
+	 							<el-radio label="2" >主要标签 </el-radio>
+	 							<el-radio label="3" >成功标签</el-radio>
+	 							<el-radio label="4" >信息标签 </el-radio>
+	 							<el-radio label="5" >警告标签</el-radio>
+	 							<el-radio label="6" >危险标签</el-radio>
+	    					</el-radio-group>
+				        </el-form-item>
+				   </el-col>
+				</el-row>
+				<el-row>
+				   <el-col :span="24">
+						<el-form-item label="备注" prop="memo">
+				        	<el-input
+							  type="textarea"
+							  :rows="8"
+							  placeholder="请输入内容"
+							  v-model="dictItemDetailForm.memo">
+							</el-input>
+				        </el-form-item>
+				   </el-col>
+				</el-row>
+	        </el-form>
+			<div slot="footer" class="dialog-footer" style="text-align:right;margin-top:5px;">
+		        <el-button type="primary" @click="close">关闭</el-button>
+		        <el-button type="primary" @click="save">保存</el-button>
+		    </div> 
+	    </div>
+	</div>
+</template>
