@@ -1,1 +1,0 @@
-mvn clean package -Dmaven.test.skip=true -Denv=dev -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true
